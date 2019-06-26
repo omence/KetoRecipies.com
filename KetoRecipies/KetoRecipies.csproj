@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <UserSecretsId>188f181d-7d6c-4ae5-a4a7-ae608f08da6a</UserSecretsId>
   </PropertyGroup>
 
 
@@ -10,12 +11,12 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="SendGrid" Version="9.11.0" />
   </ItemGroup>
 
 
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="Models\" />
     <Folder Include="Pages\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\js\" />
