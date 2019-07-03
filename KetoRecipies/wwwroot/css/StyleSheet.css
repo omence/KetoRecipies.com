@@ -1,14 +1,31 @@
 ﻿@import url('https://fonts.googleapis.com/css?family=Pacifico|Righteous|Roboto+Condensed|Ubuntu&display=swap');
+.active {
+    font-style: italic;
+    font-weight: bold;
+}
+.form-control-borderless {
+    border: none;
+}
 
-a.navbar-brand {
-  text-align: center;
-  margin-left:3px;
+    .form-control-borderless:hover, .form-control-borderless:active, .form-control-borderless:focus {
+        border: none;
+        outline: none;
+        box-shadow: none;
+    }
+
+.navbar {
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: +100;
+    background-color: whitesmoke;
 }
 body {
     padding: 0%;
     margin: 0%;
     font-family: 'Lato';
     text-align: center;
+    align-content:center;
 }
 /* Sticky footer styles
 -------------------------------------------------- */

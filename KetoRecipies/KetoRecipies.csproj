@@ -6,6 +6,13 @@
     <UserSecretsId>188f181d-7d6c-4ae5-a4a7-ae608f08da6a</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Pages\**" />
+    <Content Remove="Pages\**" />
+    <EmbeddedResource Remove="Pages\**" />
+    <None Remove="Pages\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -16,8 +23,6 @@
 
 
   <ItemGroup>
-    <Folder Include="Data\" />
-    <Folder Include="Pages\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\js\" />
   </ItemGroup>
