@@ -1,6 +1,70 @@
-﻿@{
-    Layout = "_Layout";
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<KetoRecipies.Models.Recipe>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+<br />
+<br />
+<br />
+<br />
+@if (!SignInManager.IsSignedIn(User))
+{
+    <h3>Register or Login to Save Your Favorite Recipes or Add Your Recipe to the List</h3>
 }
+    <form asp-action="Index" class="card card-sm mb-3">
+        <div class="card-body row no-gutters align-items-center">
+            <div class="col">
+                <input name="SearchString" class="form-control" type="search" placeholder="Name or Ingridients" aria-label="Search">
+
+            </div>
+            <!--end of col-->
+            <div class="col-auto">
+                <button class="btn menu-right-btn border" type="submit" value="Search">Search</button>
+            </div>
+            <!--end of col-->
+        </div>
+    </form>
+<hr />
+<h3 class="mb-3"># of Recipes: @Model.Count()</h3>
+<hr />
+<div class="container row ">
+
+    @foreach (var item in Model)
+    {
+
+        <div class="card-deck col">
+
+            <div class="card text-center mb-3" style="width: 20rem;">
+
+                <div class="card-body text-center" style="align-self:center;">
+                    <h5 class="card-header" style="font-weight:bold; background-color:azure;">
+
+                        @item.Label
+
+                    </h5>
+                    <h3 class="card-title mt-2">
+                        @item.Source
+                    </h3>
+                    <img src="@item.ImageUrl" class="img-fluid" />
+
+                    <h5 class="card-subtitle mt-2">
+                        <span style="font-weight:bold;">See Full Details:</span> <a href="@item.SourceUrl" target="_blank">Click Here</a>
+                    </h5>
+                    <hr />
+                    <h5><span style="font-weight:bold;">Nutrient Facts Per Serving:</span></h5>
+                    <h6>Calories: @item.TotalCaloriesServ, Carbs: @item.TotalCarbsServ, Fat: @item.TotalFatServ</h6>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <hr />
+                        <form asp-action="Favorite" method="post">
+                            <input name="Id" type="hidden" value="@item.ID" />
+                            <button type="submit" class="btn border">Add to Favorites</button>
+                        </form>
+                    }
+                </div>
+            </div>
+
+        </div>
+    }
 
 
+</div>
