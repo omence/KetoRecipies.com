@@ -6,27 +6,34 @@
 <br />
 <br />
 <br />
+@if (TempData["Error"] != null)
+{
+    <div class="green">
+        <h2 style="color:lightgreen;"><strong>Error:</strong> @TempData["Error"].ToString()</h2>
+    </div>
+}
 @if (!SignInManager.IsSignedIn(User))
 {
     <h3>Register or Login to Save Your Favorite Recipes or Add Your Recipe to the List</h3>
 }
-    <form asp-action="Index" class="card card-sm mb-3">
-        <div class="card-body row no-gutters align-items-center">
-            <div class="col">
-                <input name="SearchString" class="form-control" type="search" placeholder="Name or Ingridients" aria-label="Search">
+<form asp-action="Index" class="card card-sm mb-3">
+    <div class="card-body row no-gutters align-items-center">
+        <div class="col">
+            <input name="SearchString" class="form-control" type="search" placeholder="Name or Ingridients" aria-label="Search">
 
-            </div>
-            <!--end of col-->
-            <div class="col-auto">
-                <button class="btn menu-right-btn border" type="submit" value="Search">Search</button>
-            </div>
-            <!--end of col-->
         </div>
-    </form>
+        <!--end of col-->
+        <div class="col-auto">
+            <button class="btn menu-right-btn border" type="submit" value="Search">Search</button>
+        </div>
+        <!--end of col-->
+    </div>
+</form>
 <hr />
 <h3 class="mb-3"># of Recipes: @Model.Count()</h3>
 <hr />
-<div class="container row ">
+
+<div class="container row">
 
     @foreach (var item in Model)
     {
@@ -35,7 +42,7 @@
 
             <div class="card text-center mb-3" style="width: 20rem;">
 
-                <div class="card-body text-center" style="align-self:center;">
+                <div class="card-body text-center" style="align-self:center; width: 20rem;">
                     <h5 class="card-header" style="font-weight:bold; background-color:azure;">
 
                         @item.Label
@@ -55,7 +62,7 @@
                     @if (SignInManager.IsSignedIn(User))
                     {
                         <hr />
-                        <form asp-action="Favorite" method="post">
+                        <form asp-action="AddFavorite" method="post">
                             <input name="Id" type="hidden" value="@item.ID" />
                             <button type="submit" class="btn border">Add to Favorites</button>
                         </form>

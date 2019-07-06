@@ -13,13 +13,7 @@
         box-shadow: none;
     }
 
-.navbar {
-    position: fixed;
-    top: 0px;
-    width: 100%;
-    z-index: +100;
-    background-color: whitesmoke;
-}
+
 body {
     padding: 0%;
     margin: 0%;
@@ -32,12 +26,36 @@ body {
 html {
   font-size: 14px;
 }
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+
+@media screen and (max-width: 872px) {
+    html {
+        font-size: 16px;
+    }
+
+
+    .card-body {
+        align-self: center;
+        width:95%;
+    }
 }
 
+
+@media screen and (max-width: 414px) {
+    .container {
+        width: 95%;
+        align-content:center;
+    }
+    .card {
+        width: 95%;
+        align-self: center;
+        margin: auto;
+    }
+    .card-body {
+        width: 95%;
+        align-self: center;
+        margin: auto;
+    }
+}
 .border-top {
   border-top: 1px solid #e5e5e5;
 }
