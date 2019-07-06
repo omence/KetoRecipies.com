@@ -32,10 +32,10 @@ namespace KetoRecipies.Controllers
         /// Send Index with recipes to View
         /// </summary>
         /// <returns>View + Recipe list</returns>
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 27)
         {
             //await GetRecipes();
-            var recipes = _context.recipes.OrderBy(r => r.Label).ToList();
+            var recipes = _context.recipes.Take(page).OrderBy(r => r.Label).ToList();
             return View(recipes);
         }
 
@@ -53,7 +53,10 @@ namespace KetoRecipies.Controllers
             {
                 var recipes1 = recipes.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
                 var recipes2 = recipes.Where(r => r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-                recipes1 = recipes1.Concat(recipes2).ToList();
+                var recipes3 = recipes.Where(r => r.Source.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
+                recipes1 = recipes1.Union(recipes2).ToList();
+                recipes1 = recipes1.Union(recipes3).ToList();
+
                 var splitSearch = SearchString.Split(" ");
 
                 foreach (var i in splitSearch)

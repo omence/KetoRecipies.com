@@ -1,11 +1,10 @@
 ﻿@model IEnumerable<KetoRecipies.Models.Recipe>
 @using Microsoft.AspNetCore.Identity
+@using KetoRecipies.Data
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
-<br />
-<br />
-<br />
-<br />
+@inject KetoDbContext context
+
 @if (TempData["Error"] != null)
 {
     <div class="green">
@@ -19,7 +18,7 @@
 <form asp-action="Index" class="card card-sm mb-3">
     <div class="card-body row no-gutters align-items-center">
         <div class="col">
-            <input name="SearchString" class="form-control" type="search" placeholder="Name or Ingridients" aria-label="Search">
+            <input name="SearchString" class="form-control" type="search" placeholder="Author, Recipe Name or Ingridients" aria-label="Search">
 
         </div>
         <!--end of col-->
@@ -30,10 +29,16 @@
     </div>
 </form>
 <hr />
-<h3 class="mb-3"># of Recipes: @Model.Count()</h3>
+<h3 class="mb-3">Showing: @Model.Count() of @context.recipes.Count()</h3>
 <hr />
+@if (Model.Count() == 0)
+{
+    <h3>Sorry no results, make sure your spelling is correct</h3>
+    <a asp-action="Index">Back to Recipes</a>
+}
 
-<div class="container row">
+
+<div class="container row ml-0">
 
     @foreach (var item in Model)
     {
@@ -49,7 +54,7 @@
 
                     </h5>
                     <h3 class="card-title mt-2">
-                        @item.Source
+                        By: @item.Source
                     </h3>
                     <img src="@item.ImageUrl" class="img-fluid" />
 
@@ -75,3 +80,4 @@
 
 
 </div>
+@Html.ActionLink("Load More Recipes", "Index", "Home", new { page = Model.Count() + 27 })
