@@ -1,4 +1,33 @@
 ﻿@import url('https://fonts.googleapis.com/css?family=Pacifico|Righteous|Roboto+Condensed|Ubuntu&display=swap');
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    padding: 0%;
+    margin: 0%;
+    margin-top: 100px;
+    margin-bottom: 75px;
+    font-family: 'Lato';
+    text-align: center;
+    align-content: center;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.navbar {
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: +100;
+    background-color: azure;
+}
+.navbar-brand{
+    color:black;
+}
 .active {
     font-style: italic;
     font-weight: bold;
@@ -14,48 +43,8 @@
     }
 
 
-body {
-    padding: 0%;
-    margin: 0%;
-    font-family: 'Lato';
-    text-align: center;
-    align-content:center;
-}
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  font-size: 14px;
-}
-
-@media screen and (max-width: 872px) {
-    html {
-        font-size: 16px;
-    }
 
 
-    .card-body {
-        align-self: center;
-        width:95%;
-    }
-}
-
-
-@media screen and (max-width: 414px) {
-    .container {
-        width: 95%;
-        align-content:center;
-    }
-    .card {
-        width: 95%;
-        align-self: center;
-        margin: auto;
-    }
-    .card-body {
-        width: 95%;
-        align-self: center;
-        margin: auto;
-    }
-}
 .border-top {
   border-top: 1px solid #e5e5e5;
 }
@@ -72,17 +61,37 @@ button.accept-policy {
   line-height: inherit;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
+
+
+@media screen and (max-width: 872px) {
+    html {
+        font-size: 16px;
+    }
+
+
+    .card-body {
+        align-self: center;
+        width: 95%;
+    }
 }
 
-body {
-  /* Margin bottom by footer height */
-  align-content:center;
-}
-footer{
-    margin-bottom:0px;
+
+@media screen and (max-width: 414px) {
+    .container {
+        width: 100%;
+        align-content: center;
+        margin:0px;
+    }
+
+    .card {
+        width: 100%;
+        align-self: center;
+        margin:0px;
+    }
+
+    .card-body {
+        width: 100%;
+        align-self: center;
+        margin:0px;
+    }
 }
