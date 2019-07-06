@@ -31,7 +31,7 @@
 
             <div class="card text-center mb-3" style="width: 20rem;">
 
-                <div class="card-body text-center" style="align-self:center;">
+                <div class="card-body text-center" style="align-self:center; width: 20rem;">
                     <h5 class="card-header" style="font-weight:bold; background-color:azure;">
 
                         @item.Recipe.Label
@@ -48,6 +48,11 @@
                     <hr />
                     <h5><span style="font-weight:bold;">Nutrient Facts Per Serving:</span></h5>
                     <h6>Calories: @item.Recipe.TotalCaloriesServ, Carbs: @item.Recipe.TotalCarbsServ, Fat: @item.Recipe.TotalFatServ</h6>
+                    <hr />
+                    <form asp-action="Remove" method="post">
+                        <input name="Id" type="hidden" value="@item.ID" />
+                        <button type="submit" class="btn border">Remove From Favorites</button>
+                    </form>
                 </div>
             </div>
 

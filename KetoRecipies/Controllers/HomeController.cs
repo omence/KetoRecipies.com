@@ -11,25 +11,27 @@ using Microsoft.Extensions.Configuration;
 using System.Text;
 using KetoRecipies.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KetoRecipies.Controllers
 {
     public class HomeController : Controller
     {
         private IConfiguration _configuration;
-
         private readonly KetoDbContext _context;
-
         private readonly UserManager<IdentityUser> _userManager;
 
         public HomeController(IConfiguration configuration, KetoDbContext context, UserManager<IdentityUser> userManager)
         {
             _configuration = configuration;
-
             _context = context;
-
             _userManager = userManager;
         }
+
+        /// <summary>
+        /// Send Index with recipes to View
+        /// </summary>
+        /// <returns>View + Recipe list</returns>
         public async Task<IActionResult> Index()
         {
             //await GetRecipes();
@@ -37,6 +39,11 @@ namespace KetoRecipies.Controllers
             return View(recipes);
         }
 
+        /// <summary>
+        /// Searches recipe by keyword from user
+        /// </summary>
+        /// <param name="SearchString"></param>
+        /// <returns>view + searched list</returns>
         [HttpPost]
         public async Task<IActionResult> Index(string SearchString)
         {
@@ -45,21 +52,15 @@ namespace KetoRecipies.Controllers
             if (!String.IsNullOrEmpty(SearchString))
             {
                 var recipes1 = recipes.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-
                 var recipes2 = recipes.Where(r => r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-
                 recipes1 = recipes1.Concat(recipes2).ToList();
-
                 var splitSearch = SearchString.Split(" ");
 
                 foreach (var i in splitSearch)
                 {
                     var temp = recipes.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-
                     var temp2 = recipes.Where(r => r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-
                     recipes1 = recipes1.Union(temp).ToList();
-
                     recipes1 = recipes1.Union(temp2).ToList();
 
                 }
@@ -81,6 +82,10 @@ namespace KetoRecipies.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        /// <summary>
+        /// API Call to get recipes
+        /// </summary>
+        /// <returns></returns>
         public async Task<Recipe> GetRecipes()
         {
             using (var client = new HttpClient())
@@ -97,7 +102,6 @@ namespace KetoRecipies.Controllers
 
                     response.EnsureSuccessStatusCode();
 
-
                     //Reades JSON file received from API
                     string result = await response.Content.ReadAsStringAsync();
 
@@ -105,7 +109,8 @@ namespace KetoRecipies.Controllers
                     //Build object
                     List<Recipe> list = new List<Recipe>();
 
-                    foreach(var r in recipes.hits) {
+                    foreach (var r in recipes.hits)
+                    {
 
                         Recipe rec = new Recipe();
                         rec.ImageUrl = r.recipe.image;
@@ -114,7 +119,7 @@ namespace KetoRecipies.Controllers
                         rec.SourceUrl = r.recipe.url;
                         rec.Yield = r.recipe.yield;
                         StringBuilder sb = new StringBuilder();
-                        foreach(var i in r.recipe.ingredientLines.ToObject<List<string>>())
+                        foreach (var i in r.recipe.ingredientLines.ToObject<List<string>>())
                         {
                             sb.Append($"{i}; ");
                         }
@@ -132,93 +137,37 @@ namespace KetoRecipies.Controllers
                             _context.SaveChanges();
                         }
                     }
-
                 }
                 catch
                 {
                     Recipe rec = new Recipe();
                     return rec;
                 }
-
                 Recipe rec2 = new Recipe();
                 return rec2;
             }
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Favorite(string SearchString)
+        public IActionResult Favorite()
         {
-            var userId = _userManager.GetUserId(User);
-
-            var favs = _context.favorites.Where(f => f.UserID == userId).ToList();
-
-            foreach(var f in favs)
-            {
-                f.Recipe = _context.recipes.FirstOrDefault(r => r.ID == f.RecipeID);
-            }
-
-            if (!String.IsNullOrEmpty(SearchString))
-            {
-                var recipes1 = favs.Where(r => r.Recipe.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-
-                var recipes2 = favs.Where(r => r.Recipe.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-
-                recipes1 = recipes1.Concat(recipes2).ToList();
-
-                var splitSearch = SearchString.Split(" ");
-
-                foreach (var i in splitSearch)
-                {
-                    var temp = favs.Where(r => r.Recipe.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-
-                    var temp2 = favs.Where(r => r.Recipe.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-
-                    recipes1 = recipes1.Union(temp).ToList();
-
-                    recipes1 = recipes1.Union(temp2).ToList();
-
-                }
-
-                return View(recipes1);
-            }
-            return View(favs);
+            return RedirectToAction("Index", "Favorite");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Favorite(int id)
+        public async Task<IActionResult>AddFavorite(int id)
         {
-            if (id != null)
-            {
-                var userId2 = _userManager.GetUserId(User);
-
-                Favorite favorite = new Favorite();
-
-                favorite.UserID = userId2;
-                favorite.RecipeID = id;
-
-                _context.favorites.Add(favorite);
-                _context.SaveChanges();
-
-                var favs = _context.favorites.Where(f => f.UserID == userId2).ToList();
-
-                foreach (var f in favs)
-                {
-                    f.Recipe = _context.recipes.FirstOrDefault(r => r.ID == f.RecipeID);
-                }
-
-                return View(favs);
-            }
-
             var userId = _userManager.GetUserId(User);
+            var checkForDupe = _context.favorites.FirstOrDefault(f => f.UserID == userId && f.RecipeID == id);
 
-            var favs2 = _context.favorites.Where(f => f.UserID == userId).ToList();
-
-            foreach (var f in favs2)
+            if (checkForDupe == null)
             {
-                f.Recipe = _context.recipes.FirstOrDefault(r => r.ID == f.RecipeID);
+                FavoriteController fc = new FavoriteController(_context, _userManager);
+                await fc.Create(id, userId);
+
+                return RedirectToAction("Index", "Favorite");
             }
 
-            return View(favs2);
+            TempData["Error"] = "Recipe already in your favorites list";
+            return RedirectToAction("Index");
         }
     }
 }
