@@ -1,4 +1,17 @@
 ﻿@import url('https://fonts.googleapis.com/css?family=Pacifico|Righteous|Roboto+Condensed|Ubuntu&display=swap');
+* {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+.nav-btn {
+    background-color: white;
+}
+.navbar-brand:hover {
+    color: deepskyblue !important;
+}
+a h3:hover {
+    color: deepskyblue !important;
+}
 html {
     position: relative;
     min-height: 100%;
@@ -18,29 +31,30 @@ footer {
     bottom: 0;
     width: 100%;
 }
+header {
+    
+}
+
+button:hover {
+    background-color: deepskyblue;
+    color: white !important;
+}
 .navbar {
     position: fixed;
     top: 0px;
     width: 100%;
     z-index: +100;
-    background-color: azure;
+    border-bottom: 1px solid black;
+    color:white;
 }
 .navbar-brand{
-    color:black;
+    color:white;
 }
 .active {
     font-style: italic;
     font-weight: bold;
 }
-.form-control-borderless {
-    border: none;
-}
 
-    .form-control-borderless:hover, .form-control-borderless:active, .form-control-borderless:focus {
-        border: none;
-        outline: none;
-        box-shadow: none;
-    }
 
 
 
@@ -52,9 +66,6 @@ footer {
   border-bottom: 1px solid #e5e5e5;
 }
 
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
 
 button.accept-policy {
   font-size: 1rem;
