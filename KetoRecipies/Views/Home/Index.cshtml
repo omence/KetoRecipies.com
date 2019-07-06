@@ -13,9 +13,9 @@
 }
 @if (!SignInManager.IsSignedIn(User))
 {
-    <h3>Register or Login to Save Your Favorite Recipes or Add Your Recipe to the List</h3>
+    <h3 style="color:deepskyblue;">Register or Login to Save Your Favorite Recipes or Add Your Recipe to the List</h3>
 }
-<form asp-action="Index" class="card card-sm mb-3">
+<form asp-action="Index" class="card shadow-none card-sm mb-3">
     <div class="card-body row no-gutters align-items-center">
         <div class="col">
             <input name="SearchString" class="form-control" type="search" placeholder="Author, Recipe Name or Ingridients" aria-label="Search">
@@ -23,14 +23,12 @@
         </div>
         <!--end of col-->
         <div class="col-auto">
-            <button class="btn menu-right-btn border" type="submit" value="Search">Search</button>
+            <button class="btn menu-right-btn border shadow-none" type="submit" value="Search">Search</button>
         </div>
         <!--end of col-->
     </div>
 </form>
-<hr />
-<h3 class="mb-3">Showing: @Model.Count() of @context.recipes.Count()</h3>
-<hr />
+<h3 class="mb-3">Showing: @Model.Count() of @context.recipes.Count() Total Recipes</h3>
 @if (Model.Count() == 0)
 {
     <h3>Sorry no results, make sure your spelling is correct</h3>
@@ -45,33 +43,33 @@
 
         <div class="card-deck col">
 
-            <div class="card text-center mb-3" style="width: 20rem;">
-
-                <div class="card-body text-center" style="align-self:center; width: 20rem;">
-                    <h5 class="card-header" style="font-weight:bold; background-color:azure;">
+            <div class="card mb-3" style="width: 20rem;">
+                <img src="@item.ImageUrl" class="card-img-top" />
+                <div class="card-body" style="align-self:center; width: 20rem;">
+                    <h6 class="card-header text-center" style="background-color:white; font-weight:bold;">
 
                         @item.Label
 
-                    </h5>
-                    <h3 class="card-title mt-2">
-                        By: @item.Source
-                    </h3>
-                    <img src="@item.ImageUrl" class="img-fluid" />
+                    </h6>
 
-                    <h5 class="card-subtitle mt-2">
+                    <p class="card-subtitle mt-2">
                         <span style="font-weight:bold;">See Full Details:</span> <a href="@item.SourceUrl" target="_blank">Click Here</a>
-                    </h5>
+                    </p>
                     <hr />
-                    <h5><span style="font-weight:bold;">Nutrient Facts Per Serving:</span></h5>
-                    <h6>Calories: @item.TotalCaloriesServ, Carbs: @item.TotalCarbsServ, Fat: @item.TotalFatServ</h6>
+                    <p style="font-weight:bold;">Nutrient Facts Per Serving:</p>
+                    <p>Calories: @item.TotalCaloriesServ, Carbs: @item.TotalCarbsServ, Fat: @item.TotalFatServ</p>
+                    <hr />
+
                     @if (SignInManager.IsSignedIn(User))
                     {
-                        <hr />
                         <form asp-action="AddFavorite" method="post">
                             <input name="Id" type="hidden" value="@item.ID" />
                             <button type="submit" class="btn border">Add to Favorites</button>
                         </form>
                     }
+                    <p class="card-title mt-2">
+                        By: @item.Source
+                    </p>
                 </div>
             </div>
 
@@ -80,4 +78,4 @@
 
 
 </div>
-@Html.ActionLink("Load More Recipes", "Index", "Home", new { page = Model.Count() + 27 })
+<a>@Html.ActionLink("Load More Recipes", "Index", "Home", new { page = Model.Count() + 27 })</a>
