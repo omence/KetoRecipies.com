@@ -1,21 +1,29 @@
-﻿@model IEnumerable<KetoRecipies.Models.Recipe>
+﻿@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<KetoRecipies.Models.Recipe>
 @using Microsoft.AspNetCore.Identity
 @using KetoRecipies.Data
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 @inject KetoDbContext context
 
+@{
+    Random rnd = new Random();
+    var randomRecipes = context.recipes.OrderBy(r => rnd.Next()).Take(10).ToList();
+}
 @if (TempData["Error"] != null)
 {
     <div class="green">
         <h2 style="color:lightgreen;"><strong>Error:</strong> @TempData["Error"].ToString()</h2>
     </div>
 }
+
+
+
 @if (!SignInManager.IsSignedIn(User))
 {
     <h3 style="color:deepskyblue;">Register or Login to Save Your Favorite Recipes or Add Your Recipe to the List</h3>
 }
-<form asp-action="Index" class="card shadow-none card-sm mb-3">
+<form asp-action="Index" class="card shadow-none card-sm mb-3 mt-3">
     <div class="card-body row no-gutters align-items-center">
         <div class="col">
             <input name="SearchString" class="form-control" type="search" placeholder="Author, Recipe Name or Ingridients" aria-label="Search">
@@ -28,7 +36,6 @@
         <!--end of col-->
     </div>
 </form>
-<h3 class="mb-3">Showing: @Model.Count() of @context.recipes.Count() Total Recipes</h3>
 @if (Model.Count() == 0)
 {
     <h3>Sorry no results, make sure your spelling is correct</h3>
@@ -78,4 +85,13 @@
 
 
 </div>
-<a>@Html.ActionLink("Load More Recipes", "Index", "Home", new { page = Model.Count() + 27 })</a>
+<center>
+    @if (Model.PageCount > 10)
+    {
+        <div id="container" style="margin-left: 20px">
+            <div class="pagination" style="margin-left: 305px">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+            </div>
+        </div>
+    }
+</center>

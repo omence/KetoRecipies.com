@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Register";
 }
-
+    <h4>Create a new account.</h4>
 <div class="container">
     <div class="card-deck">
 
@@ -11,8 +11,8 @@
 
             <div class="card-body text-center parent col-sm">
                 <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                    <h4>Create a new account.</h4>
-                    <hr />
+
+
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Input.Email"></label>
@@ -29,6 +29,7 @@
                         <input asp-for="Input.ConfirmPassword" class="form-control" />
                         <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                     </div>
+                    <a class="nav-link mr-auto" href="~/Home/Privacy" target="_blank" style="color:deepskyblue;">Privacy Policy</a>
                     <button type="submit" class="btn border">Register</button>
                 </form>
             </div>
