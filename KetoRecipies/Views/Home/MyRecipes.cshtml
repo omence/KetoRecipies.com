@@ -1,0 +1,46 @@
+﻿@model IEnumerable<KetoRecipies.Models.Recipe>
+
+@{
+    ViewData["Title"] = "MyRecipes";
+}
+
+<h1>MyRecipes</h1>
+
+<p>
+    <a asp-action="Create">Add a Recipe</a>
+</p>
+<h5 class="mb-3"># of Recipes: @Model.Count()</h5>
+<div class="container row ml-0">
+    @foreach (var item in Model)
+    {
+        <div class="card-deck col">
+            <div class="card text-center mb-3" style="width: 20rem;">
+                <img src="@item.ImageUrl" class="card-img-top" />
+                <div class="card-body text-center" style="align-self:center; width: 20rem;">
+                    <h6 class="card-header" style="font-weight:bold; background-color:white;">
+                        @item.Label
+                    </h6>
+                    <p class="card-subtitle mt-2">
+                        <span style="font-weight:bold;">See Full Details:</span> <a href="@item.SourceUrl" target="_blank">Click Here</a>
+                    </p>
+                    <hr />
+                    <p><span style="font-weight:bold;">Nutrient Facts Per Serving:</span></p>
+                    <p>Calories: @item.TotalCaloriesServ, Carbs: @item.TotalCarbsServ, Fat: @item.TotalFatServ</p>
+                    <hr />
+                    
+                        <form method="get" asp-action="Edit">
+                            <input type="hidden" name="ID" value="@item.ID" />
+                            <button type="submit">Edit</button>
+                        </form>
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    
+                    <p class="card-title mt-2">
+                        By: @item.Source
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

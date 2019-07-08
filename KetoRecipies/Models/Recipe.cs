@@ -9,6 +9,8 @@ namespace KetoRecipies.Models
     {
         public int ID { get; set; }
 
+        public string UserId { get; set; }
+
         public string Label { get; set; }
 
         public string Ingridients { get; set; }
