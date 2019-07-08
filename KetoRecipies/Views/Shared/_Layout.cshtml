@@ -1,7 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using KetoRecipies.Data
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
-
+@inject KetoDbContext context
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +39,7 @@
                     @if (SignInManager.IsSignedIn(User))
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-light mr-auto" asp-action="Favorite"><h3>My Favorites</h3></a>
+                            <a class="nav-link text-light mr-auto" href="~/Favorite"><h3>My Favorites</h3></a>
                         </li>
 
                         <form class="form-inline my-2 my-lg-0" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
@@ -48,21 +49,120 @@
                     }
                 </ul>
 
-             
+
 
 
             </div>
 
         </nav>
     </header>
-    <div class="container">
+    @{
+        Random rnd = new Random();
+        var randomRecipes = context.recipes.OrderBy(r => rnd.Next()).Take(10).ToList();
+    }
 
+    <div class="container mb-5">
+        <div class="container-fluid">
+            <div id="carousel-example" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner row w-100 mx-auto" role="listbox">
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3 active">
+                        <img src="@randomRecipes[0].ImageUrl" class="img-fluid mx-auto d-block" alt="img1">
+                        <a href="@randomRecipes[0].SourceUrl" target="_blank">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>@randomRecipes[0].Label</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                        <img src="@randomRecipes[1].ImageUrl" class="img-fluid mx-auto d-block" alt="img2">
+                        <a href="@randomRecipes[1].SourceUrl" target="_blank">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>@randomRecipes[1].Label</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                        <img src="@randomRecipes[2].ImageUrl" class="img-fluid mx-auto d-block" alt="img3">
+                        <a href="@randomRecipes[2].SourceUrl" target="_blank">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>@randomRecipes[2].Label</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                        <img src="@randomRecipes[3].ImageUrl" class="img-fluid mx-auto d-block" alt="img4">
+                        <a href="@randomRecipes[3].SourceUrl" target="_blank">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>@randomRecipes[3].Label</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                        <img src="@randomRecipes[4].ImageUrl" class="img-fluid mx-auto d-block" alt="img5">
+                        <a href="@randomRecipes[4].SourceUrl" target="_blank">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>@randomRecipes[4].Label</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                        <img src="@randomRecipes[5].ImageUrl" class="img-fluid mx-auto d-block" alt="img6">
+                        <a href="@randomRecipes[5].SourceUrl" target="_blank">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>@randomRecipes[5].Label</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                        <img src="@randomRecipes[6].ImageUrl" class="img-fluid mx-auto d-block" alt="img7">
+                        <a href="@randomRecipes[6].SourceUrl" target="_blank">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>@randomRecipes[6].Label</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                        <img src="@randomRecipes[7].ImageUrl" class="img-fluid mx-auto d-block" alt="img8">
+                        <a href="@randomRecipes[7].SourceUrl" target="_blank">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>@randomRecipes[7].Label</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                        <img src="@randomRecipes[8].ImageUrl" class="img-fluid mx-auto d-block" alt="img9">
+                        <a href="@randomRecipes[8].SourceUrl" target="_blank">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>@randomRecipes[8].Label</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                        <img src="@randomRecipes[9].ImageUrl" class="img-fluid mx-auto d-block" alt="img10">
+                        <a href="@randomRecipes[9].SourceUrl" target="_blank">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>@randomRecipes[9].Label</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carousel-example" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carousel-example" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
     <footer class="page-footer font-small special-color-dark pt-4">
+        <a class="nav-link text-light mr-auto" href="~/Home/Privacy">Privacy Policy</a>
         © 2019 Copyright:
         <a class="mb-3">KetoRecipies.com</a>
     </footer>
@@ -73,6 +173,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
 
     @RenderSection("Scripts", required: false)
 </body>

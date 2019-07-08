@@ -12,6 +12,7 @@ using System.Text;
 using KetoRecipies.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using X.PagedList;
 
 namespace KetoRecipies.Controllers
 {
@@ -32,11 +33,13 @@ namespace KetoRecipies.Controllers
         /// Send Index with recipes to View
         /// </summary>
         /// <returns>View + Recipe list</returns>
-        public async Task<IActionResult> Index(int page = 27)
+        public async Task<IActionResult> Index(int? page)
         {
             //await GetRecipes();
-            var recipes = _context.recipes.Take(page).OrderBy(r => r.Label).ToList();
-            return View(recipes);
+            var recipes = _context.recipes.OrderBy(r => r.Label).ToList();
+            int pageSize = 27;
+            int pageNumber = (page ?? 1);
+            return View(recipes.ToPagedList(pageNumber, pageSize));
         }
 
         /// <summary>
@@ -45,7 +48,7 @@ namespace KetoRecipies.Controllers
         /// <param name="SearchString"></param>
         /// <returns>view + searched list</returns>
         [HttpPost]
-        public async Task<IActionResult> Index(string SearchString)
+        public async Task<IActionResult> Index(string SearchString, int? page)
         {
             var recipes = _context.recipes.ToList();
 
@@ -67,11 +70,14 @@ namespace KetoRecipies.Controllers
                     recipes1 = recipes1.Union(temp2).ToList();
 
                 }
-
-                return View(recipes1);
+                int pageSize = 27;
+                int pageNumber = (page ?? 1);
+        
+                return View(recipes1.ToPagedList(pageNumber, pageSize));
             }
-
-            return View(recipes);
+            int pageSize2 = 27;
+            int pageNumber2 = (page ?? 1);
+            return View(recipes.ToPagedList(pageNumber2, pageSize2));
         }
 
         public IActionResult Privacy()
@@ -151,11 +157,13 @@ namespace KetoRecipies.Controllers
             }
         }
 
+        [Authorize]
         public IActionResult Favorite()
         {
             return RedirectToAction("Index", "Favorite");
         }
 
+        [Authorize]
         public async Task<IActionResult>AddFavorite(int id)
         {
             var userId = _userManager.GetUserId(User);

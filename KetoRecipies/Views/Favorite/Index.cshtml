@@ -2,22 +2,20 @@
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
-<form asp-action="Favorite" method="get" class="card card-sm mb-3">
+
+<form asp-action="Favorite" method="get" class="card card-sm mb-3 mt-3">
     <div class="card-body row no-gutters align-items-center">
         <div class="col">
             <input name="SearchString" class="form-control" type="search" placeholder="Name or Ingridients" aria-label="Search">
-
         </div>
-        <!--end of col-->
         <div class="col-auto">
             <button class="btn menu-right-btn border" type="submit" value="Search">Search</button>
         </div>
-        <!--end of col-->
     </div>
 </form>
-<hr />
-<h3 class="mb-3"># of Recipes: @Model.Count()</h3>
-<hr />
+
+<h5 class="mb-3"># of Recipes: @Model.Count()</h5>
+
 <div class="container row ">
 
     @foreach (var item in Model)
@@ -26,29 +24,29 @@
         <div class="card-deck col">
 
             <div class="card text-center mb-3" style="width: 20rem;">
-
+                <img src="@item.Recipe.ImageUrl" class="card-img-top" />
                 <div class="card-body text-center" style="align-self:center; width: 20rem;">
-                    <h5 class="card-header" style="font-weight:bold; background-color:azure;">
+                    <h6 class="card-header" style="font-weight:bold; background-color:white;">
 
                         @item.Recipe.Label
 
-                    </h5>
-                    <h3 class="card-title mt-2">
-                        @item.Recipe.Source
-                    </h3>
-                    <img src="@item.Recipe.ImageUrl" class="img-fluid" />
+                    </h6>
 
-                    <h5 class="card-subtitle mt-2">
+                    <p class="card-subtitle mt-2">
                         <span style="font-weight:bold;">See Full Details:</span> <a href="@item.Recipe.SourceUrl" target="_blank">Click Here</a>
-                    </h5>
+                    </p>
                     <hr />
-                    <h5><span style="font-weight:bold;">Nutrient Facts Per Serving:</span></h5>
-                    <h6>Calories: @item.Recipe.TotalCaloriesServ, Carbs: @item.Recipe.TotalCarbsServ, Fat: @item.Recipe.TotalFatServ</h6>
+                    <p><span style="font-weight:bold;">Nutrient Facts Per Serving:</span></p>
+                    <p>Calories: @item.Recipe.TotalCaloriesServ, Carbs: @item.Recipe.TotalCarbsServ, Fat: @item.Recipe.TotalFatServ</p>
                     <hr />
                     <form asp-action="Remove" method="post">
                         <input name="Id" type="hidden" value="@item.ID" />
                         <button type="submit" class="btn border">Remove From Favorites</button>
                     </form>
+                    <p class="card-title mt-2">
+                        By: @item.Recipe.Source
+                    </p>
+
                 </div>
             </div>
 
