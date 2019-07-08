@@ -70,7 +70,7 @@ namespace KetoRecipies.Controllers
                     recipes1 = recipes1.Union(temp2).ToList();
 
                 }
-                int pageSize = 27;
+                int pageSize = 100;
                 int pageNumber = (page ?? 1);
         
                 return View(recipes1.ToPagedList(pageNumber, pageSize));
@@ -157,12 +157,21 @@ namespace KetoRecipies.Controllers
             }
         }
 
+        /// <summary>
+        /// Directs to MyFavorites Page
+        /// </summary>
+        /// <returns>View</returns>
         [Authorize]
         public IActionResult Favorite()
         {
             return RedirectToAction("Index", "Favorite");
         }
 
+        /// <summary>
+        /// Add a Recipe to the MyFavorites Page
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>View</returns>
         [Authorize]
         public async Task<IActionResult>AddFavorite(int id)
         {
