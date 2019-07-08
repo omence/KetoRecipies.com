@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KetoRecipies.Migrations.KetoDb
 {
     [DbContext(typeof(KetoDbContext))]
-    [Migration("20190702223420_ch")]
-    partial class ch
+    [Migration("20190708151915_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "2.2.1-servicing-10028")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -31,6 +31,8 @@ namespace KetoRecipies.Migrations.KetoDb
                     b.Property<string>("UserID");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("RecipeID");
 
                     b.ToTable("favorites");
                 });
@@ -68,6 +70,14 @@ namespace KetoRecipies.Migrations.KetoDb
                     b.HasKey("ID");
 
                     b.ToTable("recipes");
+                });
+
+            modelBuilder.Entity("KetoRecipies.Models.Favorite", b =>
+                {
+                    b.HasOne("KetoRecipies.Models.Recipe", "Recipe")
+                        .WithMany()
+                        .HasForeignKey("RecipeID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

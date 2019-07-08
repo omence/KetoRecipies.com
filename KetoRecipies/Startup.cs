@@ -59,7 +59,6 @@ namespace KetoRecipies
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
             services.AddMvc();
-
             services.AddDbContext<KetoDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
         }
 

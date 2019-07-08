@@ -1,0 +1,84 @@
+﻿@model KetoRecipies.Models.Recipe
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<div class="container">
+    <div class="card-deck">
+        <div class="card card text-center mb-1 row">
+            <div class="card-body text-center parent col-sm">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Label" class="control-label">Name of Dish</label>
+                        <input asp-for="Label" class="form-control" />
+                        <span asp-validation-for="Label" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Ingridients" class="control-label"></label>
+                        <textarea asp-for="Ingridients" class="form-control"></textarea>
+                        <span asp-validation-for="Ingridients" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Instructions" class="control-label"></label>
+                        <textarea asp-for="Instructions" class="form-control"></textarea>
+                        <span asp-validation-for="Instructions" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Source" class="control-label">Your Name</label>
+                        <input asp-for="Source" class="form-control" />
+                        <span asp-validation-for="Source" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Yield" class="control-label">How many servings will this recipe make?</label>
+                        <input asp-for="Yield" class="form-control" />
+                        <span asp-validation-for="Yield" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TotalTime" class="control-label">How many minutes to prepare dish?</label>
+                        <input type="number" asp-for="TotalTime" class="form-control" />
+                        <span asp-validation-for="TotalTime" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TotalCarbsServ" class="control-label">Total carbs per serving</label>
+                        <input asp-for="TotalCarbsServ" class="form-control" />
+                        <span asp-validation-for="TotalCarbsServ" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TotalFatServ" class="control-label">Total fat per serving</label>
+                        <input asp-for="TotalFatServ" class="form-control" />
+                        <span asp-validation-for="TotalFatServ" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TotalCaloriesServ" class="control-label">Total calories per serving</label>
+                        <input asp-for="TotalCaloriesServ" class="form-control" />
+                        <span asp-validation-for="TotalCaloriesServ" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ImageUrl" class="control-label">Image URL, right click on your published image and copy image url</label>
+                        <input asp-for="ImageUrl" class="form-control" />
+                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="VideoUrl" class="control-label">If you have a YouTube video of the prep paste the url here</label>
+                        <input asp-for="VideoUrl" class="form-control" />
+                        <span asp-validation-for="VideoUrl" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+</div>
+    </div>
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }
