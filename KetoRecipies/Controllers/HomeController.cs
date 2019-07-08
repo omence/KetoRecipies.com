@@ -99,13 +99,13 @@ namespace KetoRecipies.Controllers
         {
             using (var client = new HttpClient())
             {
-                var ID = _configuration["ID"];
-                var API = _configuration["RecipeApiKey"];
+                var ID = "04c323bd";
+                var API = "164450c11102f2cb04cc1fe58795f157";
                 try
                 {
                     //call made to the api
                     client.BaseAddress = new Uri($"https://api.edamam.com/search");
-                    string search = "Keto enchiladas";
+                    string search = "low carb";
 
                     var response = await client.GetAsync($"?q={search}&app_id={ID}&app_key={API}&from=0&to=100");
 
@@ -188,6 +188,51 @@ namespace KetoRecipies.Controllers
 
             TempData["Error"] = "Recipe already in your favorites list";
             return RedirectToAction("Index");
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Create(string Label, string Ingridients, string Instructions, string Source, string SourceUrl, decimal Yield, decimal TotalTime, decimal TotalCarbsServ, decimal TotalFatServ, decimal TotalCaloriesServ, string ImageUrl, string VideoUrl)
+        {
+            Recipe recipe = new Recipe();
+            recipe.Label = Label;
+            recipe.Ingridients = Ingridients;
+            recipe.Instructions = Instructions;
+            recipe.Source = Source;
+            recipe.Yield = Yield;
+            recipe.TotalTime = TotalTime;
+            recipe.TotalCarbsServ = TotalCarbsServ;
+            recipe.TotalFatServ = TotalFatServ;
+            recipe.TotalCaloriesServ = TotalCaloriesServ;
+            recipe.ImageUrl = ImageUrl;
+            recipe.VideoUrl = VideoUrl;
+
+            _context.recipes.Add(recipe);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Details(int ID)
+        {
+            var recipe = _context.recipes.FirstOrDefault(r => r.ID == ID);
+
+            return View(recipe);
+        }
+
+        public IActionResult Edit(int ID)
+        {
+            var recipe = _context.recipes.FirstOrDefault(r => r.ID == ID);
+
+            return View(recipe);
         }
     }
 }
