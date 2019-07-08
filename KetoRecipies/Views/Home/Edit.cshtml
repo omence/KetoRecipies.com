@@ -13,63 +13,66 @@
                 <form asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
+                        <input asp-for="ID" type="hidden" value="@Model.ID" class="form-control" />
+                        <span asp-validation-for="ID" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="UserId" type="hidden" value="@Model.UserId" class="form-control" />
+                        <span asp-validation-for="UserId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
                         <label asp-for="Label" class="control-label"></label>
-                        <input asp-for="Label" class="form-control" />
+                        <input asp-for="Label" class="form-control" value="@Model.Label" />
                         <span asp-validation-for="Label" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Ingridients" class="control-label"></label>
-                        <input asp-for="Ingridients" class="form-control" />
+                        <input asp-for="Ingridients" class="form-control" value="@Model.Ingridients" />
                         <span asp-validation-for="Ingridients" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Instructions" class="control-label"></label>
-                        <input asp-for="Instructions" class="form-control" />
+                        <input asp-for="Instructions" class="form-control" value="@Model.Instructions" />
                         <span asp-validation-for="Instructions" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Source" class="control-label"></label>
-                        <input asp-for="Source" class="form-control" />
+                        <input asp-for="Source" class="form-control" value="@Model.Source" />
                         <span asp-validation-for="Source" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="SourceUrl" class="control-label"></label>
-                        <input asp-for="SourceUrl" class="form-control" />
-                        <span asp-validation-for="SourceUrl" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
                         <label asp-for="Yield" class="control-label"></label>
-                        <input asp-for="Yield" class="form-control" />
+                        <input asp-for="Yield" class="form-control" value="@Model.Yield" />
                         <span asp-validation-for="Yield" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="TotalTime" class="control-label"></label>
-                        <input asp-for="TotalTime" class="form-control" />
+                        <input asp-for="TotalTime" class="form-control" value="@Model.TotalTime" />
                         <span asp-validation-for="TotalTime" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="TotalCarbsServ" class="control-label"></label>
-                        <input asp-for="TotalCarbsServ" class="form-control" />
+                        <input asp-for="TotalCarbsServ" class="form-control" value="@Model.TotalCarbsServ" />
                         <span asp-validation-for="TotalCarbsServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="TotalFatServ" class="control-label"></label>
-                        <input asp-for="TotalFatServ" class="form-control" />
+                        <input asp-for="TotalFatServ" class="form-control" value="@Model.TotalFatServ" />
                         <span asp-validation-for="TotalFatServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="TotalCaloriesServ" class="control-label"></label>
-                        <input asp-for="TotalCaloriesServ" class="form-control" />
+                        <input asp-for="TotalCaloriesServ" class="form-control" value="@Model.TotalCaloriesServ" />
                         <span asp-validation-for="TotalCaloriesServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="ImageUrl" class="control-label"></label>
-                        <input asp-for="ImageUrl" class="form-control" />
+                        <input asp-for="ImageUrl" class="form-control" value="@Model.ImageUrl" />
                         <span asp-validation-for="ImageUrl" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="VideoUrl" class="control-label"></label>
-                        <input asp-for="VideoUrl" class="form-control" />
+                        <input asp-for="VideoUrl" class="form-control" value="@Model.VideoUrl" />
                         <span asp-validation-for="VideoUrl" class="text-danger"></span>
                     </div>
                     <div class="form-group">

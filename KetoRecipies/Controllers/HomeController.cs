@@ -201,7 +201,10 @@ namespace KetoRecipies.Controllers
         [HttpPost]
         public IActionResult Create(string Label, string Ingridients, string Instructions, string Source, string SourceUrl, decimal Yield, decimal TotalTime, decimal TotalCarbsServ, decimal TotalFatServ, decimal TotalCaloriesServ, string ImageUrl, string VideoUrl)
         {
+            var userId = _userManager.GetUserId(User);
+
             Recipe recipe = new Recipe();
+            recipe.UserId = userId;
             recipe.Label = Label;
             recipe.Ingridients = Ingridients;
             recipe.Instructions = Instructions;
@@ -220,19 +223,51 @@ namespace KetoRecipies.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
         public IActionResult Details(int ID)
         {
             var recipe = _context.recipes.FirstOrDefault(r => r.ID == ID);
 
             return View(recipe);
         }
-
+        [HttpGet]
+        [Authorize]
         public IActionResult Edit(int ID)
         {
             var recipe = _context.recipes.FirstOrDefault(r => r.ID == ID);
 
             return View(recipe);
+        }
+
+        public IActionResult Edit(int ID, string UserId, string Label, string Ingridients, string Instructions, string Source, string SourceUrl, decimal Yield, decimal TotalTime, decimal TotalCarbsServ, decimal TotalFatServ, decimal TotalCaloriesServ, string ImageUrl, string VideoUrl)
+        {
+            var recipe = _context.recipes.FirstOrDefault(r => r.ID == ID);
+
+            recipe.UserId = UserId;
+            recipe.Label = Label;
+            recipe.Ingridients = Ingridients;
+            recipe.Instructions = Instructions;
+            recipe.Source = Source;
+            recipe.Yield = Yield;
+            recipe.TotalTime = TotalTime;
+            recipe.TotalCarbsServ = TotalCarbsServ;
+            recipe.TotalFatServ = TotalFatServ;
+            recipe.TotalCaloriesServ = TotalCaloriesServ;
+            recipe.ImageUrl = ImageUrl;
+            recipe.VideoUrl = VideoUrl;
+
+            _context.recipes.Update(recipe);
+            _context.SaveChanges();
+
+            return RedirectToAction("MyRecipes");
+        }
+        [Authorize]
+        public IActionResult MyRecipes()
+        {
+            var userId = _userManager.GetUserId(User);
+
+            var recipes = _context.recipes.Where(r => r.UserId == userId).OrderBy(r => r.Label).ToList();
+
+            return View(recipes);
         }
     }
 }
