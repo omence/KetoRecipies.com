@@ -13,25 +13,17 @@
         </div>
     </div>
 </form>
-
 <h5 class="mb-3"># of Recipes: @Model.Count()</h5>
-
-<div class="container row ">
-
+<div class="container row ml-0">
     @foreach (var item in Model)
     {
-
         <div class="card-deck col">
-
             <div class="card text-center mb-3" style="width: 20rem;">
                 <img src="@item.Recipe.ImageUrl" class="card-img-top" />
                 <div class="card-body text-center" style="align-self:center; width: 20rem;">
                     <h6 class="card-header" style="font-weight:bold; background-color:white;">
-
                         @item.Recipe.Label
-
                     </h6>
-
                     <p class="card-subtitle mt-2">
                         <span style="font-weight:bold;">See Full Details:</span> <a href="@item.Recipe.SourceUrl" target="_blank">Click Here</a>
                     </p>
@@ -46,15 +38,8 @@
                     <p class="card-title mt-2">
                         By: @item.Recipe.Source
                     </p>
-
                 </div>
             </div>
-
         </div>
     }
-
-
 </div>
-<br />
-<br />
-<br />

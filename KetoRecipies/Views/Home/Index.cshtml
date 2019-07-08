@@ -1,23 +1,14 @@
 ﻿@using X.PagedList.Mvc.Core
 @model X.PagedList.IPagedList<KetoRecipies.Models.Recipe>
 @using Microsoft.AspNetCore.Identity
-@using KetoRecipies.Data
 @inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
-@inject KetoDbContext context
 
-@{
-    Random rnd = new Random();
-    var randomRecipes = context.recipes.OrderBy(r => rnd.Next()).Take(10).ToList();
-}
 @if (TempData["Error"] != null)
 {
-    <div class="green">
+    <div>
         <h2 style="color:lightgreen;"><strong>Error:</strong> @TempData["Error"].ToString()</h2>
     </div>
 }
-
-
 
 @if (!SignInManager.IsSignedIn(User))
 {
@@ -41,8 +32,6 @@
     <h3>Sorry no results, make sure your spelling is correct</h3>
     <a asp-action="Index">Back to Recipes</a>
 }
-
-
 <div class="container row ml-0">
 
     @foreach (var item in Model)

@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="~/css/StyleSheet.css" />
 </head>
-
 <body class="justify-content-center bg-light">
     <header>
         <nav class="navbar shadow-none special-color-dark navbar-expand-lg">
@@ -23,7 +22,6 @@
             <button class="navbar-toggler" data-toggle="collapse" data-target="#nav1" aria-controls="nav1" aria-expanded="false" aria-label="Toggle Navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse"></div>
             <div class="collapse navbar-collapse" id="nav1">
                 <ul class="navbar-nav ml-auto">
@@ -41,26 +39,18 @@
                         <li class="nav-item">
                             <a class="nav-link text-light mr-auto" href="~/Favorite"><h3>My Favorites</h3></a>
                         </li>
-
                         <form class="form-inline my-2 my-lg-0" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                             <button type="submit" class="nav-btn btn border">Logout</button>
                         </form>
-
                     }
                 </ul>
-
-
-
-
             </div>
-
         </nav>
     </header>
     @{
         Random rnd = new Random();
         var randomRecipes = context.recipes.OrderBy(r => rnd.Next()).Take(10).ToList();
     }
-
     <div class="container mb-5">
         <div class="container-fluid">
             <div id="carousel-example" class="carousel slide" data-ride="carousel">
@@ -160,21 +150,17 @@
             @RenderBody()
         </main>
     </div>
-
     <footer class="page-footer font-small special-color-dark pt-4">
         <a class="nav-link text-light mr-auto" href="~/Home/Privacy">Privacy Policy</a>
         © 2019 Copyright:
         <a class="mb-3">KetoRecipies.com</a>
     </footer>
-
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/js/mdb.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
-
     @RenderSection("Scripts", required: false)
 </body>
 </html>
