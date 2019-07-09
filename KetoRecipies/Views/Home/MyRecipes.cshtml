@@ -3,12 +3,8 @@
 @{
     ViewData["Title"] = "MyRecipes";
 }
+    <a asp-action="Create"><h3 class="mt-3" style="color:deepskyblue;">Add a Recipe</h3></a>
 
-<h1>MyRecipes</h1>
-
-<p>
-    <a asp-action="Create">Add a Recipe</a>
-</p>
 <h5 class="mb-3"># of Recipes: @Model.Count()</h5>
 <div class="container row ml-0">
     @foreach (var item in Model)
@@ -20,21 +16,14 @@
                     <h6 class="card-header" style="font-weight:bold; background-color:white;">
                         @item.Label
                     </h6>
-                    <p class="card-subtitle mt-2">
-                        <span style="font-weight:bold;">See Full Details:</span> <a href="@item.SourceUrl" target="_blank">Click Here</a>
-                    </p>
-                    <hr />
                     <p><span style="font-weight:bold;">Nutrient Facts Per Serving:</span></p>
                     <p>Calories: @item.TotalCaloriesServ, Carbs: @item.TotalCarbsServ, Fat: @item.TotalFatServ</p>
                     <hr />
-                    
-                        <form method="get" asp-action="Edit">
-                            <input type="hidden" name="ID" value="@item.ID" />
-                            <button type="submit">Edit</button>
-                        </form>
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                    
+
+                    <a method="get" asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+
                     <p class="card-title mt-2">
                         By: @item.Source
                     </p>

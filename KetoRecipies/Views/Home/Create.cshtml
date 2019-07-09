@@ -10,7 +10,7 @@
     <div class="card-deck">
         <div class="card card text-center mb-1 row">
             <div class="card-body text-center parent col-sm">
-                <form asp-action="Create">
+                <form asp-action="Create" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Label" class="control-label">Name of Dish</label>
@@ -58,8 +58,8 @@
                         <span asp-validation-for="TotalCaloriesServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="ImageUrl" class="control-label">Image URL, right click on your published image and copy image url</label>
-                        <input asp-for="ImageUrl" class="form-control" />
+                        <label asp-for="ImageUrl" class="control-label">Upload Image</label>
+                        <input type="file" name="ImageUrl" class="btn btn-outline-secondary">
                         <span asp-validation-for="ImageUrl" class="text-danger"></span>
                     </div>
                     <div class="form-group">
