@@ -13,6 +13,9 @@ using KetoRecipies.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using X.PagedList;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace KetoRecipies.Controllers
 {
@@ -21,12 +24,14 @@ namespace KetoRecipies.Controllers
         private IConfiguration _configuration;
         private readonly KetoDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IHostingEnvironment _he;
 
-        public HomeController(IConfiguration configuration, KetoDbContext context, UserManager<IdentityUser> userManager)
+        public HomeController(IConfiguration configuration, KetoDbContext context, UserManager<IdentityUser> userManager, IHostingEnvironment he)
         {
             _configuration = configuration;
             _context = context;
             _userManager = userManager;
+            _he = he;
         }
 
         /// <summary>
@@ -162,6 +167,7 @@ namespace KetoRecipies.Controllers
         /// </summary>
         /// <returns>View</returns>
         [Authorize]
+        [HttpGet]
         public IActionResult Favorite()
         {
             return RedirectToAction("Index", "Favorite");
@@ -173,6 +179,7 @@ namespace KetoRecipies.Controllers
         /// <param name="id"></param>
         /// <returns>View</returns>
         [Authorize]
+        [HttpPost]
         public async Task<IActionResult>AddFavorite(int id)
         {
             var userId = _userManager.GetUserId(User);
@@ -199,11 +206,18 @@ namespace KetoRecipies.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult Create(string Label, string Ingridients, string Instructions, string Source, string SourceUrl, decimal Yield, decimal TotalTime, decimal TotalCarbsServ, decimal TotalFatServ, decimal TotalCaloriesServ, string ImageUrl, string VideoUrl)
+        public async  Task<IActionResult> Create(string Label, string Ingridients, string Instructions, string Source, string SourceUrl, decimal Yield, decimal TotalTime, decimal TotalCarbsServ, decimal TotalFatServ, decimal TotalCaloriesServ, IFormFile ImageUrl, string VideoUrl)
         {
             var userId = _userManager.GetUserId(User);
-
             Recipe recipe = new Recipe();
+
+            if (ImageUrl != null)
+            {
+                var fileName = Path.Combine($"{_he.WebRootPath}/Images", Path.GetFileName(ImageUrl.FileName));
+                ImageUrl.CopyTo(new FileStream(fileName, FileMode.Create));
+                recipe.ImageUrl = "/Images/" + Path.GetFileName(ImageUrl.FileName);
+            }
+            
             recipe.UserId = userId;
             recipe.Label = Label;
             recipe.Ingridients = Ingridients;
@@ -214,7 +228,6 @@ namespace KetoRecipies.Controllers
             recipe.TotalCarbsServ = TotalCarbsServ;
             recipe.TotalFatServ = TotalFatServ;
             recipe.TotalCaloriesServ = TotalCaloriesServ;
-            recipe.ImageUrl = ImageUrl;
             recipe.VideoUrl = VideoUrl;
 
             _context.recipes.Add(recipe);
@@ -223,12 +236,14 @@ namespace KetoRecipies.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
         public IActionResult Details(int ID)
         {
             var recipe = _context.recipes.FirstOrDefault(r => r.ID == ID);
 
             return View(recipe);
         }
+
         [HttpGet]
         [Authorize]
         public IActionResult Edit(int ID)
@@ -238,6 +253,8 @@ namespace KetoRecipies.Controllers
             return View(recipe);
         }
 
+        [Authorize]
+        [HttpPost]
         public IActionResult Edit(int ID, string UserId, string Label, string Ingridients, string Instructions, string Source, string SourceUrl, decimal Yield, decimal TotalTime, decimal TotalCarbsServ, decimal TotalFatServ, decimal TotalCaloriesServ, string ImageUrl, string VideoUrl)
         {
             var recipe = _context.recipes.FirstOrDefault(r => r.ID == ID);
@@ -260,6 +277,8 @@ namespace KetoRecipies.Controllers
 
             return RedirectToAction("MyRecipes");
         }
+
+        [HttpGet]
         [Authorize]
         public IActionResult MyRecipes()
         {
