@@ -14,52 +14,52 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Label" class="control-label">Name of Dish</label>
-                        <input asp-for="Label" class="form-control" />
+                        <input asp-for="Label" class="form-control" required/>
                         <span asp-validation-for="Label" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Ingridients" class="control-label"></label>
-                        <textarea asp-for="Ingridients" class="form-control"></textarea>
+                        <textarea asp-for="Ingridients" class="form-control" required></textarea>
                         <span asp-validation-for="Ingridients" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Instructions" class="control-label"></label>
-                        <textarea asp-for="Instructions" class="form-control"></textarea>
+                        <textarea asp-for="Instructions" class="form-control" required></textarea>
                         <span asp-validation-for="Instructions" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Source" class="control-label">Your Name</label>
-                        <input asp-for="Source" class="form-control" />
+                        <input asp-for="Source" class="form-control" required/>
                         <span asp-validation-for="Source" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Yield" class="control-label">How many servings will this recipe make?</label>
-                        <input asp-for="Yield" class="form-control" />
+                        <input asp-for="Yield" class="form-control" required/>
                         <span asp-validation-for="Yield" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="TotalTime" class="control-label">How many minutes to prepare dish?</label>
-                        <input type="number" asp-for="TotalTime" class="form-control" />
+                        <input type="number" asp-for="TotalTime" class="form-control" required/>
                         <span asp-validation-for="TotalTime" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="TotalCarbsServ" class="control-label">Total carbs per serving</label>
-                        <input asp-for="TotalCarbsServ" class="form-control" />
+                        <input asp-for="TotalCarbsServ" class="form-control" required/>
                         <span asp-validation-for="TotalCarbsServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="TotalFatServ" class="control-label">Total fat per serving</label>
-                        <input asp-for="TotalFatServ" class="form-control" />
+                        <input asp-for="TotalFatServ" class="form-control" required/>
                         <span asp-validation-for="TotalFatServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="TotalCaloriesServ" class="control-label">Total calories per serving</label>
-                        <input asp-for="TotalCaloriesServ" class="form-control" />
+                        <input asp-for="TotalCaloriesServ" class="form-control" required/>
                         <span asp-validation-for="TotalCaloriesServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="ImageUrl" class="control-label">Upload Image</label>
-                        <input type="file" name="ImageUrl" class="btn btn-outline-secondary">
+                        <input type="file" name="ImageUrl" class="btn btn-outline-secondary" required />
                         <span asp-validation-for="ImageUrl" class="text-danger"></span>
                     </div>
                     <div class="form-group">

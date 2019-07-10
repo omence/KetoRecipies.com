@@ -75,9 +75,9 @@ namespace KetoRecipies.Controllers
                     recipes1 = recipes1.Union(temp2).ToList();
 
                 }
-                int pageSize = 100;
+                int pageSize = 27;
                 int pageNumber = (page ?? 1);
-        
+
                 return View(recipes1.ToPagedList(pageNumber, pageSize));
             }
             int pageSize2 = 27;
@@ -180,7 +180,7 @@ namespace KetoRecipies.Controllers
         /// <returns>View</returns>
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult>AddFavorite(int id)
+        public async Task<IActionResult> AddFavorite(int id)
         {
             var userId = _userManager.GetUserId(User);
             var checkForDupe = _context.favorites.FirstOrDefault(f => f.UserID == userId && f.RecipeID == id);
@@ -206,7 +206,7 @@ namespace KetoRecipies.Controllers
 
         [Authorize]
         [HttpPost]
-        public async  Task<IActionResult> Create(string Label, string Ingridients, string Instructions, string Source, string SourceUrl, decimal Yield, decimal TotalTime, decimal TotalCarbsServ, decimal TotalFatServ, decimal TotalCaloriesServ, IFormFile ImageUrl, string VideoUrl)
+        public async Task<IActionResult> Create(string Label, string Ingridients, string Instructions, string Source, string SourceUrl, decimal Yield, decimal TotalTime, decimal TotalCarbsServ, decimal TotalFatServ, decimal TotalCaloriesServ, IFormFile ImageUrl, string VideoUrl)
         {
             var userId = _userManager.GetUserId(User);
             Recipe recipe = new Recipe();
@@ -217,7 +217,7 @@ namespace KetoRecipies.Controllers
                 ImageUrl.CopyTo(new FileStream(fileName, FileMode.Create));
                 recipe.ImageUrl = "/Images/" + Path.GetFileName(ImageUrl.FileName);
             }
-            
+
             recipe.UserId = userId;
             recipe.Label = Label;
             recipe.Ingridients = Ingridients;
@@ -233,7 +233,7 @@ namespace KetoRecipies.Controllers
             _context.recipes.Add(recipe);
             _context.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("MyRecipes");
         }
 
         [HttpGet]
@@ -287,6 +287,34 @@ namespace KetoRecipies.Controllers
             var recipes = _context.recipes.Where(r => r.UserId == userId).OrderBy(r => r.Label).ToList();
 
             return View(recipes);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult DeleteAreYouSure(int ID)
+        {
+            if (ID > 0)
+            {
+                var delete = _context.recipes.FirstOrDefault(r => r.ID == ID);
+
+                return View(delete);
+            }
+            return RedirectToAction("MyRecipes");
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Delete(int ID)
+        {
+            if (ID > 0)
+            {
+                var toDelete = _context.recipes.FirstOrDefault(r => r.ID == ID);
+                _context.recipes.Remove(toDelete);
+                _context.SaveChanges();
+
+                return RedirectToAction("MyRecipes");
+            }
+            return RedirectToAction("MyRecipes");
         }
     }
 }

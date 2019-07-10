@@ -1,0 +1,21 @@
+﻿@model KetoRecipies.Models.Recipe
+
+@{
+    ViewData["Title"] = "DeleteAreYouSure";
+}
+
+<h1 class="mt-3">Delete</h1>
+
+<div class="container">
+    <div class="card-deck">
+        <div class="card card text-center mb-1 row">
+            <div class="card-body text-center parent col-sm">
+                <h3>Are you sure you want to delete @Model.Label?</h3>
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" name="ID" asp-for="ID" value="@Model.ID" /><button class="btn border" type="submit">Yes Delete</button>
+                </form>
+                <a asp-action="MyRecipes">No Back to List</a>
+            </div>
+            </div>
+</div>
+</div>

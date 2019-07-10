@@ -37,10 +37,10 @@
                     @if (SignInManager.IsSignedIn(User))
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-light mr-auto" href="~/Favorite"><h3>My Favorites</h3></a>
+                            <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "MyRecipes" ? "nav-link text-light mr-auto" : "nav-link text-light mr-auto active")" href="~/Favorite"><h3>My Favorites</h3></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light mr-auto" href="~/Home/MyRecipes"><h3>My Recipes</h3></a>
+                            <a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Favorite" ? "nav-link text-light mr-auto" : "nav-link text-light mr-auto active")" href="~/Home/MyRecipes"><h3>My Recipes</h3></a>
                         </li>
                         <form class="form-inline my-2 my-lg-0" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                             <button type="submit" class="nav-btn btn border">Logout</button>
@@ -60,83 +60,195 @@
                 <div class="carousel-inner row w-100 mx-auto" role="listbox">
                     <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3 active">
                         <img src="@randomRecipes[0].ImageUrl" class="img-fluid mx-auto d-block" alt="img1">
-                        <a href="@randomRecipes[0].SourceUrl" target="_blank">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>@randomRecipes[0].Label</h5>
-                            </div>
-                        </a>
+                        @if (@randomRecipes[0].SourceUrl != null)
+                        {
+                            <a href="@randomRecipes[0].SourceUrl" target="_blank">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>@randomRecipes[0].Label</h5>
+                                </div>
+                            </a>
+                        }
+                        @if (@randomRecipes[0].SourceUrl != null)
+                        {
+                            <a asp-action="Details" asp-route-id="@randomRecipes[0].ID">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>@randomRecipes[0].Label</h5>
+                                </div>
+                            </a>
+                        }
                     </div>
                     <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
                         <img src="@randomRecipes[1].ImageUrl" class="img-fluid mx-auto d-block" alt="img2">
-                        <a href="@randomRecipes[1].SourceUrl" target="_blank">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>@randomRecipes[1].Label</h5>
-                            </div>
-                        </a>
+                        @if (@randomRecipes[1].SourceUrl != null)
+                        {
+                            <a href="@randomRecipes[1].SourceUrl" target="_blank">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>@randomRecipes[1].Label</h5>
+                                </div>
+                            </a>
+                        }
+                        @if (@randomRecipes[1].SourceUrl != null)
+                        {
+                            <a asp-action="Details" asp-route-id="@randomRecipes[1].ID">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>@randomRecipes[1].Label</h5>
+                                </div>
+                            </a>
+                        }
                     </div>
                     <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
                         <img src="@randomRecipes[2].ImageUrl" class="img-fluid mx-auto d-block" alt="img3">
-                        <a href="@randomRecipes[2].SourceUrl" target="_blank">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>@randomRecipes[2].Label</h5>
-                            </div>
-                        </a>
+                        @if (@randomRecipes[2].SourceUrl != null)
+                        {
+                            <a href="@randomRecipes[2].SourceUrl" target="_blank">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>@randomRecipes[2].Label</h5>
+                                </div>
+                            </a>
+                        }
+                        @if (@randomRecipes[2].SourceUrl != null)
+                        {
+                            <a asp-action="Details" asp-route-id="@randomRecipes[2].ID">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>@randomRecipes[2].Label</h5>
+                                </div>
+                            </a>
+                        }
                     </div>
                     <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
                         <img src="@randomRecipes[3].ImageUrl" class="img-fluid mx-auto d-block" alt="img4">
-                        <a href="@randomRecipes[3].SourceUrl" target="_blank">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>@randomRecipes[3].Label</h5>
-                            </div>
-                        </a>
+                        @if (@randomRecipes[3].SourceUrl != null)
+                        {
+                            <a href="@randomRecipes[3].SourceUrl" target="_blank">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>@randomRecipes[3].Label</h5>
+                                </div>
+                            </a>
+                        }
+                        @if (@randomRecipes[3].SourceUrl != null)
+                        {
+                            <a asp-action="Details" asp-route-id="@randomRecipes[3].ID">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>@randomRecipes[3].Label</h5>
+                                </div>
+                            </a>
+                        }
                     </div>
                     <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
                         <img src="@randomRecipes[4].ImageUrl" class="img-fluid mx-auto d-block" alt="img5">
-                        <a href="@randomRecipes[4].SourceUrl" target="_blank">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>@randomRecipes[4].Label</h5>
-                            </div>
-                        </a>
+                        @if (@randomRecipes[4].SourceUrl != null)
+                        {
+                            <a href="@randomRecipes[4].SourceUrl" target="_blank">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>@randomRecipes[4].Label</h5>
+                                </div>
+                            </a>
+                        }
+                        @if (@randomRecipes[4].SourceUrl != null)
+                        {
+                            <a asp-action="Details" asp-route-id="@randomRecipes[4].ID">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>@randomRecipes[4].Label</h5>
+                                </div>
+                            </a>
+                        }
                     </div>
                     <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
                         <img src="@randomRecipes[5].ImageUrl" class="img-fluid mx-auto d-block" alt="img6">
-                        <a href="@randomRecipes[5].SourceUrl" target="_blank">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>@randomRecipes[5].Label</h5>
-                            </div>
-                        </a>
+                        @if (@randomRecipes[5].SourceUrl != null)
+                        {
+                            <a href="@randomRecipes[5].SourceUrl" target="_blank">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>@randomRecipes[5].Label</h5>
+                                </div>
+                            </a>
+                        }
+                        @if (@randomRecipes[5].SourceUrl != null)
+                        {
+                            <a asp-action="Details" asp-route-id="@randomRecipes[5].ID">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>@randomRecipes[5].Label</h5>
+                                </div>
+                            </a>
+                        }
                     </div>
                     <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
                         <img src="@randomRecipes[6].ImageUrl" class="img-fluid mx-auto d-block" alt="img7">
                         <a href="@randomRecipes[6].SourceUrl" target="_blank">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>@randomRecipes[6].Label</h5>
-                            </div>
+                            @if (@randomRecipes[6].SourceUrl != null)
+                            {
+                                <a href="@randomRecipes[6].SourceUrl" target="_blank">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5>@randomRecipes[6].Label</h5>
+                                    </div>
+                                </a>
+                            }
+                            @if (@randomRecipes[6].SourceUrl != null)
+                            {
+                                <a asp-action="Details" asp-route-id="@randomRecipes[6].ID">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5>@randomRecipes[6].Label</h5>
+                                    </div>
+                                </a>
+                            }
                         </a>
                     </div>
                     <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
                         <img src="@randomRecipes[7].ImageUrl" class="img-fluid mx-auto d-block" alt="img8">
-                        <a href="@randomRecipes[7].SourceUrl" target="_blank">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>@randomRecipes[7].Label</h5>
-                            </div>
-                        </a>
+                        @if (@randomRecipes[7].SourceUrl != null)
+                        {
+                            <a href="@randomRecipes[7].SourceUrl" target="_blank">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>@randomRecipes[7].Label</h5>
+                                </div>
+                            </a>
+                        }
+                        @if (@randomRecipes[7].SourceUrl != null)
+                        {
+                            <a asp-action="Details" asp-route-id="@randomRecipes[7].ID">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>@randomRecipes[7].Label</h5>
+                                </div>
+                            </a>
+                        }
                     </div>
                     <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
                         <img src="@randomRecipes[8].ImageUrl" class="img-fluid mx-auto d-block" alt="img9">
-                        <a href="@randomRecipes[8].SourceUrl" target="_blank">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>@randomRecipes[8].Label</h5>
-                            </div>
-                        </a>
+                        @if (@randomRecipes[8].SourceUrl != null)
+                        {
+                            <a href="@randomRecipes[8].SourceUrl" target="_blank">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>@randomRecipes[8].Label</h5>
+                                </div>
+                            </a>
+                        }
+                        @if (@randomRecipes[8].SourceUrl != null)
+                        {
+                            <a asp-action="Details" asp-route-id="@randomRecipes[8].ID">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>@randomRecipes[8].Label</h5>
+                                </div>
+                            </a>
+                        }
                     </div>
                     <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
                         <img src="@randomRecipes[9].ImageUrl" class="img-fluid mx-auto d-block" alt="img10">
-                        <a href="@randomRecipes[9].SourceUrl" target="_blank">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>@randomRecipes[9].Label</h5>
-                            </div>
-                        </a>
+                        @if (@randomRecipes[9].SourceUrl != null)
+                        {
+                            <a href="@randomRecipes[9].SourceUrl" target="_blank">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>@randomRecipes[9].Label</h5>
+                                </div>
+                            </a>
+                        }
+                        @if (@randomRecipes[9].SourceUrl != null)
+                        {
+                            <a asp-action="Details" asp-route-id="@randomRecipes[9].ID">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>@randomRecipes[9].Label</h5>
+                                </div>
+                            </a>
+                        }
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#carousel-example" role="button" data-slide="prev">

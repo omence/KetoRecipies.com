@@ -59,10 +59,9 @@
                     }
                     @if (item.SourceUrl == null)
                     {
-                        <form asp-action="Details">
-                            <input type="hidden" name="ID" value="@item.ID"/>
-                            <label style="font-weight:bold;">See Full Details: <button class="btn border" type="submit">Click Here</button></label>
-                        </form>
+                        <p class="card-subtitle mt-2">
+                            <span style="font-weight:bold;">See Full Details:</span> <a asp-action="Details" asp-route-id="@item.ID">Click Here</a>
+                        </p>
                     }
                     <hr />
                     <p style="font-weight:bold;">Nutrient Facts Per Serving:</p>
@@ -87,9 +86,18 @@
 
 
 </div>
-<div id="container" style="margin-left: 20px">
-    <p>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </p>
-    <div class="pagination" style="margin-left: 350px">
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+@if(Model.PageCount > 1)
+{
+<div class="container">
+    <div class="card-deck">
+        <div class="card card text-center mb-1 row">
+            <div class="card-body text-center parent col-sm">
+                <p>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </p>
+                <div class="pagination" style="margin-left: 350px">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                </div>
+            </div>
+        </div>
     </div>
-</div>  
+</div>
+}
