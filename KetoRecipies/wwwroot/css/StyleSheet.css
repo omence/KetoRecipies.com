@@ -10,7 +10,7 @@
     color: deepskyblue !important;
 }
 a h3:hover {
-    color: deepskyblue !important;
+    color: deepskyblue;
 }
 html {
     position: relative;
@@ -45,7 +45,6 @@ button:hover {
     width: 100%;
     z-index: +100;
     border-bottom: 1px solid black;
-    color:white;
 }
 .navbar-brand {
     font-family: 'Pacifico';
@@ -54,6 +53,7 @@ button:hover {
 .active {
     font-style: italic;
     font-weight: bold;
+    color:deepskyblue;
 }
 
 /*
