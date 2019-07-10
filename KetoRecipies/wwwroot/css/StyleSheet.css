@@ -1,21 +1,27 @@
 ﻿@import url('https://fonts.googleapis.com/css?family=Pacifico|Righteous|Roboto+Condensed|Ubuntu&display=swap');
+
 * {
     border-radius: 0 !important;
     box-shadow: none !important;
 }
+
 .nav-btn {
     background-color: white;
 }
+
 .navbar-brand:hover {
     color: deepskyblue !important;
 }
+
 a h3:hover {
-    color: deepskyblue;
+    color: deepskyblue !important;
 }
+
 html {
     position: relative;
     min-height: 100%;
 }
+
 body {
     padding: 0%;
     margin: 0%;
@@ -31,29 +37,32 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
 header {
-    
 }
 
 button:hover {
     background-color: deepskyblue;
     color: white !important;
 }
+
 .navbar {
     position: fixed;
     top: 0px;
     width: 100%;
     z-index: +100;
     border-bottom: 1px solid black;
+    color: white;
 }
+
 .navbar-brand {
     font-family: 'Pacifico';
     color: white;
 }
+
 .active {
     font-style: italic;
     font-weight: bold;
-    color:deepskyblue;
 }
 
 /*
@@ -65,10 +74,11 @@ button:hover {
 
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .ul.pagination {
@@ -96,7 +106,7 @@ ul.pagination li {
 
         ul.pagination li a:hover:not(.active) {
             background-color: #ddd;
-        }   
+        }
 
 @media screen and (max-width: 872px) {
     html {
@@ -115,19 +125,19 @@ ul.pagination li {
     .container {
         width: 100%;
         align-content: center;
-        margin:0px;
+        margin: 0px;
     }
 
     .card {
         width: 100%;
         align-self: center;
-        margin:0px;
+        margin: 0px;
     }
 
     .card-body {
         width: 100%;
         align-self: center;
-        margin:0px;
+        margin: 0px;
     }
 }
 
@@ -137,10 +147,11 @@ ul.pagination li {
 */
 @media (min-width: 768px) and (max-width: 991px) {
     /* Show 4th slide on md if col-md-4*/
-    .img-fluid{
-        width:175px;
-        height:auto;
+    .img-fluid {
+        width: 175px;
+        height: auto;
     }
+
     .carousel-inner .active.col-md-4.carousel-item + .carousel-item + .carousel-item + .carousel-item {
         position: absolute;
         top: 0;
@@ -246,6 +257,7 @@ ul.pagination li {
         width: 175px;
         height: auto;
     }
+
     .carousel-inner .active + .carousel-item + .carousel-item + .carousel-item {
         display: block;
     }
