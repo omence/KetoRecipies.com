@@ -255,10 +255,16 @@ namespace KetoRecipies.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult Edit(int ID, string UserId, string Label, string Ingridients, string Instructions, string Source, string SourceUrl, decimal Yield, decimal TotalTime, decimal TotalCarbsServ, decimal TotalFatServ, decimal TotalCaloriesServ, string ImageUrl, string VideoUrl)
+        public IActionResult Edit(int ID, string UserId, string Label, string Ingridients, string Instructions, string Source, string SourceUrl, decimal Yield, decimal TotalTime, decimal TotalCarbsServ, decimal TotalFatServ, decimal TotalCaloriesServ, IFormFile ImageUrl, string VideoUrl)
         {
             var recipe = _context.recipes.FirstOrDefault(r => r.ID == ID);
 
+            if (ImageUrl != null)
+            {
+                var fileName = Path.Combine($"{_he.WebRootPath}/Images", Path.GetFileName(ImageUrl.FileName));
+                ImageUrl.CopyTo(new FileStream(fileName, FileMode.Create));
+                recipe.ImageUrl = "/Images/" + Path.GetFileName(ImageUrl.FileName);
+            }
             recipe.UserId = UserId;
             recipe.Label = Label;
             recipe.Ingridients = Ingridients;
@@ -269,7 +275,6 @@ namespace KetoRecipies.Controllers
             recipe.TotalCarbsServ = TotalCarbsServ;
             recipe.TotalFatServ = TotalFatServ;
             recipe.TotalCaloriesServ = TotalCaloriesServ;
-            recipe.ImageUrl = ImageUrl;
             recipe.VideoUrl = VideoUrl;
 
             _context.recipes.Update(recipe);

@@ -17,7 +17,7 @@
 </head>
 <body class="justify-content-center bg-light">
     <header>
-        <nav class="navbar shadow-none special-color-dark navbar-expand-lg">
+        <nav class="navbar navbar-expand-lg shadow-none navbar-dark bg-dark">
             <a class="navbar-brand shadow-none ml-3" asp-area="" asp-controller="Home" asp-action="Index"><h3>KetoRecipies.com</h3></a>
             <button class="navbar-toggler" data-toggle="collapse" data-target="#nav1" aria-controls="nav1" aria-expanded="false" aria-label="Toggle Navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -37,10 +37,10 @@
                     @if (SignInManager.IsSignedIn(User))
                     {
                         <li class="nav-item">
-                            <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "MyRecipes" ? "nav-link text-light mr-auto" : "nav-link text-light mr-auto active")" href="~/Favorite"><h3>My Favorites</h3></a>
+                            <a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Favorite" ? "nav-link text-light mr-auto active" : "nav-link text-light mr-auto ")" href="~/Favorite"><h3>My Favorites</h3></a>
                         </li>
                         <li class="nav-item">
-                            <a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Favorite" ? "nav-link text-light mr-auto" : "nav-link text-light mr-auto active")" href="~/Home/MyRecipes"><h3>My Recipes</h3></a>
+                            <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "MyRecipes" ? "nav-link text-light mr-auto active" : "nav-link text-light mr-auto")" href="~/Home/MyRecipes"><h3>My Recipes</h3></a>
                         </li>
                         <form class="form-inline my-2 my-lg-0" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                             <button type="submit" class="nav-btn btn border">Logout</button>
@@ -174,7 +174,6 @@
                     </div>
                     <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
                         <img src="@randomRecipes[6].ImageUrl" class="img-fluid mx-auto d-block" alt="img7">
-                        <a href="@randomRecipes[6].SourceUrl" target="_blank">
                             @if (@randomRecipes[6].SourceUrl != null)
                             {
                                 <a href="@randomRecipes[6].SourceUrl" target="_blank">
