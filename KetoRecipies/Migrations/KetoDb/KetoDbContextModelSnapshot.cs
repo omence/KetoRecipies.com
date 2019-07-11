@@ -35,11 +35,30 @@ namespace KetoRecipies.Migrations.KetoDb
                     b.ToTable("favorites");
                 });
 
+            modelBuilder.Entity("KetoRecipies.Models.Like", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Liked");
+
+                    b.Property<int>("RecipeId");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Likes");
+                });
+
             modelBuilder.Entity("KetoRecipies.Models.Recipe", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("DisLikeCount");
 
                     b.Property<string>("ImageUrl");
 
@@ -48,6 +67,8 @@ namespace KetoRecipies.Migrations.KetoDb
                     b.Property<string>("Instructions");
 
                     b.Property<string>("Label");
+
+                    b.Property<int>("LikeCount");
 
                     b.Property<string>("Source");
 

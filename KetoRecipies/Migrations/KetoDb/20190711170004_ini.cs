@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace KetoRecipies.Migrations.KetoDb
 {
-    public partial class initial : Migration
+    public partial class ini : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,6 +13,7 @@ namespace KetoRecipies.Migrations.KetoDb
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<string>(nullable: true),
                     Label = table.Column<string>(nullable: true),
                     Ingridients = table.Column<string>(nullable: true),
                     Instructions = table.Column<string>(nullable: true),
@@ -51,16 +52,45 @@ namespace KetoRecipies.Migrations.KetoDb
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Likes",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    RecipeId = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    Liked = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Likes", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Likes_recipes_RecipeId",
+                        column: x => x.RecipeId,
+                        principalTable: "recipes",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_favorites_RecipeID",
                 table: "favorites",
                 column: "RecipeID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Likes_RecipeId",
+                table: "Likes",
+                column: "RecipeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "favorites");
+
+            migrationBuilder.DropTable(
+                name: "Likes");
 
             migrationBuilder.DropTable(
                 name: "recipes");

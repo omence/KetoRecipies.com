@@ -38,9 +38,6 @@ footer {
     width: 100%;
 }
 
-header {
-}
-
 button:hover {
     background-color: deepskyblue;
     color: white !important;

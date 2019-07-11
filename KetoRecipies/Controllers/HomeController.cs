@@ -42,6 +42,11 @@ namespace KetoRecipies.Controllers
         {
             //await GetRecipes();
             var recipes = _context.recipes.OrderBy(r => r.Label).ToList();
+            foreach(var i in recipes)
+            {
+                i.LikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == true).Count();
+                i.DisLikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == false).Count();
+            }
             int pageSize = 27;
             int pageNumber = (page ?? 1);
             return View(recipes.ToPagedList(pageNumber, pageSize));
@@ -110,7 +115,7 @@ namespace KetoRecipies.Controllers
                 {
                     //call made to the api
                     client.BaseAddress = new Uri($"https://api.edamam.com/search");
-                    string search = "low carb";
+                    string search = "keto";
 
                     var response = await client.GetAsync($"?q={search}&app_id={ID}&app_key={API}&from=0&to=100");
 
@@ -240,6 +245,8 @@ namespace KetoRecipies.Controllers
         public IActionResult Details(int ID)
         {
             var recipe = _context.recipes.FirstOrDefault(r => r.ID == ID);
+            recipe.LikeCount = _context.Likes.Where(l => l.RecipeId == recipe.ID && l.Liked == true).Count();
+            recipe.DisLikeCount = _context.Likes.Where(l => l.RecipeId == recipe.ID && l.Liked == false).Count();
 
             return View(recipe);
         }
@@ -320,6 +327,26 @@ namespace KetoRecipies.Controllers
                 return RedirectToAction("MyRecipes");
             }
             return RedirectToAction("MyRecipes");
+        }
+
+        public IActionResult Like(int ID)
+        {
+            LikeController lc = new LikeController(_context);
+            var userId = _userManager.GetUserId(User);
+
+            lc.Like(ID, userId);
+
+            return RedirectToAction("Details", new { ID });
+        }
+
+        public IActionResult DisLike(int ID)
+        {
+            LikeController lc = new LikeController(_context);
+            var userId = _userManager.GetUserId(User);
+
+            lc.DisLike(ID, userId);
+
+            return RedirectToAction("Details", new { ID });
         }
     }
 }

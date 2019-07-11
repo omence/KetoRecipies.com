@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KetoRecipies.Migrations.KetoDb
 {
     [DbContext(typeof(KetoDbContext))]
-    [Migration("20190708151915_initial")]
-    partial class initial
+    [Migration("20190711190320_cha")]
+    partial class cha
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,11 +37,30 @@ namespace KetoRecipies.Migrations.KetoDb
                     b.ToTable("favorites");
                 });
 
+            modelBuilder.Entity("KetoRecipies.Models.Like", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Liked");
+
+                    b.Property<int>("RecipeId");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Likes");
+                });
+
             modelBuilder.Entity("KetoRecipies.Models.Recipe", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("DisLikeCount");
 
                     b.Property<string>("ImageUrl");
 
@@ -50,6 +69,8 @@ namespace KetoRecipies.Migrations.KetoDb
                     b.Property<string>("Instructions");
 
                     b.Property<string>("Label");
+
+                    b.Property<int>("LikeCount");
 
                     b.Property<string>("Source");
 
@@ -62,6 +83,8 @@ namespace KetoRecipies.Migrations.KetoDb
                     b.Property<decimal>("TotalFatServ");
 
                     b.Property<decimal>("TotalTime");
+
+                    b.Property<string>("UserId");
 
                     b.Property<string>("VideoUrl");
 
