@@ -60,7 +60,12 @@ namespace KetoRecipies.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(string SearchString, int? page)
         {
-            var recipes = _context.recipes.ToList();
+            var recipes = _context.recipes.OrderBy(r => r.Label).ToList();
+            foreach (var i in recipes)
+            {
+                i.LikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == true).Count();
+                i.DisLikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == false).Count();
+            }
 
             if (!String.IsNullOrEmpty(SearchString))
             {
@@ -297,6 +302,11 @@ namespace KetoRecipies.Controllers
             var userId = _userManager.GetUserId(User);
 
             var recipes = _context.recipes.Where(r => r.UserId == userId).OrderBy(r => r.Label).ToList();
+            foreach(var i in recipes)
+            {
+                i.LikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == true).Count();
+                i.DisLikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == false).Count();
+            }
 
             return View(recipes);
         }
