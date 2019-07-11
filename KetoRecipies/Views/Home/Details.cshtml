@@ -3,56 +3,62 @@
 @{
     ViewData["Title"] = "Details";
 }
-
+@if (TempData["Error"] != null)
+{
+    <div>
+        <h2 style="color:lightgreen;"><strong>Error:</strong> @TempData["Error"].ToString()</h2>
+    </div>
+}
 <h1 class="mt-3 mb-3">@Model.Label</h1>
 
 <div class="container row ml-0">
 
 
 
-        <div class="card-deck col">
+    <div class="card-deck col">
 
-            <div class="card mb-3">
-                <img src="@Model.ImageUrl" class="card-img-top" />
-                <div class="card-body" style="align-self:center;">
-                    <h2>Serves: @Model.Yield | Time to Cook @Model.TotalTime min</h2>
-                    <hr />
-                    <h3 style="font-weight:bold;">Nutrient Facts Per Serving:</h3>
-                    <h3>Calories: @Model.TotalCaloriesServ | Carbs: @Model.TotalCarbsServ | Fat: @Model.TotalFatServ</h3>
-                    <hr />
-                    @if (Model.VideoUrl != null)
+        <div class="card mb-3">
+            <img src="@Model.ImageUrl" class="card-img-top" />
+            <div class="card-body" style="align-self:center;">
+                <h2><span style="font-weight:bold;">Serves:</span> @Model.Yield | <span style="font-weight:bold;">Time to Cook:</span> @Model.TotalTime min</h2>
+                <hr />
+                <h3><span style="font-weight:bold;">Calories:</span> @Model.TotalCaloriesServ/Serving | <span style="font-weight:bold;">Carbs:</span> @Model.TotalCarbsServ/Serving | <span style="font-weight:bold;">Fat:</span> @Model.TotalFatServ/Serving</h3>
+                <hr />
+                @if (Model.VideoUrl != null)
+                {
+                    if (Model.VideoUrl.Contains("https://www.youtube.com/watch?v="))
                     {
-                        if (Model.VideoUrl.Contains("https://www.youtube.com/watch?v="))
-                        {
-                            Model.VideoUrl = Model.VideoUrl.Replace("https://www.youtube.com/watch?v=", "https://www.youtube.com/embed/");
+                        Model.VideoUrl = Model.VideoUrl.Replace("https://www.youtube.com/watch?v=", "https://www.youtube.com/embed/");
 
-                            <iframe width="560" height="315" src="@Model.VideoUrl" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        }
-
-                        if (Model.VideoUrl.Contains("https://youtu.be/"))
-                        {
-                            Model.VideoUrl = Model.VideoUrl.Replace("https://youtu.be/", "https://www.youtube.com/embed/");
-
-                            <div class="embed-responsive embed-responsive-16by9">
-                                <iframe width="90%" height="auto" src="@Model.VideoUrl" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                            </div>
-                        }
-                        <hr />
+                        <iframe width="560" height="315" src="@Model.VideoUrl" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     }
-                    <h3 style="font-weight:bold;">Ingredients</h3>
-                    <h3>@Model.Ingridients</h3>
-                    <hr />
-                    <h3 style="font-weight:bold;">Instructions</h3>
-                    <h3>@Model.Instructions</h3>
-                    <hr />
-                    <h3 class="card-title mt-2">
-                        By: @Model.Source
-                    </h3>
-                </div>
-            </div>
 
+                    if (Model.VideoUrl.Contains("https://youtu.be/"))
+                    {
+                        Model.VideoUrl = Model.VideoUrl.Replace("https://youtu.be/", "https://www.youtube.com/embed/");
+
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe width="90%" height="auto" src="@Model.VideoUrl" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    }
+                    <hr />
+                }
+                <h3 style="font-weight:bold;">Ingredients</h3>
+                <h3>@Model.Ingridients</h3>
+                <hr />
+                <h3 style="font-weight:bold;">Instructions</h3>
+                <h3>@Model.Instructions</h3>
+                <hr />
+                <h3 class="card-title mt-2">
+                    By: @Model.Source
+                </h3>
+                <a asp-action="Like" asp-route-id="@Model.ID"><i style="color:deepskyblue;" class="fa mr-3 mt-5 fa-3x fa-thumbs-up"></i></a> @Model.LikeCount
+                <a asp-action="DisLike" asp-route-id="@Model.ID"><i style="color:deepskyblue;" class="fa ml-3 mt-5 fa-3x fa-thumbs-down" aria-hidden="true"></i></a> @Model.DisLikeCount
+            </div>
         </div>
-    
+
+    </div>
+
 
 
 </div>

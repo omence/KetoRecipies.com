@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KetoRecipies.Migrations.KetoDb
 {
     [DbContext(typeof(KetoDbContext))]
-    [Migration("20190708214846_change")]
-    partial class change
+    [Migration("20190711170004_ini")]
+    partial class ini
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,6 +35,25 @@ namespace KetoRecipies.Migrations.KetoDb
                     b.HasIndex("RecipeID");
 
                     b.ToTable("favorites");
+                });
+
+            modelBuilder.Entity("KetoRecipies.Models.Like", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Liked");
+
+                    b.Property<int>("RecipeId");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("KetoRecipies.Models.Recipe", b =>
@@ -79,6 +98,14 @@ namespace KetoRecipies.Migrations.KetoDb
                     b.HasOne("KetoRecipies.Models.Recipe", "Recipe")
                         .WithMany()
                         .HasForeignKey("RecipeID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("KetoRecipies.Models.Like", b =>
+                {
+                    b.HasOne("KetoRecipies.Models.Recipe")
+                        .WithMany("Likes")
+                        .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
