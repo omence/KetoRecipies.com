@@ -44,10 +44,10 @@
                     <hr />
                 }
                 <h3 style="font-weight:bold;" class="text-left">Ingredients</h3>
-                <h3 class="text-left">@Model.Ingridients</h3>
+                @Html.Raw(Model.Ingridients)
                 <hr />
                 <h3 style="font-weight:bold;" class="text-left">Instructions</h3>
-                <h3 class="text-left">@Model.Instructions</h3>
+                @Html.Raw(Model.Instructions)
                 <hr />
                 <h3 class="card-title mt-2">
                     By: @Model.Source

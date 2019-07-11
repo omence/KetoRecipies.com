@@ -20,3 +20,4 @@ $('#carousel-example').on('slide.bs.carousel', function (e) {
     }
 });
 
+$('.textEdit').trumbowyg();
