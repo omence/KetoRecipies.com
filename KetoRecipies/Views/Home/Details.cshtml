@@ -30,7 +30,7 @@
                     {
                         Model.VideoUrl = Model.VideoUrl.Replace("https://www.youtube.com/watch?v=", "https://www.youtube.com/embed/");
 
-                        <iframe width="560" height="315" src="@Model.VideoUrl" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe width="90%" height="auto" src="@Model.VideoUrl" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     }
 
                     if (Model.VideoUrl.Contains("https://youtu.be/"))

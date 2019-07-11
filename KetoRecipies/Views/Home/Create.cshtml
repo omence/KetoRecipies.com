@@ -34,7 +34,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Yield" class="control-label">How many servings will this recipe make?</label>
-                        <input asp-for="Yield" class="form-control" required/>
+                        <input type="number" asp-for="Yield" class="form-control" required/>
                         <span asp-validation-for="Yield" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -44,17 +44,17 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="TotalCarbsServ" class="control-label">Total carbs per serving</label>
-                        <input asp-for="TotalCarbsServ" class="form-control" required/>
+                        <input type="number" asp-for="TotalCarbsServ" class="form-control" required/>
                         <span asp-validation-for="TotalCarbsServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="TotalFatServ" class="control-label">Total fat per serving</label>
-                        <input asp-for="TotalFatServ" class="form-control" required/>
+                        <input type="number" asp-for="TotalFatServ" class="form-control" required/>
                         <span asp-validation-for="TotalFatServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="TotalCaloriesServ" class="control-label">Total calories per serving</label>
-                        <input asp-for="TotalCaloriesServ" class="form-control" required/>
+                        <input type="number" asp-for="TotalCaloriesServ" class="form-control" required/>
                         <span asp-validation-for="TotalCaloriesServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -63,7 +63,7 @@
                         <span asp-validation-for="ImageUrl" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="VideoUrl" class="control-label">If you have a YouTube video of the prep paste the url here</label>
+                        <label asp-for="VideoUrl" class="control-label">If you have a YouTube video associated with the recipe.  Right click on your playing video and select the "<span style="color:deepskyblue">Copy video URL</span>" option and paste it here. <br /><span style="color:red;">WARNING do NOT select the "Copy video URL at current time" option or the video will not play.</span></label>
                         <input asp-for="VideoUrl" class="form-control" />
                         <span asp-validation-for="VideoUrl" class="text-danger"></span>
                     </div>
