@@ -36,6 +36,9 @@ namespace KetoRecipies.Controllers
             foreach (var f in favs)
             {
                 f.Recipe = _context.recipes.FirstOrDefault(r => r.ID == f.RecipeID);
+                f.Recipe.LikeCount = _context.Likes.Where(l => l.RecipeId == f.Recipe.ID && l.Liked == true).Count();
+                f.Recipe.DisLikeCount = _context.Likes.Where(l => l.RecipeId == f.Recipe.ID && l.Liked == false).Count();
+                
             }
 
             //search keyword from users favorite page
