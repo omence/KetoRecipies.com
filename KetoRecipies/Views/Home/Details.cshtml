@@ -1,5 +1,7 @@
 ﻿@model KetoRecipies.Models.Recipe
-
+@using Microsoft.AspNetCore.Identity
+@using KetoRecipies.Data
+@inject SignInManager<IdentityUser> SignInManager
 @{
     ViewData["Title"] = "Details";
 }
@@ -52,8 +54,12 @@
                 <h3 class="card-title mt-2">
                     By: @Model.Source
                 </h3>
-                <a asp-action="Like" asp-route-id="@Model.ID"><i style="color:deepskyblue;" class="fa mr-3 mt-5 fa-3x fa-thumbs-up"></i></a> @Model.LikeCount
-                <a asp-action="DisLike" asp-route-id="@Model.ID"><i style="color:deepskyblue;" class="fa ml-3 mt-5 fa-3x fa-thumbs-down" aria-hidden="true"></i></a> @Model.DisLikeCount
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <a asp-action="Like" asp-route-id="@Model.ID"><i style="color:deepskyblue;" class="fa mr-3 mt-5 fa-3x fa-thumbs-up"></i></a> @Model.LikeCount
+                    <a asp-action="DisLike" asp-route-id="@Model.ID"><i style="color:deepskyblue;" class="fa ml-3 mt-5 fa-3x fa-thumbs-down" aria-hidden="true"></i></a> @Model.DisLikeCount
+                    <a id="Here"></a>
+                }
             </div>
         </div>
 

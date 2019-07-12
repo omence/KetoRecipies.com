@@ -13,52 +13,52 @@
                 <form asp-action="Create" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="Label" class="control-label">Name of Dish</label>
+                        <label asp-for="Label" class="control-label"><h4>Name of Dish</h4></label>
                         <input asp-for="Label" class="form-control" required/>
                         <span asp-validation-for="Label" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Ingridients" class="control-label"></label>
+                        <label asp-for="Ingridients" class="control-label"><h4>Ingridients</h4></label>
                         <textarea asp-for="Ingridients" class="form-control textEdit" required></textarea>
                         <span asp-validation-for="Ingridients" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Instructions" class="control-label"></label>
+                        <label asp-for="Instructions" class="control-label"><h4>Instructions</h4></label>
                         <textarea asp-for="Instructions" class="form-control textEdit" required></textarea>
                         <span asp-validation-for="Instructions" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Source" class="control-label">Your Name</label>
+                        <label asp-for="Source" class="control-label"><h4>Your Name</h4></label>
                         <input asp-for="Source" class="form-control" required/>
                         <span asp-validation-for="Source" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Yield" class="control-label">How many servings will this recipe make?</label>
+                        <label asp-for="Yield" class="control-label"><h4>How many servings will this recipe make?</h4></label>
                         <input type="number" asp-for="Yield" class="form-control" required/>
                         <span asp-validation-for="Yield" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="TotalTime" class="control-label">How many minutes to prepare dish?</label>
+                        <label asp-for="TotalTime" class="control-label"><h4>How many minutes to prepare dish?</h4></label>
                         <input type="number" asp-for="TotalTime" class="form-control" required/>
                         <span asp-validation-for="TotalTime" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="TotalCarbsServ" class="control-label">Total carbs per serving</label>
+                        <label asp-for="TotalCarbsServ" class="control-label"><h4>Total carbs per serving</h4></label>
                         <input type="number" asp-for="TotalCarbsServ" class="form-control" required/>
                         <span asp-validation-for="TotalCarbsServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="TotalFatServ" class="control-label">Total fat per serving</label>
+                        <label asp-for="TotalFatServ" class="control-label"><h4>Total fat per serving</h4></label>
                         <input type="number" asp-for="TotalFatServ" class="form-control" required/>
                         <span asp-validation-for="TotalFatServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="TotalCaloriesServ" class="control-label">Total calories per serving</label>
+                        <label asp-for="TotalCaloriesServ" class="control-label"><h4>Total calories per serving</h4></label>
                         <input type="number" asp-for="TotalCaloriesServ" class="form-control" required/>
                         <span asp-validation-for="TotalCaloriesServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="ImageUrl" class="control-label">Upload Image</label>
+                        <label asp-for="ImageUrl" class="control-label"><h4>Upload Image</h4></label>
                         <input type="file" name="ImageUrl" class="btn btn-outline-secondary" required />
                         <span asp-validation-for="ImageUrl" class="text-danger"></span>
                     </div>
