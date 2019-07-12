@@ -207,6 +207,10 @@ namespace KetoRecipies.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Sends user to create view
+        /// </summary>
+        /// <returns>view</returns>
         [Authorize]
         [HttpGet]
         public IActionResult Create()
@@ -214,6 +218,10 @@ namespace KetoRecipies.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Takes in user info and builds Recipe
+        /// </summary>
+        /// <returns>View</returns>
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(string Label, string Ingridients, string Instructions, string Source, string SourceUrl, decimal Yield, decimal TotalTime, decimal TotalCarbsServ, decimal TotalFatServ, decimal TotalCaloriesServ, IFormFile ImageUrl, string VideoUrl)
@@ -221,6 +229,7 @@ namespace KetoRecipies.Controllers
             var userId = _userManager.GetUserId(User);
             Recipe recipe = new Recipe();
 
+            //save photo of dish and set ImageUrl property to location
             if (ImageUrl != null)
             {
                 var fileName = Path.Combine($"{_he.WebRootPath}/Images", Path.GetFileName(ImageUrl.FileName));
@@ -246,6 +255,11 @@ namespace KetoRecipies.Controllers
             return RedirectToAction("MyRecipes");
         }
 
+        /// <summary>
+        /// Gets Recipe by ID and sends to Details View
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns>View</returns>
         [HttpGet]
         public IActionResult Details(int ID)
         {
@@ -256,6 +270,11 @@ namespace KetoRecipies.Controllers
             return View(recipe);
         }
 
+        /// <summary>
+        /// Gets recipe by ID and sends to Edit view
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns>View</returns>
         [HttpGet]
         [Authorize]
         public IActionResult Edit(int ID)
@@ -265,12 +284,17 @@ namespace KetoRecipies.Controllers
             return View(recipe);
         }
 
+        /// <summary>
+        /// Takes in user info to edit Recipe object
+        /// </summary>
+        /// <returns>View</returns>
         [Authorize]
         [HttpPost]
         public IActionResult Edit(int ID, string UserId, string Label, string Ingridients, string Instructions, string Source, string SourceUrl, decimal Yield, decimal TotalTime, decimal TotalCarbsServ, decimal TotalFatServ, decimal TotalCaloriesServ, IFormFile ImageUrl, string VideoUrl)
         {
             var recipe = _context.recipes.FirstOrDefault(r => r.ID == ID);
 
+            //save photo of dish and set ImageUrl property to location
             if (ImageUrl != null)
             {
                 var fileName = Path.Combine($"{_he.WebRootPath}/Images", Path.GetFileName(ImageUrl.FileName));
@@ -295,6 +319,10 @@ namespace KetoRecipies.Controllers
             return RedirectToAction("MyRecipes");
         }
 
+        /// <summary>
+        /// Gets a list of users Resipes and sends to View
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet]
         [Authorize]
         public IActionResult MyRecipes()
@@ -311,6 +339,11 @@ namespace KetoRecipies.Controllers
             return View(recipes);
         }
 
+        /// <summary>
+        /// Sends user to Delete verification page when delete button is clicked
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns>View</returns>
         [HttpGet]
         [Authorize]
         public IActionResult DeleteAreYouSure(int ID)
@@ -324,6 +357,11 @@ namespace KetoRecipies.Controllers
             return RedirectToAction("MyRecipes");
         }
 
+        /// <summary>
+        /// Deletes and Recipe
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         public IActionResult Delete(int ID)
@@ -339,6 +377,12 @@ namespace KetoRecipies.Controllers
             return RedirectToAction("MyRecipes");
         }
 
+        /// <summary>
+        /// Allows user to like a Recipe
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        [Authorize]
         public IActionResult Like(int ID)
         {
             LikeController lc = new LikeController(_context);
@@ -346,9 +390,15 @@ namespace KetoRecipies.Controllers
 
             lc.Like(ID, userId);
 
-            return RedirectToAction("Details", new { ID });
+            return Redirect(Url.Action("Details", "Home", new { ID }) + "#Here");
         }
 
+        /// <summary>
+        /// Allows a user to dislike a recipe
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        [Authorize]
         public IActionResult DisLike(int ID)
         {
             LikeController lc = new LikeController(_context);
@@ -356,7 +406,8 @@ namespace KetoRecipies.Controllers
 
             lc.DisLike(ID, userId);
 
-            return RedirectToAction("Details", new { ID });
+            return Redirect(Url.Action("Details", "Home", new { ID }) + "#Here");
+           
         }
     }
 }

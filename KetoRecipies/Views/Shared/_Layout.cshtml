@@ -53,7 +53,7 @@
     </header>
     @{
         Random rnd = new Random();
-        var randomRecipes = context.recipes.OrderBy(r => rnd.Next()).Take(10).ToList();
+        var randomRecipes = context.recipes.OrderBy(r => rnd.Next()).Take(50).ToList();
     }
     <div class="container mb-5">
         <div class="container-fluid">
