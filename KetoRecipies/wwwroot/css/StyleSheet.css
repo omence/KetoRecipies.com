@@ -13,7 +13,7 @@
     color: deepskyblue !important;
 }
 
-a h3:hover {
+a h4:hover {
     color: deepskyblue !important;
 }
 
@@ -58,9 +58,10 @@ footer {
     color: white;
 }
 
-.active {
+.active h4 {
     font-style: italic;
     font-weight: bold;
+    color:deepskyblue;
 }
 
 /*
@@ -139,17 +140,8 @@ ul.pagination li {
     }
 }
 
-/*
-    code by Iatek LLC 2018 - CC 2.0 License - Attribution required
-    code customized by Azmind.com
-*/
 @media (min-width: 768px) and (max-width: 991px) {
     /* Show 4th slide on md if col-md-4*/
-    .img-fluid {
-        width: 175px;
-        height: auto;
-    }
-
     .carousel-inner .active.col-md-4.carousel-item + .carousel-item + .carousel-item + .carousel-item {
         position: absolute;
         top: 0;
@@ -251,11 +243,6 @@ ul.pagination li {
 /* LG */
 @media (min-width: 991px) {
     /* show 4th item */
-    .img-fluid {
-        width: 175px;
-        height: auto;
-    }
-
     .carousel-inner .active + .carousel-item + .carousel-item + .carousel-item {
         display: block;
     }
