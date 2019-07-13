@@ -24,9 +24,18 @@
                     <h6 class="card-header" style="font-weight:bold; background-color:white;">
                         @item.Recipe.Label
                     </h6>
-                    <p class="card-subtitle mt-2">
-                        <span style="font-weight:bold;">See Full Details:</span> <a href="@item.Recipe.SourceUrl" target="_blank">Click Here</a>
-                    </p>
+                    @if (item.Recipe.SourceUrl != null)
+                    {
+                        <p class="card-subtitle mt-2">
+                            <span style="font-weight:bold;">See Full Details:</span> <a href="@item.Recipe.SourceUrl" target="_blank">Click Here</a>
+                        </p>
+                    }
+                    @if (item.Recipe.SourceUrl == null)
+                    {
+                        <p class="card-subtitle mt-2">
+                            <span style="font-weight:bold;">See Full Details:</span> <a asp-action="Details" asp-route-id="@item.Recipe.ID">Click Here</a>
+                        </p>
+                    }
                     <hr />
                     <p><span style="font-weight:bold;">Nutrient Facts Per Serving:</span></p>
                     <p>Calories: @item.Recipe.TotalCaloriesServ, Carbs: @item.Recipe.TotalCarbsServ, Fat: @item.Recipe.TotalFatServ</p>

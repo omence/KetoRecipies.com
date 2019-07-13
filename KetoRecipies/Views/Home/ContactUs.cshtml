@@ -1,0 +1,26 @@
+﻿@if (TempData["Message"] != null)
+{
+    <div class="mt-3">
+        <h2 style="color:lightgreen;">@TempData["Message"].ToString()</h2>
+    </div>
+}
+<div class="container text-center">
+    <div class="card-deck col">
+
+        <div class="card text-center mr-0 mt-3" style="width: 18rem;">
+
+            <div class="card-body text-center">
+                <form asp-action="ContactUs" method="post">
+
+
+                    <input name="email" class="form-control mb-2" placeholder="* Your Email Address" required />
+
+                    <input name="subject" class="form-control mb-2" placeholder="* Message Subject" required />
+                    <textarea type="text" name="message" class="form-control" placeholder="* Write Message Here" required></textarea>
+                    <button type="submit" class="btn border mt-3">Send Message</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

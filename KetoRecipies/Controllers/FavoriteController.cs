@@ -28,7 +28,7 @@ namespace KetoRecipies.Controllers
         /// <returns>Favorite views with recipes</returns>
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Index(string SearchString)
+        public async Task<IActionResult> Favorite(string SearchString)
         {
             var userId = _userManager.GetUserId(User);
             var favs = _context.favorites.Where(f => f.UserID == userId).ToList();
@@ -80,10 +80,10 @@ namespace KetoRecipies.Controllers
                 _context.favorites.Add(favorite);
                 _context.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Favorite");
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Favorite");
         }
 
         /// <summary>
@@ -99,9 +99,14 @@ namespace KetoRecipies.Controllers
                 _context.favorites.Remove(toRemove);
                 _context.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Favorite");
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Favorite");
+        }
+
+        public IActionResult Details(int ID)
+        {
+            return RedirectToAction("Details", "Home", new { ID });
         }
     }
 }

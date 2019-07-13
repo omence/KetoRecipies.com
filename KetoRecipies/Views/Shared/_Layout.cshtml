@@ -19,7 +19,7 @@
 <body class="justify-content-center bg-light">
     <header>
         <nav class="navbar navbar-expand-lg shadow-none navbar-dark bg-dark">
-            <a class="navbar-brand shadow-none ml-3" asp-area="" asp-controller="Home" asp-action="Index"><h3>KetoRecipies.com</h3></a>
+            <a class="navbar-brand shadow-none ml-3")" asp-area="" asp-controller="Home" asp-action="Index"><h4>KetoRecipies.com</h4></a>
             <button class="navbar-toggler" data-toggle="collapse" data-target="#nav1" aria-controls="nav1" aria-expanded="false" aria-label="Toggle Navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -38,10 +38,10 @@
                     @if (SignInManager.IsSignedIn(User))
                     {
                         <li class="nav-item">
-                            <a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Favorite" ? "nav-link text-light mr-auto active" : "nav-link text-light mr-auto ")" href="~/Favorite"><h3>My Favorites</h3></a>
+                            <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "Favorite" ? "nav-link text-light mr-auto active" : "nav-link text-light mr-auto ")" href="~/Favorite/Favorite"><h4>My Favorites</h4></a>
                         </li>
                         <li class="nav-item">
-                            <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "MyRecipes" ? "nav-link text-light mr-auto active" : "nav-link text-light mr-auto")" href="~/Home/MyRecipes"><h3>My Recipes</h3></a>
+                            <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "MyRecipes" ? "nav-link text-light mr-auto active" : "nav-link text-light mr-auto")" href="~/Home/MyRecipes"><h4>My Recipes</h4></a>
                         </li>
                         <form class="form-inline my-2 my-lg-0" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                             <button type="submit" class="nav-btn btn border">Logout</button>
@@ -50,10 +50,11 @@
                 </ul>
             </div>
         </nav>
+        <h3>Keep this site add free! <a>Donate</a></h3>
     </header>
     @{
         Random rnd = new Random();
-        var randomRecipes = context.recipes.OrderBy(r => rnd.Next()).Take(50).ToList();
+        var randomRecipes = context.recipes.OrderBy(r => rnd.Next()).Take(100).ToList();
     }
     <div class="container mb-5">
         <div class="container-fluid">
@@ -78,178 +79,28 @@
                             </a>
                         }
                     </div>
+                    @for (int i = 1; i < randomRecipes.Count(); i++)
+                    {
                     <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
-                        <img src="@randomRecipes[1].ImageUrl" class="img-fluid mx-auto d-block" alt="img2">
-                        @if (@randomRecipes[1].SourceUrl != null)
+                        <img src="@randomRecipes[i].ImageUrl" class="img-fluid mx-auto d-block" alt="img2">
+                        @if (@randomRecipes[i].SourceUrl != null)
                         {
-                            <a href="@randomRecipes[1].SourceUrl" target="_blank">
+                            <a href="@randomRecipes[i].SourceUrl" target="_blank">
                                 <div class="carousel-caption d-none d-md-block">
-                                    <h5>@randomRecipes[1].Label</h5>
+                                    <h5>@randomRecipes[i].Label</h5>
                                 </div>
                             </a>
                         }
-                        @if (@randomRecipes[1].SourceUrl == null)
+                        @if (@randomRecipes[i].SourceUrl == null)
                         {
-                            <a asp-action="Details" asp-route-id="@randomRecipes[1].ID">
+                            <a asp-action="Details" asp-route-id="@randomRecipes[i].ID">
                                 <div class="carousel-caption d-none d-md-block">
-                                    <h5>@randomRecipes[1].Label</h5>
+                                    <h5>@randomRecipes[i].Label</h5>
                                 </div>
                             </a>
                         }
                     </div>
-                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
-                        <img src="@randomRecipes[2].ImageUrl" class="img-fluid mx-auto d-block" alt="img3">
-                        @if (@randomRecipes[2].SourceUrl != null)
-                        {
-                            <a href="@randomRecipes[2].SourceUrl" target="_blank">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>@randomRecipes[2].Label</h5>
-                                </div>
-                            </a>
-                        }
-                        @if (@randomRecipes[2].SourceUrl == null)
-                        {
-                            <a asp-action="Details" asp-route-id="@randomRecipes[2].ID">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>@randomRecipes[2].Label</h5>
-                                </div>
-                            </a>
-                        }
-                    </div>
-                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
-                        <img src="@randomRecipes[3].ImageUrl" class="img-fluid mx-auto d-block" alt="img4">
-                        @if (@randomRecipes[3].SourceUrl != null)
-                        {
-                            <a href="@randomRecipes[3].SourceUrl" target="_blank">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>@randomRecipes[3].Label</h5>
-                                </div>
-                            </a>
-                        }
-                        @if (@randomRecipes[3].SourceUrl == null)
-                        {
-                            <a asp-action="Details" asp-route-id="@randomRecipes[3].ID">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>@randomRecipes[3].Label</h5>
-                                </div>
-                            </a>
-                        }
-                    </div>
-                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
-                        <img src="@randomRecipes[4].ImageUrl" class="img-fluid mx-auto d-block" alt="img5">
-                        @if (@randomRecipes[4].SourceUrl != null)
-                        {
-                            <a href="@randomRecipes[4].SourceUrl" target="_blank">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>@randomRecipes[4].Label</h5>
-                                </div>
-                            </a>
-                        }
-                        @if (@randomRecipes[4].SourceUrl == null)
-                        {
-                            <a asp-action="Details" asp-route-id="@randomRecipes[4].ID">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>@randomRecipes[4].Label</h5>
-                                </div>
-                            </a>
-                        }
-                    </div>
-                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
-                        <img src="@randomRecipes[5].ImageUrl" class="img-fluid mx-auto d-block" alt="img6">
-                        @if (@randomRecipes[5].SourceUrl != null)
-                        {
-                            <a href="@randomRecipes[5].SourceUrl" target="_blank">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>@randomRecipes[5].Label</h5>
-                                </div>
-                            </a>
-                        }
-                        @if (@randomRecipes[5].SourceUrl == null)
-                        {
-                            <a asp-action="Details" asp-route-id="@randomRecipes[5].ID">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>@randomRecipes[5].Label</h5>
-                                </div>
-                            </a>
-                        }
-                    </div>
-                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
-                        <img src="@randomRecipes[6].ImageUrl" class="img-fluid mx-auto d-block" alt="img7">
-                        @if (@randomRecipes[6].SourceUrl != null)
-                        {
-                            <a href="@randomRecipes[6].SourceUrl" target="_blank">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>@randomRecipes[6].Label</h5>
-                                </div>
-                            </a>
-                        }
-                        @if (@randomRecipes[6].SourceUrl == null)
-                        {
-                            <a asp-action="Details" asp-route-id="@randomRecipes[6].ID">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>@randomRecipes[6].Label</h5>
-                                </div>
-                            </a>
-                        }
-                        </a>
-                    </div>
-                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
-                        <img src="@randomRecipes[7].ImageUrl" class="img-fluid mx-auto d-block" alt="img8">
-                        @if (@randomRecipes[7].SourceUrl != null)
-                        {
-                            <a href="@randomRecipes[7].SourceUrl" target="_blank">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>@randomRecipes[7].Label</h5>
-                                </div>
-                            </a>
-                        }
-                        @if (@randomRecipes[7].SourceUrl == null)
-                        {
-                            <a asp-action="Details" asp-route-id="@randomRecipes[7].ID">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>@randomRecipes[7].Label</h5>
-                                </div>
-                            </a>
-                        }
-                    </div>
-                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
-                        <img src="@randomRecipes[8].ImageUrl" class="img-fluid mx-auto d-block" alt="img9">
-                        @if (@randomRecipes[8].SourceUrl != null)
-                        {
-                            <a href="@randomRecipes[8].SourceUrl" target="_blank">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>@randomRecipes[8].Label</h5>
-                                </div>
-                            </a>
-                        }
-                        @if (@randomRecipes[8].SourceUrl == null)
-                        {
-                            <a asp-action="Details" asp-route-id="@randomRecipes[8].ID">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>@randomRecipes[8].Label</h5>
-                                </div>
-                            </a>
-                        }
-                    </div>
-                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
-                        <img src="@randomRecipes[9].ImageUrl" class="img-fluid mx-auto d-block" alt="img10">
-                        @if (@randomRecipes[9].SourceUrl != null)
-                        {
-                            <a href="@randomRecipes[9].SourceUrl" target="_blank">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>@randomRecipes[9].Label</h5>
-                                </div>
-                            </a>
-                        }
-                        @if (@randomRecipes[9].SourceUrl == null)
-                        {
-                            <a asp-action="Details" asp-route-id="@randomRecipes[9].ID">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>@randomRecipes[9].Label</h5>
-                                </div>
-                            </a>
-                        }
-                    </div>
+                    }
                 </div>
                 <a class="carousel-control-prev" href="#carousel-example" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -268,7 +119,8 @@
     <footer class="page-footer font-small special-color-dark pt-4">
         <a class="nav-link text-light mr-auto" href="~/Home/Privacy">Privacy Policy</a>
         © 2019 Copyright:
-        <a class="mb-3">KetoRecipies.com</a>
+        <a class="mb-3">KetoRecipies.com</a> |
+        <a href="~/Home/ContactUs">Contact Us</a>
     </footer>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
@@ -277,7 +129,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="~/lib/Trumbowyg-master/dist/trumbowyg.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/site.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

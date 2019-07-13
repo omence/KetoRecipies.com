@@ -16,6 +16,7 @@ using X.PagedList;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace KetoRecipies.Controllers
 {
@@ -25,13 +26,15 @@ namespace KetoRecipies.Controllers
         private readonly KetoDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IHostingEnvironment _he;
+        private readonly IEmailSender _es;
 
-        public HomeController(IConfiguration configuration, KetoDbContext context, UserManager<IdentityUser> userManager, IHostingEnvironment he)
+        public HomeController(IConfiguration configuration, KetoDbContext context, UserManager<IdentityUser> userManager, IHostingEnvironment he, IEmailSender es)
         {
             _configuration = configuration;
             _context = context;
             _userManager = userManager;
             _he = he;
+            _es = es;
         }
 
         /// <summary>
@@ -42,7 +45,7 @@ namespace KetoRecipies.Controllers
         {
             //await GetRecipes();
             var recipes = _context.recipes.OrderBy(r => r.Label).ToList();
-            foreach(var i in recipes)
+            foreach (var i in recipes)
             {
                 i.LikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == true).Count();
                 i.DisLikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == false).Count();
@@ -120,7 +123,7 @@ namespace KetoRecipies.Controllers
                 {
                     //call made to the api
                     client.BaseAddress = new Uri($"https://api.edamam.com/search");
-                    string search = "keto";
+                    string search = "ketogenic";
 
                     var response = await client.GetAsync($"?q={search}&app_id={ID}&app_key={API}&from=0&to=100");
 
@@ -180,7 +183,7 @@ namespace KetoRecipies.Controllers
         [HttpGet]
         public IActionResult Favorite()
         {
-            return RedirectToAction("Index", "Favorite");
+            return RedirectToAction("Favorite", "Favorite");
         }
 
         /// <summary>
@@ -200,7 +203,7 @@ namespace KetoRecipies.Controllers
                 FavoriteController fc = new FavoriteController(_context, _userManager);
                 await fc.Create(id, userId);
 
-                return RedirectToAction("Index", "Favorite");
+                return RedirectToAction("Favorite", "Favorite");
             }
 
             TempData["Error"] = "Recipe already in your favorites list";
@@ -408,6 +411,40 @@ namespace KetoRecipies.Controllers
 
             return Redirect(Url.Action("Details", "Home", new { ID }) + "#Here");
            
+        }
+
+        /// <summary>
+        /// Send ContactUs view
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult ContactUs()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Sends email to admin
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="subject"></param>
+        /// <param name="message"></param>
+        /// <returns>View</returns>
+        [HttpPost]
+        public IActionResult ContactUs(string email, string subject, string message)
+        {
+            if (email != null && subject != null && message != null)
+            {
+                string msg = $"{email} {message}";
+
+                _es.SendEmailAsync("omence11@gmail.com", subject, msg);
+
+                TempData["Message"] = "Sent, we will get back to you ASAP";
+
+                return View();
+            }
+
+            return View();
         }
     }
 }
