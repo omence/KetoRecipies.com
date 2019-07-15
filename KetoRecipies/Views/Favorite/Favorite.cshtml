@@ -47,6 +47,7 @@
                     <form asp-action="Remove" method="post">
                         <input type="hidden" name="eleId" value="@counter" />
                         <input name="Id" type="hidden" value="@item.ID" />
+                        <input name="count" type="hidden" value="@Model.Count()" />
                         <button type="submit" class="btn border">Remove From Favorites</button>
                     </form>
                     <p class="card-title mt-2">
