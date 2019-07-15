@@ -1,8 +1,10 @@
 ﻿@using X.PagedList.Mvc.Core
 @model X.PagedList.IPagedList<KetoRecipies.Models.Recipe>
+@using KetoRecipies.Data
+@inject KetoDbContext context
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
-
+@inject UserManager<IdentityUser> userManager
 @if (TempData["Error"] != null)
 {
     <div>
@@ -40,10 +42,10 @@
 
     @foreach (var item in Model)
     {
-
         <div class="card-deck col">
 
             <div class="card mb-3" style="width: 20rem;">
+                <a id="@item.Label"></a>
                 <img src="@item.ImageUrl" class="card-img-top" />
                 <div class="card-body" style="align-self:center; width: 20rem;">
                     <h6 class="card-header text-center" style="background-color:white; font-weight:bold;">
@@ -70,10 +72,23 @@
 
                     @if (SignInManager.IsSignedIn(User))
                     {
-                        <form asp-action="AddFavorite" method="post">
-                            <input name="Id" type="hidden" value="@item.ID" />
-                            <button type="submit" class="btn border">Add to Favorites</button>
-                        </form>
+                        var userID = userManager.GetUserId(User);
+                        var fav = context.favorites.FirstOrDefault(f => f.RecipeID == item.ID && f.UserID == userID);
+                        if (fav == null)
+                        {
+                            <form asp-action="AddFavorite" method="post">
+                                <input name="Id" type="hidden" value="@item.ID" />
+                                <button type="submit" class="btn border">Add to Favorites</button>
+                            </form>
+                        }
+                        else if (fav != null)
+                        {
+                            <form asp-action="RemoveFavorite" method="post">
+                                <input name="Id" type="hidden" value="@item.ID" />
+                                <button type="submit" class="btn border">Remove from Favorites</button>
+                            </form>
+                        }
+
                     }
                     <p class="card-title mt-2">
                         By: @item.Source
@@ -95,7 +110,7 @@
             <div class="pagination" style="margin-left: 400px">
                 <ul class="pagination">
                     @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), X.PagedList.Mvc.Common.PagedListRenderOptionsBase.OnlyShowFivePagesAtATime)
-                </ul> 
+                </ul>
             </div>
         </div>
     </div>

@@ -197,17 +197,32 @@ namespace KetoRecipies.Controllers
         {
             var userId = _userManager.GetUserId(User);
             var checkForDupe = _context.favorites.FirstOrDefault(f => f.UserID == userId && f.RecipeID == id);
-
+            var recipe = _context.recipes.FirstOrDefault(r => r.ID == id);
             if (checkForDupe == null)
             {
                 FavoriteController fc = new FavoriteController(_context, _userManager);
                 await fc.Create(id, userId);
 
-                return RedirectToAction("Favorite", "Favorite");
+                return Redirect(Url.Action("Index") + $"#{recipe.Label}");
             }
 
             TempData["Error"] = "Recipe already in your favorites list";
             return RedirectToAction("Index");
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> RemoveFavorite(int id)
+        {
+            var userId = _userManager.GetUserId(User);
+            var recipe = _context.recipes.FirstOrDefault(r => r.ID == id);
+            var toRemove = _context.favorites.FirstOrDefault(f => f.RecipeID == id && f.UserID == userId);
+
+            FavoriteController fc = new FavoriteController(_context, _userManager);
+            fc.Remove(toRemove.ID);
+
+            return Redirect(Url.Action("Index") + $"#{recipe.Label}");
+
         }
 
         /// <summary>
