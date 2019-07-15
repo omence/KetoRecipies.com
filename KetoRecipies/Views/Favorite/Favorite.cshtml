@@ -15,8 +15,12 @@
 </form>
 <h5 class="mb-3"># of Recipes: @Model.Count()</h5>
 <div class="container row ml-0">
+    @{
+        int counter = 0;
+    }
     @foreach (var item in Model)
     {
+        <a id="@(counter++)"></a>
         <div class="card-deck col">
             <div class="card text-center mb-3" style="width: 20rem;">
                 <img src="@item.Recipe.ImageUrl" class="card-img-top" />
@@ -41,6 +45,7 @@
                     <p>Calories: @item.Recipe.TotalCaloriesServ, Carbs: @item.Recipe.TotalCarbsServ, Fat: @item.Recipe.TotalFatServ</p>
                     <hr />
                     <form asp-action="Remove" method="post">
+                        <input type="hidden" name="eleId" value="@counter" />
                         <input name="Id" type="hidden" value="@item.ID" />
                         <button type="submit" class="btn border">Remove From Favorites</button>
                     </form>
