@@ -1,7 +1,7 @@
 ﻿@using X.PagedList.Mvc.Core
 @model X.PagedList.IPagedList<KetoRecipies.Models.Recipe>
-@using KetoRecipies.Data
-@inject KetoDbContext context
+@using KetoRecipies.Models.Interfaces
+@inject IDbList dbList
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> userManager
@@ -11,7 +11,6 @@
         <h2 style="color:lightgreen;"><strong>Error:</strong> @TempData["Error"].ToString()</h2>
     </div>
 }
-
 @if (!SignInManager.IsSignedIn(User))
 {
     <h3 style="color:deepskyblue;">Register or Login to Save Your Favorite Recipes or Add Your Recipe to the List</h3>
@@ -24,7 +23,6 @@
     <div class="card-body row no-gutters align-items-center">
         <div class="col">
             <input name="SearchString" class="form-control" type="search" placeholder="Author, Recipe Name or Ingridients" aria-label="Search">
-
         </div>
         <!--end of col-->
         <div class="col-auto">
@@ -39,19 +37,15 @@
     <a asp-action="Index">Back to Recipes</a>
 }
 <div class="container row ml-0">
-
     @foreach (var item in Model)
     {
         <div class="card-deck col">
-
             <div class="card mb-3" style="width: 20rem;">
                 <a id="@item.Label"></a>
                 <img src="@item.ImageUrl" class="card-img-top" />
                 <div class="card-body" style="align-self:center; width: 20rem;">
                     <h6 class="card-header text-center" style="background-color:white; font-weight:bold;">
-
                         @item.Label
-
                     </h6>
                     @if (item.SourceUrl != null)
                     {
@@ -69,26 +63,25 @@
                     <p style="font-weight:bold;">Nutrient Facts Per Serving:</p>
                     <p>Calories: @item.TotalCaloriesServ, Carbs: @item.TotalCarbsServ, Fat: @item.TotalFatServ</p>
                     <hr />
-
                     @if (SignInManager.IsSignedIn(User))
                     {
+                        var fav = dbList.GetFavorites();
                         var userID = userManager.GetUserId(User);
-                        var fav = context.favorites.FirstOrDefault(f => f.RecipeID == item.ID && f.UserID == userID);
-                        if (fav == null)
+                        var fav2 = fav.FirstOrDefault(f => f.RecipeID == item.ID && f.UserID == userID);
+                        if (fav2 == null)
                         {
                             <form asp-action="AddFavorite" method="post">
                                 <input name="Id" type="hidden" value="@item.ID" />
                                 <button type="submit" class="btn border">Add to Favorites</button>
                             </form>
                         }
-                        else if (fav != null)
+                        else if (fav2 != null)
                         {
                             <form asp-action="RemoveFavorite" method="post">
                                 <input name="Id" type="hidden" value="@item.ID" />
                                 <button type="submit" class="btn border">Remove from Favorites</button>
                             </form>
                         }
-
                     }
                     <p class="card-title mt-2">
                         By: @item.Source
@@ -99,8 +92,6 @@
 
         </div>
     }
-
-
 </div>
 @if (Model.PageCount > 1)
 {
