@@ -1,8 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using KetoRecipies.Data
+@using KetoRecipies.Models.Interfaces
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
-@inject KetoDbContext context
+@inject IDbList dbList
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,8 +53,7 @@
         <h3>Keep this site add free! <a>Donate</a></h3>
     </header>
     @{
-        Random rnd = new Random();
-        var randomRecipes = context.recipes.OrderBy(r => rnd.Next()).Take(100).ToList();
+        var randomRecipes = dbList.GetRandomRecipes();
     }
     <div class="container mb-5">
         <div class="container-fluid">

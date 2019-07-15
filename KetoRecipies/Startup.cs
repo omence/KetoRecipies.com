@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using KetoRecipies.Data;
 using KetoRecipies.Models;
+using KetoRecipies.Models.Interfaces;
+using KetoRecipies.Models.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -46,7 +48,7 @@ namespace KetoRecipies
 
             services.Configure<DataProtectionTokenProviderOptions>(o =>
                o.TokenLifespan = TimeSpan.FromHours(3));
-
+            services.AddScoped<IDbList, DbListService>();
 
             services.AddTransient<CustomEmailConfirmationTokenProvider<IdentityUser>>();
             services.AddTransient<IEmailSender, EmailSender>();
