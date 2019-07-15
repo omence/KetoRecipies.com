@@ -193,7 +193,7 @@ namespace KetoRecipies.Controllers
         /// <returns>View</returns>
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AddFavorite(int id)
+        public async Task<IActionResult> AddFavorite(int id, int Page)
         {
             var userId = _userManager.GetUserId(User);
             var checkForDupe = _context.favorites.FirstOrDefault(f => f.UserID == userId && f.RecipeID == id);
@@ -202,6 +202,10 @@ namespace KetoRecipies.Controllers
             {
                 FavoriteController fc = new FavoriteController(_context, _userManager);
                 await fc.Create(id, userId);
+                if (Page > 1)
+                {
+                    return Redirect(Url.Action("Index") + $"?page={Page}#{recipe.Label}");
+                }
 
                 return Redirect(Url.Action("Index") + $"#{recipe.Label}");
             }
@@ -212,7 +216,7 @@ namespace KetoRecipies.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> RemoveFavorite(int id)
+        public async Task<IActionResult> RemoveFavorite(int id, int Page)
         {
             var userId = _userManager.GetUserId(User);
             var recipe = _context.recipes.FirstOrDefault(r => r.ID == id);
@@ -220,6 +224,11 @@ namespace KetoRecipies.Controllers
 
             FavoriteController fc = new FavoriteController(_context, _userManager);
             fc.Remove(toRemove.ID);
+
+            if (Page > 1)
+            {
+                return Redirect(Url.Action("Index") + $"?page={Page}#{recipe.Label}");
+            }
 
             return Redirect(Url.Action("Index") + $"#{recipe.Label}");
 

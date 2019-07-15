@@ -72,6 +72,7 @@
                         {
                             <form asp-action="AddFavorite" method="post">
                                 <input name="Id" type="hidden" value="@item.ID" />
+                                <input name="Page" type="hidden" value="@Model.PageNumber" />
                                 <button type="submit" class="btn border">Add to Favorites</button>
                             </form>
                         }
@@ -79,6 +80,7 @@
                         {
                             <form asp-action="RemoveFavorite" method="post">
                                 <input name="Id" type="hidden" value="@item.ID" />
+                                <input name="Page" type="hidden" value="@Model.PageNumber" />
                                 <button type="submit" class="btn border">Remove from Favorites</button>
                             </form>
                         }
