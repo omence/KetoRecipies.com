@@ -91,7 +91,7 @@ namespace KetoRecipies.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Redirects to Index</returns>
-        public IActionResult Remove(int id)
+        public IActionResult Remove(int id, int eleId, int count)
         {
             if (id != 0)
             {
@@ -99,7 +99,12 @@ namespace KetoRecipies.Controllers
                 _context.favorites.Remove(toRemove);
                 _context.SaveChanges();
 
-                return RedirectToAction("Favorite");
+                if (eleId == count)
+                {
+                    return Redirect(Url.Action("Favorite") + $"#{eleId - 2}");
+                }
+
+                return Redirect(Url.Action("Favorite") + $"#{eleId--}");
             }
             return RedirectToAction("Favorite");
         }

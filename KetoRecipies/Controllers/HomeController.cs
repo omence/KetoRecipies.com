@@ -214,6 +214,12 @@ namespace KetoRecipies.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Removes recipe from favorites
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="Page"></param>
+        /// <returns>View with page and element id to return to</returns>
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> RemoveFavorite(int id, int Page)
@@ -222,8 +228,8 @@ namespace KetoRecipies.Controllers
             var recipe = _context.recipes.FirstOrDefault(r => r.ID == id);
             var toRemove = _context.favorites.FirstOrDefault(f => f.RecipeID == id && f.UserID == userId);
 
-            FavoriteController fc = new FavoriteController(_context, _userManager);
-            fc.Remove(toRemove.ID);
+            _context.favorites.Remove(toRemove);
+            _context.SaveChanges();
 
             if (Page > 1)
             {
