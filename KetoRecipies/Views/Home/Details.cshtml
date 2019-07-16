@@ -5,6 +5,9 @@
 @{
     ViewData["Title"] = "Details";
 }
+@{
+    Layout = "_Layout";
+}
 @if (TempData["Error"] != null)
 {
     <div>
@@ -48,6 +51,7 @@
                 <h3 style="font-weight:bold;" class="text-left">Ingredients</h3>
                 @Html.Raw(Model.Ingridients)
                 <hr />
+                <a id="Here"></a>
                 <h3 style="font-weight:bold;" class="text-left">Instructions</h3>
                 @Html.Raw(Model.Instructions)
                 <hr />
@@ -58,7 +62,7 @@
                 {
                     <a asp-action="Like" asp-route-id="@Model.ID"><i style="color:deepskyblue;" class="fa mr-3 mt-5 fa-3x fa-thumbs-up"></i></a> @Model.LikeCount
                     <a asp-action="DisLike" asp-route-id="@Model.ID"><i style="color:deepskyblue;" class="fa ml-3 mt-5 fa-3x fa-thumbs-down" aria-hidden="true"></i></a> @Model.DisLikeCount
-                    <a id="Here"></a>
+
                 }
             </div>
         </div>
@@ -68,52 +72,81 @@
 
 
 </div>
-<h2>Comments</h2>
-<div class="container row ml-0">
 
-
-
-    <div class="card-deck col">
-
-        <div class="card mb-3">
-            <a id="commentsReturn"></a>
-            @if (SignInManager.IsSignedIn(User))
-            {
-                <form asp-action="AddMainComment">
-                    <input type="hidden" value="@Model.ID" name="ID"/>
-                    <textarea name="message" class="form-control mt-5 mb-2"></textarea>
-                    <button type="submit" class="btn border">Add Comment</button>
-                </form>
-            }
-
-            <div>
-                <a id="ReturnComments"></a>
-                @foreach (var c in Model.Comments)
-                {
-                    <div class="mainComment">
-                        <h6>@c.DateTime</h6>
-                        <h2>@c.User</h2>
-                        <p>@c.Message</p>
-                        @if (SignInManager.IsSignedIn(User))
+<div class="container">
+    <div class="card-deck">
+        <div class="card card text-center mb-1 ml-0 row">
+            <div class="card-body text-center parent ml-0 col-sm">
+                <div class="panel-body">
+                    <form asp-action="AddMainComment">
+                        <input type="hidden" value="@Model.ID" name="ID" />
+                        <textarea class="form-control" name="message" placeholder="write a comment..." rows="3"></textarea>
+                        <br>
+                        <button type="submit" class="btn btn-info pull-right">Comment</button>
+                    </form>
+                    <div class="clearfix"></div>
+                    <a id="commentsReturn"></a>
+                    <ul class="media-list">
+                        @foreach (var mc in Model.Comments)
                         {
-                        <form asp-action="AddSubComment">
-                            <input type="hidden" value="@Model.ID" name="ID" />
-                            <input type="hidden" value="@c.ID" name="MainCommentID" />
-                            <textarea name="message" class="form-control mt-5 mb-2"></textarea>
-                            <button type="submit">Reply</button>
-                        </form>
+                            <hr />
+                            <li class="media text-left">
+                                <div class="media-body">
+                                    <span class="text-muted pull-right">
+                                        <small class="text-muted"></small>
+                                    </span>
+                                    <h5><span style="font-weight:bold;">@mc.User's Comment:</span> @mc.Message</h5>
+
+                                </div>
+                            </li>
+
+
+                            @foreach (var sc in mc.SubComments)
+                            {
+                                
+                                <li class="media text-left ml-5">
+                                    <div class="media-body">
+                                        <span class="text-muted pull-right">
+                                            <small class="text-muted"></small>
+                                        </span>
+                                        <h5><span style="font-weight:bold; color:deepskyblue;">@sc.User's Reply:</span> @sc.Message</h5>
+                                    </div>
+                                </li>
+
+                            }
+                            <a class="reply btn border ml-0" style="color:black;">Reply</a>
+                            <div class="replyForm">
+                                <form asp-action="AddSubComment">
+                                    <input type="hidden" value="@Model.ID" name="ID" />
+                                    <input type="hidden" value="@mc.ID" name="MainCommentID" />
+                                    <textarea class="form-control" name="message" placeholder="write a comment..." rows="3"></textarea>
+                                    <br>
+                                    <button type="submit" class="btn btn-info pull-right replyHide">Reply</button>
+                                </form>
+                            </div>
                         }
-                        @foreach(var s in c.SubComments)
-                        {
-                        
-                            <h6>@s.DateTime</h6>
-                            <h2>@s.User</h2>
-                            <p>@s.Message</p>
-                        
-                        }
-                    </div>
-                }
+                    </ul>
+                </div>
             </div>
         </div>
+
+    </div>
 </div>
-</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script>
+    $('.replyForm').hide();
+
+    $('.reply').on('click', function (event) {
+
+        $(this).next('.replyForm').show();
+        $(this).hide();
+    })
+
+    $('.replyHide').on('click', function (event) {
+
+        $('.replyForm').hide();
+        $('.reply').show();
+    })
+  
+
+</script>

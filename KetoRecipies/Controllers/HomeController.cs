@@ -307,10 +307,10 @@ namespace KetoRecipies.Controllers
             var recipe = _context.recipes.FirstOrDefault(r => r.ID == ID);
             recipe.LikeCount = _context.Likes.Where(l => l.RecipeId == recipe.ID && l.Liked == true).Count();
             recipe.DisLikeCount = _context.Likes.Where(l => l.RecipeId == recipe.ID && l.Liked == false).Count();
-            recipe.Comments = _context.mainComments.Where(r => r.RecipeID == recipe.ID).OrderByDescending(r => r.DateTime).ToList();
+            recipe.Comments = _context.mainComments.Where(r => r.RecipeID == recipe.ID).ToList();
             foreach(var c in recipe.Comments)
             {
-                c.SubComments = _context.subComments.Where(s => s.MainCommentID == c.ID).OrderByDescending(r => r.DateTime).ToList();
+                c.SubComments = _context.subComments.Where(s => s.MainCommentID == c.ID).ToList();
             }
 
             return View(recipe);
@@ -492,35 +492,43 @@ namespace KetoRecipies.Controllers
 
         public async Task<IActionResult> AddMainComment(string message, int ID)
         {
-            var userId = _userManager.GetUserId(User);
-            var user = _users.Users.FirstOrDefault(u => u.Id == userId);
+            if (message != null)
+            {
+                var userId = _userManager.GetUserId(User);
+                var user = _users.Users.FirstOrDefault(u => u.Id == userId);
 
-            CommentController cc = new CommentController(_context);
-            MainComment mainComment = new MainComment();
-            mainComment.DateTime = DateTime.Now;
-            mainComment.User = user.Name;
-            mainComment.RecipeID = ID;
-            mainComment.Message = message;
+                CommentController cc = new CommentController(_context);
+                MainComment mainComment = new MainComment();
+                mainComment.DateTime = DateTime.Now;
+                mainComment.User = user.Name;
+                mainComment.RecipeID = ID;
+                mainComment.Message = message;
 
-            await cc.CreateMainComment(mainComment);
+                await cc.CreateMainComment(mainComment);
 
+                return Redirect(Url.Action("Details", new { ID }) + "#commentsReturn");
+            }
             return Redirect(Url.Action("Details", new { ID }) + "#commentsReturn");
-        }
+            }
 
         public async Task<IActionResult> AddSubComment(string message, int MainCommentID, int ID)
         {
-            var userId = _userManager.GetUserId(User);
-            var user = _users.Users.FirstOrDefault(u => u.Id == userId);
+            if (message != null)
+            {
+                var userId = _userManager.GetUserId(User);
+                var user = _users.Users.FirstOrDefault(u => u.Id == userId);
 
-            CommentController cc = new CommentController(_context);
-            SubComment subComment = new SubComment();
-            subComment.DateTime = DateTime.Now;
-            subComment.User = user.Name;
-            subComment.MainCommentID = MainCommentID;
-            subComment.Message = message;
+                CommentController cc = new CommentController(_context);
+                SubComment subComment = new SubComment();
+                subComment.DateTime = DateTime.Now;
+                subComment.User = user.Name;
+                subComment.MainCommentID = MainCommentID;
+                subComment.Message = message;
 
-            await cc.CreateSubComment(subComment);
+                await cc.CreateSubComment(subComment);
 
+                return Redirect(Url.Action("Details", "Home", new { ID }) + "#commentsReturn");
+            }
             return Redirect(Url.Action("Details", "Home", new { ID }) + "#commentsReturn");
         }
     }
