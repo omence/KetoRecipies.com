@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KetoRecipies.Models.Comments;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,5 +39,7 @@ namespace KetoRecipies.Models
         public int LikeCount { get; set; }
 
         public int DisLikeCount { get; set; }
+
+        public List<MainComment> Comments { get; set; }
     }
 }

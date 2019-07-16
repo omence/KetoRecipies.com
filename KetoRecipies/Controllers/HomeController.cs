@@ -17,6 +17,7 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using KetoRecipies.Models.Comments;
 
 namespace KetoRecipies.Controllers
 {
@@ -24,17 +25,24 @@ namespace KetoRecipies.Controllers
     {
         private IConfiguration _configuration;
         private readonly KetoDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly KetoRecipiesContext _users;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHostingEnvironment _he;
         private readonly IEmailSender _es;
 
-        public HomeController(IConfiguration configuration, KetoDbContext context, UserManager<IdentityUser> userManager, IHostingEnvironment he, IEmailSender es)
+        public HomeController(IConfiguration configuration, 
+            KetoDbContext context, 
+            UserManager<ApplicationUser> userManager, 
+            IHostingEnvironment he, 
+            IEmailSender es,
+            KetoRecipiesContext users)
         {
             _configuration = configuration;
             _context = context;
             _userManager = userManager;
             _he = he;
             _es = es;
+            _users = users;
         }
 
         /// <summary>
@@ -123,7 +131,7 @@ namespace KetoRecipies.Controllers
                 {
                     //call made to the api
                     client.BaseAddress = new Uri($"https://api.edamam.com/search");
-                    string search = "ketogenic";
+                    string search = "keto";
 
                     var response = await client.GetAsync($"?q={search}&app_id={ID}&app_key={API}&from=0&to=100");
 
@@ -299,6 +307,11 @@ namespace KetoRecipies.Controllers
             var recipe = _context.recipes.FirstOrDefault(r => r.ID == ID);
             recipe.LikeCount = _context.Likes.Where(l => l.RecipeId == recipe.ID && l.Liked == true).Count();
             recipe.DisLikeCount = _context.Likes.Where(l => l.RecipeId == recipe.ID && l.Liked == false).Count();
+            recipe.Comments = _context.mainComments.Where(r => r.RecipeID == recipe.ID).OrderByDescending(r => r.DateTime).ToList();
+            foreach(var c in recipe.Comments)
+            {
+                c.SubComments = _context.subComments.Where(s => s.MainCommentID == c.ID).OrderByDescending(r => r.DateTime).ToList();
+            }
 
             return View(recipe);
         }
@@ -475,6 +488,40 @@ namespace KetoRecipies.Controllers
             }
 
             return View();
+        }
+
+        public async Task<IActionResult> AddMainComment(string message, int ID)
+        {
+            var userId = _userManager.GetUserId(User);
+            var user = _users.Users.FirstOrDefault(u => u.Id == userId);
+
+            CommentController cc = new CommentController(_context);
+            MainComment mainComment = new MainComment();
+            mainComment.DateTime = DateTime.Now;
+            mainComment.User = user.Name;
+            mainComment.RecipeID = ID;
+            mainComment.Message = message;
+
+            await cc.CreateMainComment(mainComment);
+
+            return Redirect(Url.Action("Details", new { ID }) + "#commentsReturn");
+        }
+
+        public async Task<IActionResult> AddSubComment(string message, int MainCommentID, int ID)
+        {
+            var userId = _userManager.GetUserId(User);
+            var user = _users.Users.FirstOrDefault(u => u.Id == userId);
+
+            CommentController cc = new CommentController(_context);
+            SubComment subComment = new SubComment();
+            subComment.DateTime = DateTime.Now;
+            subComment.User = user.Name;
+            subComment.MainCommentID = MainCommentID;
+            subComment.Message = message;
+
+            await cc.CreateSubComment(subComment);
+
+            return Redirect(Url.Action("Details", "Home", new { ID }) + "#commentsReturn");
         }
     }
 }

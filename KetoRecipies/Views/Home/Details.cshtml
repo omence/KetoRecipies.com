@@ -1,7 +1,7 @@
 ﻿@model KetoRecipies.Models.Recipe
 @using Microsoft.AspNetCore.Identity
 @using KetoRecipies.Data
-@inject SignInManager<IdentityUser> SignInManager
+@inject SignInManager<ApplicationUser> SignInManager
 @{
     ViewData["Title"] = "Details";
 }
@@ -67,4 +67,53 @@
 
 
 
+</div>
+<h2>Comments</h2>
+<div class="container row ml-0">
+
+
+
+    <div class="card-deck col">
+
+        <div class="card mb-3">
+            <a id="commentsReturn"></a>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <form asp-action="AddMainComment">
+                    <input type="hidden" value="@Model.ID" name="ID"/>
+                    <textarea name="message" class="form-control mt-5 mb-2"></textarea>
+                    <button type="submit" class="btn border">Add Comment</button>
+                </form>
+            }
+
+            <div>
+                <a id="ReturnComments"></a>
+                @foreach (var c in Model.Comments)
+                {
+                    <div class="mainComment">
+                        <h6>@c.DateTime</h6>
+                        <h2>@c.User</h2>
+                        <p>@c.Message</p>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                        <form asp-action="AddSubComment">
+                            <input type="hidden" value="@Model.ID" name="ID" />
+                            <input type="hidden" value="@c.ID" name="MainCommentID" />
+                            <textarea name="message" class="form-control mt-5 mb-2"></textarea>
+                            <button type="submit">Reply</button>
+                        </form>
+                        }
+                        @foreach(var s in c.SubComments)
+                        {
+                        
+                            <h6>@s.DateTime</h6>
+                            <h2>@s.User</h2>
+                            <p>@s.Message</p>
+                        
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+</div>
 </div>

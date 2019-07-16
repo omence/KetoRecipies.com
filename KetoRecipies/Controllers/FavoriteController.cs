@@ -13,9 +13,9 @@ namespace KetoRecipies.Controllers
     public class FavoriteController : Controller
     {
         private readonly KetoDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public FavoriteController(KetoDbContext context, UserManager<IdentityUser> userManager)
+        public FavoriteController(KetoDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;

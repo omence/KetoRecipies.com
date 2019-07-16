@@ -19,7 +19,7 @@ namespace KetoRecipies.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("KetoRecipiesContextConnection")));
 
-                services.AddDefaultIdentity<IdentityUser>()
+                services.AddDefaultIdentity<ApplicationUser>()
                     .AddEntityFrameworkStores<KetoRecipiesContext>();
             });
         }

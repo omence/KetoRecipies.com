@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KetoRecipies.Models
 {
-    public class KetoRecipiesContext : IdentityDbContext<IdentityUser>
+    public class KetoRecipiesContext : IdentityDbContext<ApplicationUser>
     {
         public KetoRecipiesContext(DbContextOptions<KetoRecipiesContext> options)
             : base(options)

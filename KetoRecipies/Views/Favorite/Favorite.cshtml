@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<KetoRecipies.Models.Favorite>
 @using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 <form asp-action="Favorite" method="get" class="card card-sm mb-3 mt-3">
     <div class="card-body row no-gutters align-items-center">

@@ -50,7 +50,7 @@ namespace KetoRecipies
                o.TokenLifespan = TimeSpan.FromHours(3));
             services.AddScoped<IDbList, DbListService>();
 
-            services.AddTransient<CustomEmailConfirmationTokenProvider<IdentityUser>>();
+            services.AddTransient<CustomEmailConfirmationTokenProvider<ApplicationUser>>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
