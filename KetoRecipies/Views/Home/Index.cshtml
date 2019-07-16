@@ -3,8 +3,8 @@
 @using KetoRecipies.Models.Interfaces
 @inject IDbList dbList
 @using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> userManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> userManager
 @if (TempData["Error"] != null)
 {
     <div>

@@ -4,14 +4,16 @@ using KetoRecipies.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KetoRecipies.Migrations.KetoDb
 {
     [DbContext(typeof(KetoDbContext))]
-    partial class KetoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190716152231_ini")]
+    partial class ini
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,13 +31,7 @@ namespace KetoRecipies.Migrations.KetoDb
 
                     b.Property<string>("Message");
 
-                    b.Property<int>("RecipeID");
-
-                    b.Property<string>("User");
-
                     b.HasKey("ID");
-
-                    b.HasIndex("RecipeID");
 
                     b.ToTable("mainComments");
                 });
@@ -51,8 +47,6 @@ namespace KetoRecipies.Migrations.KetoDb
                     b.Property<int>("MainCommentID");
 
                     b.Property<string>("Message");
-
-                    b.Property<string>("User");
 
                     b.HasKey("ID");
 
@@ -134,14 +128,6 @@ namespace KetoRecipies.Migrations.KetoDb
                     b.HasKey("ID");
 
                     b.ToTable("recipes");
-                });
-
-            modelBuilder.Entity("KetoRecipies.Models.Comments.MainComment", b =>
-                {
-                    b.HasOne("KetoRecipies.Models.Recipe")
-                        .WithMany("Comments")
-                        .HasForeignKey("RecipeID")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("KetoRecipies.Models.Comments.SubComment", b =>
