@@ -72,6 +72,7 @@ namespace KetoRecipies.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { Name = Input.Name, UserName = Input.Email, Email = Input.Email };
+                user.RegistrationDate = DateTime.Now;
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

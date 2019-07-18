@@ -19,30 +19,41 @@
             <th>
                 User Name
             </th>
-            <th></th>
+            <th>
+                Registration Date
+            </th>
+            <th>
+                Last Login Date
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @item.Name
+        <tr>
+            <td>
+                @item.Name
 
-                </td>
-                <td>
-                    @item.Email
-                </td>
-                <td>
-                    @item.UserName
-                </td>
-                <td>
-                    <a id="@item.Name"></a>
-                    <a asp-action="AdminEditRecipe" asp-route-id="@item.UserName">Edit</a>
-                    <hr />
-                    <a asp-action="AdminDeleteRecipe" asp-route-id="@item.UserName">Delete</a>
-                </td>
-            </tr>
+            </td>
+            <td>
+                @item.Email
+            </td>
+            <td>
+                @item.UserName
+            </td>
+            <td>
+                @item.RegistrationDate
+            </td>
+            <td>
+                @item.LastLoginTime
+            </td>
+            <td>
+                <a id="@item.Name"></a>
+                <a asp-action="AdminEditRecipe" asp-route-id="@item.UserName">Edit</a>
+                <hr />
+                <a asp-action="AdminDeleteRecipe" asp-route-id="@item.UserName">Delete</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
