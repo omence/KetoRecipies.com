@@ -18,11 +18,18 @@ namespace KetoRecipies.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly KetoRecipiesContext _users;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<ApplicationUser> signInManager,
+            ILogger<LoginModel> logger,
+            KetoRecipiesContext users,
+            UserManager<ApplicationUser> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _users = users;
+            _userManager = userManager;
         }
 
         [BindProperty]
@@ -78,7 +85,7 @@ namespace KetoRecipies.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    return RedirectToAction("LoginDate", "Home");
                 }
                 if (result.RequiresTwoFactor)
                 {

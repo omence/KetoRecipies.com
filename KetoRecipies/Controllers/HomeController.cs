@@ -45,6 +45,17 @@ namespace KetoRecipies.Controllers
             _users = users;
         }
 
+        public IActionResult LoginDate()
+        {
+            var userId = _userManager.GetUserId(User);
+            var user = _users.Users.FirstOrDefault(u => u.Id == userId);
+            user.LastLoginTime = DateTime.Now;
+
+            _users.Users.Update(user);
+            _users.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
         /// <summary>
         /// Send Index with recipes to View
         /// </summary>
