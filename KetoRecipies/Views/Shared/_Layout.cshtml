@@ -34,9 +34,22 @@
                         <li class="nav-item">
                             <a class="nav-link text-light mr-auto" asp-area="Identity" asp-page="/Account/Login"><h3>Login</h3></a>
                         </li>
+
                     }
                     @if (SignInManager.IsSignedIn(User))
                     {
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light text-center" href="~/Admin/Index">Application Info</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light text-center" href="~/Admin/ManageRecipes">Manage Recipes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light text-center" href="~/Admin/ManageUsers">Manage Users</a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "Favorite" ? "nav-link text-light mr-auto active" : "nav-link text-light mr-auto ")" href="~/Favorite/Favorite"><h4>My Favorites</h4></a>
                         </li>
@@ -60,12 +73,13 @@
             <div id="carousel-example" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner row w-100 mx-auto" role="listbox">
                     <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3 active">
-                        <img src="@randomRecipes[0].ImageUrl" class="img-fluid mx-auto d-block" alt="img1">
+                        <img src="@randomRecipes[0].ImageUrl" class="img-fluid mx-auto d-block overlay" alt="img1"/> 
+                     
                         @if (@randomRecipes[0].SourceUrl != null)
                         {
                             <a href="@randomRecipes[0].SourceUrl" target="_blank">
                                 <div class="carousel-caption d-none d-md-block">
-                                    <h5>@randomRecipes[0].Label</h5>
+                                    <h5 style="font-weight:bold;">@randomRecipes[0].Label</h5>
                                 </div>
                             </a>
                         }
@@ -73,7 +87,7 @@
                         {
                             <a asp-action="Details" asp-route-id="@randomRecipes[0].ID">
                                 <div class="carousel-caption d-none d-md-block">
-                                    <h5>@randomRecipes[0].Label</h5>
+                                    <h5 style="font-weight:bold;">@randomRecipes[0].Label</h5>
                                 </div>
                             </a>
                         }
@@ -81,12 +95,12 @@
                     @for (int i = 1; i < randomRecipes.Count(); i++)
                     {
                     <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
-                        <img src="@randomRecipes[i].ImageUrl" class="img-fluid mx-auto d-block" alt="img2">
+                        <img src="@randomRecipes[i].ImageUrl" class="img-fluid mx-auto d-block overlay" alt="img2"/>
                         @if (@randomRecipes[i].SourceUrl != null)
                         {
                             <a href="@randomRecipes[i].SourceUrl" target="_blank">
                                 <div class="carousel-caption d-none d-md-block">
-                                    <h5>@randomRecipes[i].Label</h5>
+                                    <h5 style="font-weight:bold;">@randomRecipes[i].Label</h5>
                                 </div>
                             </a>
                         }
@@ -94,7 +108,7 @@
                         {
                             <a asp-action="Details" asp-route-id="@randomRecipes[i].ID">
                                 <div class="carousel-caption d-none d-md-block">
-                                    <h5>@randomRecipes[i].Label</h5>
+                                    <h5 style="font-weight:bold;">@randomRecipes[i].Label</h5>
                                 </div>
                             </a>
                         }

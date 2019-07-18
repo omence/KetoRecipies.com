@@ -1,0 +1,102 @@
+﻿@model KetoRecipies.Models.Recipe
+
+@{
+    ViewData["Title"] = "AdminEditRecipe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>AdminEditRecipe</h1>
+
+<h4>Recipe</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AdminEditRecipe">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class="form-control" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Label" class="control-label"></label>
+                <input asp-for="Label" class="form-control" />
+                <span asp-validation-for="Label" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ingridients" class="control-label"></label>
+                <input asp-for="Ingridients" class="form-control" />
+                <span asp-validation-for="Ingridients" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Instructions" class="control-label"></label>
+                <input asp-for="Instructions" class="form-control" />
+                <span asp-validation-for="Instructions" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Source" class="control-label"></label>
+                <input asp-for="Source" class="form-control" />
+                <span asp-validation-for="Source" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SourceUrl" class="control-label"></label>
+                <input asp-for="SourceUrl" class="form-control" />
+                <span asp-validation-for="SourceUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Yield" class="control-label"></label>
+                <input asp-for="Yield" class="form-control" />
+                <span asp-validation-for="Yield" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalTime" class="control-label"></label>
+                <input asp-for="TotalTime" class="form-control" />
+                <span asp-validation-for="TotalTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalCarbsServ" class="control-label"></label>
+                <input asp-for="TotalCarbsServ" class="form-control" />
+                <span asp-validation-for="TotalCarbsServ" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalFatServ" class="control-label"></label>
+                <input asp-for="TotalFatServ" class="form-control" />
+                <span asp-validation-for="TotalFatServ" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalCaloriesServ" class="control-label"></label>
+                <input asp-for="TotalCaloriesServ" class="form-control" />
+                <span asp-validation-for="TotalCaloriesServ" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageUrl" class="control-label"></label>
+                <input asp-for="ImageUrl" class="form-control" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VideoUrl" class="control-label"></label>
+                <input asp-for="VideoUrl" class="form-control" />
+                <span asp-validation-for="VideoUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LikeCount" class="control-label"></label>
+                <input asp-for="LikeCount" class="form-control" />
+                <span asp-validation-for="LikeCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DisLikeCount" class="control-label"></label>
+                <input asp-for="DisLikeCount" class="form-control" />
+                <span asp-validation-for="DisLikeCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
