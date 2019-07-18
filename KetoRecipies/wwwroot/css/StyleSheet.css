@@ -3,6 +3,7 @@
 * {
     border-radius: 0 !important;
     box-shadow: none !important;
+    padding:0px;
 }
 body {
     margin-top: 20px;
@@ -19,6 +20,12 @@ body {
     border: 2px solid #e5e7e8;
 }
 
+
+
+hr {
+    border: 1px solid black;
+}
+
 .comment-wrapper .media-list .media {
     border-bottom: 1px dashed #efefef;
     margin-bottom: 25px;
@@ -28,6 +35,9 @@ body {
     background-color: white;
 }
 
+.overlay {
+    background: linear-gradient( rgba(20,20,20, .5), rgba(20,20,20, 0.2));
+}
 .navbar-brand:hover {
     color: deepskyblue !important;
 }
