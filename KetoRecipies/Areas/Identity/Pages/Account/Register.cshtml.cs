@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using KetoRecipies.Models;
@@ -77,6 +78,10 @@ namespace KetoRecipies.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    Claim NameClaim = new Claim("Name", $"{user.Name}");
+                    List<Claim> claims = new List<Claim> {NameClaim};
+                    await _userManager.AddClaimsAsync(user, claims);
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Page(
