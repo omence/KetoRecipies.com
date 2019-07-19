@@ -9,6 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - KetoRecipies</title>
+    <link rel="stylesheet" href="~/css/reset.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/css/mdb.min.css" rel="stylesheet">
@@ -18,8 +19,8 @@
 </head>
 <body class="justify-content-center bg-light">
     <header>
-        <nav class="navbar navbar-expand-lg shadow-none navbar-dark bg-dark">
-            <a class="navbar-brand shadow-none ml-3")" asp-area="" asp-controller="Home" asp-action="Index"><h4>KetoRecipies.com</h4></a>
+        <nav class="navbar navbar-expand-lg navbar-dark shadow-none" style="background-color:deepskyblue;">
+            <a class="navbar-brand shadow-none ml-3" )" asp-area="" asp-controller="Home" asp-action="Index"><h3>KetoRecipies.com</h3></a>
             <button class="navbar-toggler" data-toggle="collapse" data-target="#nav1" aria-controls="nav1" aria-expanded="false" aria-label="Toggle Navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -29,12 +30,11 @@
                     @if (!SignInManager.IsSignedIn(User))
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-light mr-auto" asp-area="Identity" asp-page="/Account/Register"><h3>Register</h3></a>
+                            <a class="nav-link text-light mr-auto" asp-area="Identity" asp-page="/Account/Register"><h4>Register</h4></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light mr-auto" asp-area="Identity" asp-page="/Account/Login"><h3>Login</h3></a>
+                            <a class="nav-link text-light mr-auto" asp-area="Identity" asp-page="/Account/Login"><h4>Login</h4></a>
                         </li>
-
                     }
                     @if (SignInManager.IsSignedIn(User))
                     {
@@ -63,56 +63,48 @@
                 </ul>
             </div>
         </nav>
-        <h3>Keep this site add free! <a>Click Here to Donate</a></h3>
+        @if (SignInManager.IsSignedIn(User))
+        {
+             <h4 class="mb-3">Welcome, @User.Claims.First(c => c.Type == "Name").Value</h4>
+        }
     </header>
     @{
         var randomRecipes = dbList.GetRandomRecipes();
     }
-    <div class="container mb-5">
+    <div class="container">
         <div class="container-fluid">
             <div id="carousel-example" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner row w-100 mx-auto" role="listbox">
                     <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3 active">
-                        <img src="@randomRecipes[0].ImageUrl" class="img-fluid mx-auto d-block overlay" alt="img1"/> 
-                     
                         @if (@randomRecipes[0].SourceUrl != null)
                         {
                             <a href="@randomRecipes[0].SourceUrl" target="_blank">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5 style="font-weight:bold;">@randomRecipes[0].Label</h5>
-                                </div>
+                                <img src="@randomRecipes[0].ImageUrl" class="img-fluid mx-auto d-block overlay" alt="img1" />
                             </a>
                         }
                         @if (@randomRecipes[0].SourceUrl == null)
                         {
                             <a asp-action="Details" asp-route-id="@randomRecipes[0].ID">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5 style="font-weight:bold;">@randomRecipes[0].Label</h5>
-                                </div>
+                                <img src="@randomRecipes[0].ImageUrl" class="img-fluid mx-auto d-block overlay" alt="img1" />
                             </a>
                         }
                     </div>
                     @for (int i = 1; i < randomRecipes.Count(); i++)
                     {
-                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
-                        <img src="@randomRecipes[i].ImageUrl" class="img-fluid mx-auto d-block overlay" alt="img2"/>
-                        @if (@randomRecipes[i].SourceUrl != null)
-                        {
-                            <a href="@randomRecipes[i].SourceUrl" target="_blank">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5 style="font-weight:bold;">@randomRecipes[i].Label</h5>
-                                </div>
-                            </a>
-                        }
-                        @if (@randomRecipes[i].SourceUrl == null)
-                        {
-                            <a asp-action="Details" asp-route-id="@randomRecipes[i].ID">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5 style="font-weight:bold;">@randomRecipes[i].Label</h5>
-                                </div>
-                            </a>
-                        }
-                    </div>
+                        <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                            @if (@randomRecipes[i].SourceUrl != null)
+                            {
+                                <a href="@randomRecipes[i].SourceUrl" target="_blank">
+                                    <img src="@randomRecipes[i].ImageUrl" class="img-fluid mx-auto d-block overlay" alt="img1" />
+                                </a>
+                            }
+                            @if (@randomRecipes[i].SourceUrl == null)
+                            {
+                                <a asp-action="Details" asp-route-id="@randomRecipes[i].ID">
+                                    <img src="@randomRecipes[i].ImageUrl" class="img-fluid mx-auto d-block overlay" alt="img1" />
+                                </a>
+                            }
+                        </div>
                     }
                 </div>
                 <a class="carousel-control-prev" href="#carousel-example" role="button" data-slide="prev">
@@ -129,11 +121,11 @@
             @RenderBody()
         </main>
     </div>
-    <footer class="page-footer font-small special-color-dark pt-4">
+    <footer class="page-footer font-small special-color-dark mt-5">
         <a class="nav-link text-light mr-auto" href="~/Home/Privacy">Privacy Policy</a>
         © 2019 Copyright:
         <a class="mb-3">KetoRecipies.com</a> |
-        <a href="~/Home/ContactUs">Contact Us</a>
+        <a class="mb-3" href="~/Home/ContactUs">Contact Us</a>
     </footer>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>

@@ -63,7 +63,7 @@ namespace KetoRecipies.Controllers
         public async Task<IActionResult> Index(int? page)
         {
             //await GetRecipes();
-            var recipes = _context.recipes.OrderBy(r => r.Label).ToList();
+            var recipes = await _context.recipes.OrderBy(r => r.Label).ToListAsync();
             foreach (var i in recipes)
             {
                 i.LikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == true).Count();
@@ -82,7 +82,7 @@ namespace KetoRecipies.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(string SearchString, int? page)
         {
-            var recipes = _context.recipes.OrderBy(r => r.Label).ToList();
+            var recipes = await _context.recipes.OrderBy(r => r.Label).ToListAsync();
             foreach (var i in recipes)
             {
                 i.LikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == true).Count();
@@ -91,9 +91,9 @@ namespace KetoRecipies.Controllers
 
             if (!String.IsNullOrEmpty(SearchString))
             {
-                var recipes1 = recipes.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-                var recipes2 = recipes.Where(r => r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-                var recipes3 = recipes.Where(r => r.Source.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
+                var recipes1 = await recipes.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToListAsync();
+                var recipes2 = await recipes.Where(r => r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToListAsync();
+                var recipes3 = await recipes.Where(r => r.Source.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToListAsync();
                 recipes1 = recipes1.Union(recipes2).ToList();
                 recipes1 = recipes1.Union(recipes3).ToList();
 
@@ -101,8 +101,8 @@ namespace KetoRecipies.Controllers
 
                 foreach (var i in splitSearch)
                 {
-                    var temp = recipes.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-                    var temp2 = recipes.Where(r => r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
+                    var temp = await recipes.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToListAsync();
+                    var temp2 = await recipes.Where(r => r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToListAsync();
                     recipes1 = recipes1.Union(temp).ToList();
                     recipes1 = recipes1.Union(temp2).ToList();
 
@@ -241,7 +241,7 @@ namespace KetoRecipies.Controllers
         /// <returns>View with page and element id to return to</returns>
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> RemoveFavorite(int id, int Page)
+        public IActionResult RemoveFavorite(int id, int Page)
         {
             var userId = _userManager.GetUserId(User);
             var recipe = _context.recipes.FirstOrDefault(r => r.ID == id);
@@ -276,7 +276,7 @@ namespace KetoRecipies.Controllers
         /// <returns>View</returns>
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create(string Label, string Ingridients, string Instructions, string Source, string SourceUrl, decimal Yield, decimal TotalTime, decimal TotalCarbsServ, decimal TotalFatServ, decimal TotalCaloriesServ, IFormFile ImageUrl, string VideoUrl)
+        public IActionResult Create(string Label, string Ingridients, string Instructions, string Source, string SourceUrl, decimal Yield, decimal TotalTime, decimal TotalCarbsServ, decimal TotalFatServ, decimal TotalCaloriesServ, IFormFile ImageUrl, string VideoUrl)
         {
             var userId = _userManager.GetUserId(User);
             Recipe recipe = new Recipe();
@@ -313,15 +313,15 @@ namespace KetoRecipies.Controllers
         /// <param name="ID"></param>
         /// <returns>View</returns>
         [HttpGet]
-        public IActionResult Details(int ID)
+        public async Task<IActionResult> Details(int ID)
         {
             var recipe = _context.recipes.FirstOrDefault(r => r.ID == ID);
             recipe.LikeCount = _context.Likes.Where(l => l.RecipeId == recipe.ID && l.Liked == true).Count();
             recipe.DisLikeCount = _context.Likes.Where(l => l.RecipeId == recipe.ID && l.Liked == false).Count();
-            recipe.Comments = _context.mainComments.Where(r => r.RecipeID == recipe.ID).ToList();
+            recipe.Comments = await _context.mainComments.Where(r => r.RecipeID == recipe.ID).ToListAsync();
             foreach(var c in recipe.Comments)
             {
-                c.SubComments = _context.subComments.Where(s => s.MainCommentID == c.ID).ToList();
+                c.SubComments = await _context.subComments.Where(s => s.MainCommentID == c.ID).ToListAsync();
             }
 
             return View(recipe);
@@ -382,11 +382,11 @@ namespace KetoRecipies.Controllers
         /// <returns>View</returns>
         [HttpGet]
         [Authorize]
-        public IActionResult MyRecipes()
+        public async Task<IActionResult> MyRecipes()
         {
             var userId = _userManager.GetUserId(User);
 
-            var recipes = _context.recipes.Where(r => r.UserId == userId).OrderBy(r => r.Label).ToList();
+            var recipes = await _context.recipes.Where(r => r.UserId == userId).OrderBy(r => r.Label).ToListAsync();
             foreach(var i in recipes)
             {
                 i.LikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == true).Count();
@@ -485,13 +485,13 @@ namespace KetoRecipies.Controllers
         /// <param name="message"></param>
         /// <returns>View</returns>
         [HttpPost]
-        public IActionResult ContactUs(string email, string subject, string message)
+        public async Task<IActionResult> ContactUs(string email, string subject, string message)
         {
             if (email != null && subject != null && message != null)
             {
                 string msg = $"{email} {message}";
 
-                _es.SendEmailAsync("omence11@gmail.com", subject, msg);
+                await _es.SendEmailAsync("omence11@gmail.com", subject, msg);
 
                 TempData["Message"] = "Sent, we will get back to you ASAP";
 
