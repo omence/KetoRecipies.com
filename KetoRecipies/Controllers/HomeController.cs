@@ -362,7 +362,7 @@ namespace KetoRecipies.Controllers
         /// <returns>View</returns>
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> MyRecipes()
+        public async Task<IActionResult> MyRecipes(string SearchString)
         {
             var userId = _userManager.GetUserId(User);
 
@@ -372,7 +372,24 @@ namespace KetoRecipies.Controllers
                 i.LikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == true).Count();
                 i.DisLikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == false).Count();
             }
+            if (!String.IsNullOrEmpty(SearchString))
+            {
+                var recipes1 = recipes.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
+                var recipes2 = recipes.Where(r => r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
+                recipes1 = recipes1.Concat(recipes2);
+                var splitSearch = SearchString.Split(" ");
 
+                foreach (var i in splitSearch)
+                {
+                    var temp = recipes.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
+                    var temp2 = recipes.Where(r => r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
+                    recipes1 = recipes1.Union(temp);
+                    recipes1 = recipes1.Union(temp2);
+
+                }
+
+                return View(recipes1);
+            }
             return View(recipes);
         }
 
