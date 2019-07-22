@@ -19,13 +19,21 @@ namespace KetoRecipies.Controllers
             _context = context;
         }
 
-        public async Task CreateMainComment(MainComment mainComment)
+        /// <summary>
+        /// Add a main comment to DB
+        /// </summary>
+        /// <param name="mainComment"></param>
+        public void CreateMainComment(MainComment mainComment)
         {
             _context.mainComments.Add(mainComment);
             _context.SaveChanges();
         }
 
-        public async Task CreateSubComment(SubComment subComment)
+        /// <summary>
+        /// Adds a subcomment to the DB
+        /// </summary>
+        /// <param name="subComment"></param>
+        public void CreateSubComment(SubComment subComment)
         {
             _context.subComments.Add(subComment);
             _context.SaveChanges();

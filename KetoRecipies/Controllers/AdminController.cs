@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace KetoRecipies.Controllers
 {
@@ -38,15 +39,34 @@ namespace KetoRecipies.Controllers
             return View();
         }
 
-        public IActionResult ManageUsers()
+        public async Task<IActionResult> ManageUsers()
         {
-            var users = _users.Users.ToList();
+            var users = await _users.Users.ToListAsync();
             return View(users);
         }
 
-        public IActionResult ManageRecipes()
+        public async Task<IActionResult> ManageRecipes(string SearchString)
         {
-            return View(_context.recipes.ToList());
+            var recipes = await _context.recipes.ToListAsync();
+            if (!String.IsNullOrEmpty(SearchString))
+            {
+                var recipes1 = recipes.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
+                var recipes2 = recipes.Where(r => r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
+                recipes1 = recipes1.Concat(recipes2);
+                var splitSearch = SearchString.Split(" ");
+
+                foreach (var i in splitSearch)
+                {
+                    var temp = recipes.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
+                    var temp2 = recipes.Where(r => r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
+                    recipes1 = recipes1.Union(temp);
+                    recipes1 = recipes1.Union(temp2);
+
+                }
+
+                return View(recipes1);
+            }
+                return View(recipes);
         }
 
         public IActionResult AdminEditRecipe(int ID)

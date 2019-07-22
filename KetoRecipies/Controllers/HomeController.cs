@@ -60,7 +60,7 @@ namespace KetoRecipies.Controllers
         /// Send Index with recipes to View
         /// </summary>
         /// <returns>View + Recipe list</returns>
-        public async Task<IActionResult> Index(int? page)
+        public async Task<IActionResult> Index(string SearchString, int? page)
         {
             //await GetRecipes();
             var recipes = await _context.recipes.OrderBy(r => r.Label).ToListAsync();
@@ -69,52 +69,33 @@ namespace KetoRecipies.Controllers
                 i.LikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == true).Count();
                 i.DisLikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == false).Count();
             }
-            int pageSize = 27;
-            int pageNumber = (page ?? 1);
-            return View(recipes.ToPagedList(pageNumber, pageSize));
-        }
-
-        /// <summary>
-        /// Searches recipe by keyword from user
-        /// </summary>
-        /// <param name="SearchString"></param>
-        /// <returns>view + searched list</returns>
-        [HttpPost]
-        public async Task<IActionResult> Index(string SearchString, int? page)
-        {
-            var recipes = await _context.recipes.OrderBy(r => r.Label).ToListAsync();
-            foreach (var i in recipes)
-            {
-                i.LikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == true).Count();
-                i.DisLikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == false).Count();
-            }
-
             if (!String.IsNullOrEmpty(SearchString))
             {
-                var recipes1 = await recipes.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToListAsync();
-                var recipes2 = await recipes.Where(r => r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToListAsync();
-                var recipes3 = await recipes.Where(r => r.Source.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToListAsync();
-                recipes1 = recipes1.Union(recipes2).ToList();
-                recipes1 = recipes1.Union(recipes3).ToList();
+                var recipes1 = recipes.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
+                var recipes2 = recipes.Where(r => r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
+                var recipes3 = recipes.Where(r => r.Source.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
+                recipes1 = recipes1.Union(recipes2);
+                recipes1 = recipes1.Union(recipes3);
 
                 var splitSearch = SearchString.Split(" ");
 
                 foreach (var i in splitSearch)
                 {
-                    var temp = await recipes.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToListAsync();
-                    var temp2 = await recipes.Where(r => r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToListAsync();
-                    recipes1 = recipes1.Union(temp).ToList();
-                    recipes1 = recipes1.Union(temp2).ToList();
+                    var temp = recipes.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
+                    var temp2 = recipes.Where(r => r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
+                    recipes1 = recipes1.Union(temp);
+                    recipes1 = recipes1.Union(temp2);
 
                 }
-                int pageSize = 27;
-                int pageNumber = (page ?? 1);
-
-                return View(recipes1.ToPagedList(pageNumber, pageSize));
+                int pageSize2 = 100;
+                int pageNumber2 = (page ?? 1);
+                TempData["SearchString"] = SearchString;
+             
+                return View(recipes1.ToPagedList(pageNumber2, pageSize2));
             }
-            int pageSize2 = 27;
-            int pageNumber2 = (page ?? 1);
-            return View(recipes.ToPagedList(pageNumber2, pageSize2));
+            int pageSize = 27;
+            int pageNumber = (page ?? 1);
+            return View(recipes.ToPagedList(pageNumber, pageSize));
         }
 
         public IActionResult Privacy()
@@ -212,7 +193,7 @@ namespace KetoRecipies.Controllers
         /// <returns>View</returns>
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AddFavorite(int id, int Page)
+        public IActionResult AddFavorite(string searchString, int id, int Page)
         {
             var userId = _userManager.GetUserId(User);
             var checkForDupe = _context.favorites.FirstOrDefault(f => f.UserID == userId && f.RecipeID == id);
@@ -220,13 +201,14 @@ namespace KetoRecipies.Controllers
             if (checkForDupe == null)
             {
                 FavoriteController fc = new FavoriteController(_context, _userManager);
-                await fc.Create(id, userId);
+                fc.Create(id, userId);
+                string label = recipe.Label;
+
                 if (Page > 1)
                 {
-                    return Redirect(Url.Action("Index") + $"?page={Page}#{recipe.Label}");
+                    return Redirect(Url.Action("Index", new { searchString }) + $"?page={Page}#{recipe.Label}");
                 }
-
-                return Redirect(Url.Action("Index") + $"#{recipe.Label}");
+                return Redirect(Url.Action("Index", new { searchString }) +$"#{recipe.Label}");
             }
 
             TempData["Error"] = "Recipe already in your favorites list";
@@ -241,7 +223,7 @@ namespace KetoRecipies.Controllers
         /// <returns>View with page and element id to return to</returns>
         [Authorize]
         [HttpPost]
-        public IActionResult RemoveFavorite(int id, int Page)
+        public IActionResult RemoveFavorite(string searchString, int id, int Page)
         {
             var userId = _userManager.GetUserId(User);
             var recipe = _context.recipes.FirstOrDefault(r => r.ID == id);
@@ -252,11 +234,9 @@ namespace KetoRecipies.Controllers
 
             if (Page > 1)
             {
-                return Redirect(Url.Action("Index") + $"?page={Page}#{recipe.Label}");
+                return Redirect(Url.Action("Index", new { searchString }) + $"?page={Page}#{recipe.Label}");
             }
-
-            return Redirect(Url.Action("Index") + $"#{recipe.Label}");
-
+            return Redirect(Url.Action("Index", new { searchString }) + $"#{recipe.Label}");
         }
 
         /// <summary>
@@ -501,7 +481,13 @@ namespace KetoRecipies.Controllers
             return View();
         }
 
-        public async Task<IActionResult> AddMainComment(string message, int ID)
+        /// <summary>
+        /// Adds MainComment to the DB using CommentController
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="ID"></param>
+        /// <returns>View</returns>
+        public IActionResult AddMainComment(string message, int ID)
         {
             if (message != null)
             {
@@ -515,14 +501,21 @@ namespace KetoRecipies.Controllers
                 mainComment.RecipeID = ID;
                 mainComment.Message = message;
 
-                await cc.CreateMainComment(mainComment);
+                cc.CreateMainComment(mainComment);
 
                 return Redirect(Url.Action("Details", new { ID }) + "#commentsReturn");
             }
             return Redirect(Url.Action("Details", new { ID }) + "#commentsReturn");
             }
 
-        public async Task<IActionResult> AddSubComment(string message, int MainCommentID, int ID)
+        /// <summary>
+        /// Adds a sub comment to DB using ComentController
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="MainCommentID"></param>
+        /// <param name="ID"></param>
+        /// <returns>View</returns>
+        public IActionResult AddSubComment(string message, int MainCommentID, int ID)
         {
             if (message != null)
             {
@@ -536,7 +529,7 @@ namespace KetoRecipies.Controllers
                 subComment.MainCommentID = MainCommentID;
                 subComment.Message = message;
 
-                await cc.CreateSubComment(subComment);
+                cc.CreateSubComment(subComment);
 
                 return Redirect(Url.Action("Details", "Home", new { ID }) + "#commentsReturn");
             }
