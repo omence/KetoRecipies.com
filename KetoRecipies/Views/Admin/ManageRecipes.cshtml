@@ -4,7 +4,16 @@
     ViewData["Title"] = "ManageRecipes";
 }
 
-<h1>ManageRecipes</h1>
+<form asp-action="ManageRecipes" method="get" class="card card-sm mb-3 mt-3">
+    <div class="card-body row no-gutters align-items-center">
+        <div class="col">
+            <input name="SearchString" class="form-control" type="search" placeholder="Name or Ingridients" aria-label="Search">
+        </div>
+        <div class="col-auto">
+            <button class="btn menu-right-btn border" type="submit" value="Search">Search</button>
+        </div>
+    </div>
+</form>
 
 <p>
     <a asp-action="Create">Create New</a>

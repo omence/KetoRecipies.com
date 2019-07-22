@@ -7,6 +7,8 @@ using KetoRecipies.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using X.PagedList;
 
 namespace KetoRecipies.Controllers
 {
@@ -31,7 +33,7 @@ namespace KetoRecipies.Controllers
         public async Task<IActionResult> Favorite(string SearchString)
         {
             var userId = _userManager.GetUserId(User);
-            var favs = _context.favorites.Where(f => f.UserID == userId).ToList();
+            var favs = await _context.favorites.Where(f => f.UserID == userId).ToListAsync();
 
             foreach (var f in favs)
             {
@@ -44,17 +46,17 @@ namespace KetoRecipies.Controllers
             //search keyword from users favorite page
             if (!String.IsNullOrEmpty(SearchString))
             {
-                var recipes1 = favs.Where(r => r.Recipe.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-                var recipes2 = favs.Where(r => r.Recipe.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-                recipes1 = recipes1.Concat(recipes2).ToList();
+                var recipes1 = favs.Where(r => r.Recipe.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
+                var recipes2 = favs.Where(r => r.Recipe.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
+                recipes1 = recipes1.Concat(recipes2);
                 var splitSearch = SearchString.Split(" ");
 
                 foreach (var i in splitSearch)
                 {
-                    var temp = favs.Where(r => r.Recipe.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-                    var temp2 = favs.Where(r => r.Recipe.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-                    recipes1 = recipes1.Union(temp).ToList();
-                    recipes1 = recipes1.Union(temp2).ToList();
+                    var temp = favs.Where(r => r.Recipe.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
+                    var temp2 = favs.Where(r => r.Recipe.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
+                    recipes1 = recipes1.Union(temp);
+                    recipes1 = recipes1.Union(temp2);
 
                 }
 
@@ -70,7 +72,7 @@ namespace KetoRecipies.Controllers
         /// <returns>View and Favorite Recipe List</returns>
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create(int id, string userId)
+        public IActionResult Create(int id, string userId)
         {
             if (id != 0)
             {

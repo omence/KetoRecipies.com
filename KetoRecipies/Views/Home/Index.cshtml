@@ -70,19 +70,27 @@
                         var fav2 = fav.FirstOrDefault(f => f.RecipeID == item.ID && f.UserID == userID);
                         if (fav2 == null)
                         {
-                            <form asp-action="AddFavorite" method="post">
-                                <input name="Id" type="hidden" value="@item.ID" />
-                                <input name="Page" type="hidden" value="@Model.PageNumber" />
-                                <button type="submit" class="btn border">Add to Favorites</button>
-                            </form>
+                    <form asp-action="AddFavorite" method="post">
+                        <input name="Id" type="hidden" value="@item.ID" />
+                        @if (TempData["searchString"] != null)
+                        {
+                            <input name="searchString" type="hidden" value="@TempData["searchString"].ToString()" />
+                        }
+                        <input name="Page" type="hidden" value="@Model.PageNumber" />
+                        <button type="submit" class="btn border">Add to Favorites</button>
+                    </form>
                         }
                         else if (fav2 != null)
                         {
-                            <form asp-action="RemoveFavorite" method="post">
-                                <input name="Id" type="hidden" value="@item.ID" />
-                                <input name="Page" type="hidden" value="@Model.PageNumber" />
-                                <button style="background-color:deepskyblue; color:white;" type="submit" class="btn border">Remove from Favorites</button>
-                            </form>
+                    <form asp-action="RemoveFavorite" method="post">
+                        <input name="Id" type="hidden" value="@item.ID" />
+                        @if (TempData["searchString"] != null)
+                        {
+                            <input name="searchString" type="hidden" value="@TempData["searchString"].ToString()" />
+                        }
+                        <input name="Page" type="hidden" value="@Model.PageNumber" />
+                        <button style="background-color:deepskyblue; color:white;" type="submit" class="btn border">Remove from Favorites</button>
+                    </form>
                         }
                     }
                     <p class="card-title mt-2">

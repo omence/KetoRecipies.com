@@ -20,5 +20,17 @@ $('#carousel-example').on('slide.bs.carousel', function (e) {
     }
 });
 
-$('.textEdit').trumbowyg();
-
+$('.textEdit').trumbowyg({
+    btns: [
+        ['viewHTML'],
+        ['formatting'],
+        ['strong', 'em', 'del'],
+        ['superscript', 'subscript'],
+        ['link'],
+        ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+        ['unorderedList', 'orderedList'],
+        ['horizontalRule'],
+        ['removeformat'],
+        ['fullscreen']
+    ]
+});
