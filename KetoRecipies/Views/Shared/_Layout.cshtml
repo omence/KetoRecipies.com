@@ -65,7 +65,7 @@
         </nav>
         @if (SignInManager.IsSignedIn(User))
         {
-             <h4 class="mb-3">Welcome, @User.Claims.First(c => c.Type == "Name").Value</h4>
+             <h4 class="mb-3">Welcome, <a style="color:deepskyblue;" href="~/UserDashboard/Index">@User.Claims.First(c => c.Type == "Name").Value</a></h4>
         }
     </header>
     @{

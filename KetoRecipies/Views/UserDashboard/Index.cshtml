@@ -1,0 +1,16 @@
+﻿@model KetoRecipies.Models.ViewModels.UserDashboardViewModel
+
+<h1 class="mt-3 mb-5">Your Dashboard</h1>
+<div class="container text-left">
+    <div class="card mt-5 ">
+        <div class="card-body">
+            <h3 class="card-header text-center">Account Stats</h3>
+            <h3 class="mt-3">Total Recipes You Created: @Model.MyRecipesCount</h3>
+            <h3>Total Favorites in Your My Favorites Section: @Model.TotalFavorites</h3>
+            <h3>Total Comments in the Recipes You Created: @Model.TotalComments</h3>
+            <h3>Total Likes of the Recipes You Created: @Model.TotalLikes</h3>
+            <h3 class="card-header text-center">Manage Account</h3>
+            <a asp-action="ChangePassword">Change Password</a>
+        </div>
+        </div>
+    </div>
