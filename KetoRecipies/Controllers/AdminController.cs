@@ -34,17 +34,30 @@ namespace KetoRecipies.Controllers
             _he = he;
         }
 
+        /// <summary>
+        /// sends Index page
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
             return View();
         }
 
+        /// <summary>
+        /// Sends list of all users
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> ManageUsers()
         {
             var users = await _users.Users.ToListAsync();
             return View(users);
         }
 
+        /// <summary>
+        /// Sends a list of all recipes
+        /// </summary>
+        /// <param name="SearchString"></param>
+        /// <returns></returns>
         public async Task<IActionResult> ManageRecipes(string SearchString)
         {
             var recipes = await _context.recipes.ToListAsync();
@@ -52,7 +65,9 @@ namespace KetoRecipies.Controllers
             {
                 var recipes1 = recipes.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
                 var recipes2 = recipes.Where(r => r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
-                recipes1 = recipes1.Concat(recipes2);
+                var recipes3 = recipes.Where(r => r.Source.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
+                recipes1 = recipes1.Union(recipes2);
+                recipes1 = recipes1.Union(recipes3);
                 var splitSearch = SearchString.Split(" ");
 
                 foreach (var i in splitSearch)
@@ -63,17 +78,26 @@ namespace KetoRecipies.Controllers
                     recipes1 = recipes1.Union(temp2);
 
                 }
-
+                TempData["SearchString"] = SearchString;
                 return View(recipes1);
             }
                 return View(recipes);
         }
 
+        /// <summary>
+        /// sends edit page for recipe
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
         public IActionResult AdminEditRecipe(int ID)
         {
             return View(_context.recipes.FirstOrDefault(r => r.ID == ID));
         }
 
+        /// <summary>
+        /// Takes in input and updates Recipe
+        /// </summary>
+        /// <returns>Manage recipe view</returns>
         [HttpPost]
         public IActionResult AdminEditRecipe(int ID, string UserId, string Label, string Ingridients, string Instructions, string Source, string SourceUrl, decimal Yield, decimal TotalTime, decimal TotalCarbsServ, decimal TotalFatServ, decimal TotalCaloriesServ, IFormFile ImageUrl, string VideoUrl)
         {
@@ -104,19 +128,30 @@ namespace KetoRecipies.Controllers
             return Redirect(Url.Action("ManageRecipes") + $"#{Label}");
         }
 
-        public IActionResult AdminDeleteRecipe(int ID)
+        /// <summary>
+        /// Sends are you sure view
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        public IActionResult AdminDeleteRecipe(string searchString, int ID)
         {
+            TempData["SearchString"] = searchString;
             return View(_context.recipes.FirstOrDefault(r => r.ID == ID));
         }
 
+        /// <summary>
+        /// Deletes Recipe from the Database
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns>Manage Recipes view</returns>
         [HttpPost]
-        public IActionResult AdminDeleteRecipe2(int ID)
+        public IActionResult AdminDeleteRecipe2(string searchString, int ID)
         {
             var toDelete = _context.recipes.FirstOrDefault(r => r.ID == ID);
             _context.recipes.Remove(toDelete);
             _context.SaveChanges();
 
-            return RedirectToAction("ManageRecipes");
+            return Redirect(Url.Action("ManageRecipes", new { searchString }));
         }
     }
 }

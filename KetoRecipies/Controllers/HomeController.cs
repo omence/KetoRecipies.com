@@ -45,6 +45,10 @@ namespace KetoRecipies.Controllers
             _users = users;
         }
 
+        /// <summary>
+        /// Updates the users last login date
+        /// </summary>
+        /// <returns>Action Index</returns>
         public IActionResult LoginDate()
         {
             var userId = _userManager.GetUserId(User);
@@ -98,6 +102,10 @@ namespace KetoRecipies.Controllers
             return View(recipes.ToPagedList(pageNumber, pageSize));
         }
 
+        /// <summary>
+        /// Sends Privacy view
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Privacy()
         {
             return View();

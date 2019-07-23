@@ -39,6 +39,10 @@ namespace KetoRecipies.Controllers
             _users = users;
         }
 
+        /// <summary>
+        /// creates, defines and sends View Model to View
+        /// </summary>
+        /// <returns>View with View Model</returns>
         public IActionResult Index()
         {
             var userId = _userManager.GetUserId(User);
@@ -64,11 +68,22 @@ namespace KetoRecipies.Controllers
             return View(UDVM);
         }
 
+        /// <summary>
+        /// Sends Change password view
+        /// </summary>
+        /// <returns></returns>
         public IActionResult ChangePassword()
         {
             return View();
         }
 
+        /// <summary>
+        /// Changes the users passwird
+        /// </summary>
+        /// <param name="Password"></param>
+        /// <param name="NewPassword"></param>
+        /// <param name="ConfirmPassword"></param>
+        /// <returns>View</returns>
         [HttpPost]
         public async Task<IActionResult> ChangePassword(string Password, string NewPassword, string ConfirmPassword)
         {
@@ -84,6 +99,10 @@ namespace KetoRecipies.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Sends password was changes View.
+        /// </summary>
+        /// <returns>view</returns>
         public IActionResult Success()
         {
             return View();
