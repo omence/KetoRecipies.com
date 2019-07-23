@@ -37,28 +37,38 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Label)
-                
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Source)
-            </td>
-            <td>
-                <img src="@Html.DisplayFor(modelItem => item.ImageUrl)" style="width:100px; height:auto;"/>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VideoUrl)
-            </td>
-            <td>
-                <a id="@item.Label"></a>
-                <a asp-action="AdminEditRecipe" asp-route-id="@item.ID">Edit</a>
-                <hr />
-                <a asp-action="AdminDeleteRecipe" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <a id="@item.Label"></a>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Label)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Source)
+                </td>
+                <td>
+                    <img src="@Html.DisplayFor(modelItem => item.ImageUrl)" style="width:100px; height:auto;" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VideoUrl)
+                </td>
+                <td>
+                    <a id="@item.Label"></a>
+                    <form asp-action="AdminEditRecipe" asp-route-id="@item.ID">
+                        <button type="submit" class="btn border">Edit</button>
+                    </form>
+                    <hr />
+                    <form asp-action="AdminDeleteRecipe" asp-route-id="@item.ID">
+                        @if (TempData["searchString"] != null)
+                        {
+                            <input name="searchString" type="hidden" value="@TempData["searchString"].ToString()" />
+                        }
+                        <button type="submit" class="btn border">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

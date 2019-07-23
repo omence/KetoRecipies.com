@@ -106,6 +106,10 @@
     
     <form asp-action="AdminDeleteRecipe2">
         <input type="hidden" asp-for="ID" />
+        @if (TempData["searchString"] != null)
+        {
+            <input name="searchString" type="hidden" value="@TempData["searchString"].ToString()" />
+        }
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>
