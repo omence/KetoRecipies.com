@@ -125,8 +125,8 @@ namespace KetoRecipies.Controllers
         {
             using (var client = new HttpClient())
             {
-                var ID = "04c323bd";
-                var API = "164450c11102f2cb04cc1fe58795f157";
+                var ID = _configuration["RecID"];
+                var API = _configuration["RecAPI"];
                 try
                 {
                     //call made to the api

@@ -13,7 +13,7 @@ body {
     padding: 0%;
     margin: 0%;
     margin-top: 100px;
-    margin-bottom: 100px;
+    margin-bottom: 125px;
     text-align: center;
     align-content: center;
     font-family: Rufina;
@@ -31,6 +31,10 @@ a h4:hover {
     color: black !important;
 }
 
+a:focus {
+    outline: 3px solid orange;
+}
+
 footer {
     position: absolute;
     bottom: 0;
@@ -42,6 +46,15 @@ footer {
     color: white !important;
 }
 
+button:focus {
+    background-color: deepskyblue;
+    color: white;
+}
+
+.rmvfav:focus {
+    background-color: white;
+    color: black !important;
+}
 .navbar {
     position: fixed;
     top: 0px;

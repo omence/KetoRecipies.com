@@ -18,11 +18,11 @@
 <div class="container row ml-0">
     <div class="card-deck col">
         <div class="card mb-3">
-            <img src="@Model.ImageUrl" class="card-img-top" />
+            <img src="@Model.ImageUrl" alt="@Model.Label" class="card-img-top" />
             <div class="card-body" style="align-self:center;">
-                <h2><span style="font-weight:bold;">Serves:</span> @Model.Yield | <span style="font-weight:bold;">Time to Cook:</span> @Model.TotalTime min</h2>
+                <h2><span style="font-weight:bold;"><i class="fas mr-1 fa-utensil-spoon"></i>Serves:</span> @Model.Yield | <span style="font-weight:bold;"><i class="fas mr-1 fa-clock"></i>Time to Cook:</span> @Model.TotalTime min</h2>
                 <hr />
-                <h3><span style="font-weight:bold;">Calories:</span> @Model.TotalCaloriesServ/Serving | <span style="font-weight:bold;">Carbs:</span> @Model.TotalCarbsServ/Serving | <span style="font-weight:bold;">Fat:</span> @Model.TotalFatServ/Serving</h3>
+                <h3><i class="fab fa-1x fa-nutritionix"></i>: <span style="font-weight:bold;">Calories:</span> @Model.TotalCaloriesServ/Serving | <span style="font-weight:bold;">Carbs:</span> @Model.TotalCarbsServ/Serving | <span style="font-weight:bold;">Fat:</span> @Model.TotalFatServ/Serving</h3>
                 <hr />
                 @if (Model.VideoUrl != null)
                 {
@@ -40,11 +40,11 @@
                     }
                     <hr />
                 }
-                <h3 style="font-weight:bold;" class="text-left">Ingredients</h3>
+                <h3 style="font-weight:bold;" class="text-left"><i class="fas mr-2 fa-list-ol"></i>Ingredients</h3>
                 @Html.Raw(Model.Ingridients)
                 <hr />
                 <a id="Here"></a>
-                <h3 style="font-weight:bold;" class="text-left">Instructions</h3>
+                <h3 style="font-weight:bold;" class="text-left"><i class="fas mr-2 fa-info-circle"></i>Instructions</h3>
                 @Html.Raw(Model.Instructions)
                 <hr />
                 <h3 class="card-title mt-2">
@@ -71,7 +71,7 @@
                             <input type="hidden" value="@Model.ID" name="ID" />
                             <textarea class="form-control" name="message" placeholder="write a comment..." rows="3"></textarea>
                             <br>
-                            <button type="submit" class="btn btn-info pull-right">Comment</button>
+                            <button type="submit" class="btn btn-info pull-right">Comment<i class="fas ml-1 fa-1x fa-comment-medical"></i></button>
                         </form>
                     }
                         <div class="clearfix"></div>
@@ -86,7 +86,7 @@
                                         <span class="text-muted pull-right">
                                             <small class="text-muted"></small>
                                         </span>
-                                        <h5><span style="font-weight:bold;">@mc.User's Comment:</span> @mc.Message</h5>
+                                        <h5><i class="fas fa-comment"></i> <span style="font-weight:bold;">@mc.User's Comment:</span> @mc.Message</h5>
 
                                     </div>
                                 </li>
@@ -97,20 +97,20 @@
                                             <span class="text-muted pull-right">
                                                 <small class="text-muted"></small>
                                             </span>
-                                            <h5><span style="font-weight:bold; color:deepskyblue;">@sc.User's Reply:</span> @sc.Message</h5>
+                                            <h5><i class="far fa-comments"></i> <span style="font-weight:bold; color:deepskyblue;">@sc.User's Reply:</span> @sc.Message</h5>
                                         </div>
                                     </li>
                                 }
                                 @if (SignInManager.IsSignedIn(User))
                                 {
-                                    <a class="reply btn border ml-0" style="color:black;">Reply</a>
+                                    <a class="reply btn border ml-0" style="color:black;"><i class="far mr-1 fa-comments"></i>Reply</a>
                                     <div class="replyForm">
                                         <form asp-action="AddSubComment">
                                             <input type="hidden" value="@Model.ID" name="ID" />
                                             <input type="hidden" value="@mc.ID" name="MainCommentID" />
                                             <textarea class="form-control" name="message" placeholder="write a comment..." rows="3"></textarea>
                                             <br>
-                                            <button type="submit" class="btn btn-info pull-right replyHide">Reply</button>
+                                            <button type="submit" class="btn btn-info pull-right replyHide"><i class="far mr-1 fa-comments"></i>Reply</button>
                                         </form>
                                     </div>
                                 }
