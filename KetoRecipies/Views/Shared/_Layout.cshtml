@@ -20,7 +20,7 @@
 <body class="justify-content-center bg-light">
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark shadow-none" style="background-color:deepskyblue;">
-            <a class="navbar-brand shadow-none ml-3" )" asp-area="" asp-controller="Home" asp-action="Index"><h3>KetoRecipies.com</h3></a>
+            <a class="navbar-brand shadow-none ml-3" )" asp-area="" asp-controller="Home" asp-action="Index"><h3><i class="fas mr-2 fa-home"></i>KetoRecipies.com</h3></a>
             <button class="navbar-toggler" data-toggle="collapse" data-target="#nav1" aria-controls="nav1" aria-expanded="false" aria-label="Toggle Navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -30,10 +30,10 @@
                     @if (!SignInManager.IsSignedIn(User))
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-light mr-auto" asp-area="Identity" asp-page="/Account/Register"><h4>Register</h4></a>
+                            <a class="nav-link text-light mr-auto" asp-area="Identity" asp-page="/Account/Register"><h4>Register<i class="fas ml-1 fa-user-plus"></i> |</h4></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light mr-auto" asp-area="Identity" asp-page="/Account/Login"><h4>Login</h4></a>
+                            <a class="nav-link text-light mr-auto" asp-area="Identity" asp-page="/Account/Login"><h4>| Login<i class="fas ml-1 fa-sign-in-alt"></i></h4></a>
                         </li>
                     }
                     @if (SignInManager.IsSignedIn(User))
@@ -51,13 +51,13 @@
                             </li>
                         }
                         <li class="nav-item">
-                            <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "Favorite" ? "nav-link text-light mr-auto active" : "nav-link text-light mr-auto ")" href="~/Favorite/Favorite"><h4>My Favorites</h4></a>
+                            <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "Favorite" ? "nav-link text-light mr-auto active" : "nav-link text-light mr-auto ")" href="~/Favorite/Favorite"><h4><i style="color:red;" class="fas mr-1 fa-heart"></i>Favorites  |</h4></a>
                         </li>
                         <li class="nav-item">
-                            <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "MyRecipes" ? "nav-link text-light mr-auto active" : "nav-link text-light mr-auto")" href="~/Home/MyRecipes"><h4>My Recipes</h4></a>
+                            <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "MyRecipes" ? "nav-link text-light mr-auto active" : "nav-link text-light mr-auto")" href="~/Home/MyRecipes"><h4>| <i class="fas mr-1 fa-utensils"></i>My Recipes</h4></a>
                         </li>
                         <form class="form-inline my-2 my-lg-0" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                            <button type="submit" class="nav-btn btn border">Logout</button>
+                            <button type="submit" class="nav-btn btn border">Logout<i class="fas ml-1 fa-sign-out-alt"></i></button>
                         </form>
                     }
                 </ul>
@@ -65,8 +65,9 @@
         </nav>
         @if (SignInManager.IsSignedIn(User))
         {
-             <h4 class="mb-3">Welcome, <a style="color:deepskyblue;" href="~/UserDashboard/Index">@User.Claims.First(c => c.Type == "Name").Value</a></h4>
+             <h4 class="mb-3">Welcome, <a style="color:deepskyblue;" href="~/UserDashboard/Index">@User.Claims.First(c => c.Type == "Name").Value <i class="fas ml-1 fa-address-card"></i></a></h4>
         }
+        <h4>Support the Site by Buying from the Links Below!</h4>
     </header>
     @{
         var randomRecipes = dbList.GetRandomRecipes();
@@ -122,10 +123,10 @@
         </main>
     </div>
     <footer class="page-footer font-small special-color-dark mt-5">
-        <a class="nav-link text-light mr-auto" href="~/Home/Privacy">Privacy Policy</a>
-        © 2019 Copyright:
-        <a class="mb-3">KetoRecipies.com</a> |
-        <a class="mb-3" href="~/Home/ContactUs">Contact Us</a>
+        <a class="nav-link text-light mr-auto" href="~/Home/Privacy"><h5><i class="fas mr-1 fa-user-secret"></i>Privacy Policy</h5></a>
+
+        <h5 class="mb-3">© 2019 Copyright: KetoRecipies.com</h5>
+        <h5><a class="mb-3" href="~/Home/ContactUs">Contact Us<i class="fas ml-2 fa-envelope"></i></a></h5>
     </footer>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
