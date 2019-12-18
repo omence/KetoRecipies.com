@@ -22,15 +22,15 @@ namespace KetoRecipies.Models
 
         public string SourceUrl { get; set; }
 
-        public decimal Yield { get; set; }
+        public int Yield { get; set; }
 
-        public decimal TotalTime { get; set; }
+        public int TotalTime { get; set; }
 
-        public decimal TotalCarbsServ { get; set; }
+        public int TotalCarbsServ { get; set; }
 
-        public decimal TotalFatServ { get; set; }
+        public int TotalFatServ { get; set; }
 
-        public decimal TotalCaloriesServ { get; set; }
+        public int TotalCaloriesServ { get; set; }
 
         public string ImageUrl { get; set; }
 

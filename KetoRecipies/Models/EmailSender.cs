@@ -3,45 +3,43 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace KetoRecipies.Models
 {
     public class EmailSender : IEmailSender
     {
-        private IConfiguration _configuration;
 
-        public EmailSender(IConfiguration configuration, IOptions<AuthMessageSenderOptions> optionsAccessor)
+        // Our private configuration variables
+        private string host;
+        private int port;
+        private bool enableSSL;
+        private string userName;
+        private string password;
+
+        // Get our parameterized configuration
+        public EmailSender(string host, int port, bool enableSSL, string userName, string password)
         {
-            _configuration = configuration;
-
-            Options = optionsAccessor.Value;
+            this.host = host;
+            this.port = port;
+            this.enableSSL = enableSSL;
+            this.userName = userName;
+            this.password = password;
         }
 
-        public AuthMessageSenderOptions Options { get; } //set only via Secret Manager
-
-        public Task SendEmailAsync(string email, string subject, string message)
+        // Use our configuration to send the email by using SmtpClient
+        public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            return Execute(subject, message, email);
-        }
-
-        public Task Execute(string subject, string message, string email)
-        {
-            var client = new SendGridClient(_configuration["Sendgrid_Api_Key"]);
-            var msg = new SendGridMessage()
+            var client = new SmtpClient(host, port)
             {
-                From = new EmailAddress("omence11@gmail.com", "Jason Few"),
-                Subject = subject,
-                PlainTextContent = message,
-                HtmlContent = message
+                Credentials = new NetworkCredential(userName, password),
+                EnableSsl = enableSSL
             };
-            msg.AddTo(new EmailAddress(email));
-
-            // Disable click tracking.
-            // See https://sendgrid.com/docs/User_Guide/Settings/tracking.html
-            msg.SetClickTracking(false, false);
-
-            return client.SendEmailAsync(msg);
+            return client.SendMailAsync(
+                new MailMessage(userName, email, subject, htmlMessage) { IsBodyHtml = true }
+            );
         }
     }
 }

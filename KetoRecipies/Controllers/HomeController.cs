@@ -66,7 +66,12 @@ namespace KetoRecipies.Controllers
         /// <returns>View + Recipe list</returns>
         public async Task<IActionResult> Index(string SearchString, int? page)
         {
-            //await GetRecipes();
+            var checkDb = _context.recipes.ToList();
+            if(checkDb.Count() == 0)
+            {
+                await GetRecipes();
+            }
+            
             var recipes = await _context.recipes.OrderBy(r => r.Label).ToListAsync();
             foreach (var i in recipes)
             {
@@ -75,27 +80,30 @@ namespace KetoRecipies.Controllers
             }
             if (!String.IsNullOrEmpty(SearchString))
             {
-                var recipes1 = recipes.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
-                var recipes2 = recipes.Where(r => r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
-                var recipes3 = recipes.Where(r => r.Source.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
-                recipes1 = recipes1.Union(recipes2);
-                recipes1 = recipes1.Union(recipes3);
+                var recipeList = _context.recipes.ToList();
+
+                var filteredList = recipeList.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Label, SearchString) < 3 ||
+                r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                r.Source.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Source, SearchString) < 3);
 
                 var splitSearch = SearchString.Split(" ");
 
                 foreach (var i in splitSearch)
                 {
-                    var temp = recipes.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
-                    var temp2 = recipes.Where(r => r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
-                    recipes1 = recipes1.Union(temp);
-                    recipes1 = recipes1.Union(temp2);
+                    if (i.ToLower() != "keto")
+                    {
+                        var temp = recipes.Where(r => r.Label.IndexOf(i, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Label, i) < 3 ||
+                        r.Ingridients.IndexOf(i, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Ingridients, i) < 3 ||
+                        r.Source.IndexOf(i, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Source, i) < 3).ToList();
 
+                        filteredList = filteredList.Union(temp);
+                    }
                 }
                 int pageSize2 = 100;
                 int pageNumber2 = (page ?? 1);
                 TempData["SearchString"] = SearchString;
              
-                return View(recipes1.ToPagedList(pageNumber2, pageSize2));
+                return View(filteredList.ToPagedList(pageNumber2, pageSize2));
             }
             int pageSize = 27;
             int pageNumber = (page ?? 1);
@@ -282,11 +290,11 @@ namespace KetoRecipies.Controllers
             recipe.Ingridients = Ingridients;
             recipe.Instructions = Instructions;
             recipe.Source = Source;
-            recipe.Yield = Yield;
-            recipe.TotalTime = TotalTime;
-            recipe.TotalCarbsServ = TotalCarbsServ;
-            recipe.TotalFatServ = TotalFatServ;
-            recipe.TotalCaloriesServ = TotalCaloriesServ;
+            recipe.Yield = Convert.ToInt32(Yield);
+            recipe.TotalTime = Convert.ToInt32(TotalTime);
+            recipe.TotalCarbsServ = Convert.ToInt32(TotalCarbsServ);
+            recipe.TotalFatServ = Convert.ToInt32(TotalFatServ);
+            recipe.TotalCaloriesServ = Convert.ToInt32(TotalCaloriesServ);
             recipe.VideoUrl = VideoUrl;
 
             _context.recipes.Add(recipe);
@@ -351,11 +359,11 @@ namespace KetoRecipies.Controllers
             recipe.Ingridients = Ingridients;
             recipe.Instructions = Instructions;
             recipe.Source = Source;
-            recipe.Yield = Yield;
-            recipe.TotalTime = TotalTime;
-            recipe.TotalCarbsServ = TotalCarbsServ;
-            recipe.TotalFatServ = TotalFatServ;
-            recipe.TotalCaloriesServ = TotalCaloriesServ;
+            recipe.Yield = Convert.ToInt32(Yield);
+            recipe.TotalTime = Convert.ToInt32(TotalTime);
+            recipe.TotalCarbsServ = Convert.ToInt32(TotalCarbsServ);
+            recipe.TotalFatServ = Convert.ToInt32(TotalFatServ);
+            recipe.TotalCaloriesServ = Convert.ToInt32(TotalCaloriesServ);
             recipe.VideoUrl = VideoUrl;
 
             _context.recipes.Update(recipe);
@@ -382,21 +390,24 @@ namespace KetoRecipies.Controllers
             }
             if (!String.IsNullOrEmpty(SearchString))
             {
-                var recipes1 = recipes.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
-                var recipes2 = recipes.Where(r => r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
-                recipes1 = recipes1.Concat(recipes2);
+                var recipeList = _context.recipes.ToList();
+
+                var filteredList = recipeList.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Label, SearchString) < 3 ||
+                r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                r.Source.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Source, SearchString) < 3);
+
                 var splitSearch = SearchString.Split(" ");
 
                 foreach (var i in splitSearch)
                 {
-                    var temp = recipes.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
-                    var temp2 = recipes.Where(r => r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
-                    recipes1 = recipes1.Union(temp);
-                    recipes1 = recipes1.Union(temp2);
+                    var temp = recipes.Where(r => r.Label.IndexOf(i, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Label, i) < 3 ||
+                    r.Ingridients.IndexOf(i, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Ingridients, i) < 3 ||
+                    r.Source.IndexOf(i, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Source, i) < 3).ToList();
 
+                    filteredList = filteredList.Union(temp);
                 }
 
-                return View(recipes1);
+                return View(filteredList);
             }
             return View(recipes);
         }
@@ -559,6 +570,51 @@ namespace KetoRecipies.Controllers
                 return Redirect(Url.Action("Details", "Home", new { ID }) + "#commentsReturn");
             }
             return Redirect(Url.Action("Details", "Home", new { ID }) + "#commentsReturn");
+        }
+
+        public static int SpellCompare(string s, string t)
+        {
+            int n = s.Length;
+            int m = t.Length;
+            int[,] d = new int[n + 1, m + 1];
+
+            // Step 1
+            if (n == 0)
+            {
+                return m;
+            }
+
+            if (m == 0)
+            {
+                return n;
+            }
+
+            // Step 2
+            for (int i = 0; i <= n; d[i, 0] = i++)
+            {
+            }
+
+            for (int j = 0; j <= m; d[0, j] = j++)
+            {
+            }
+
+            // Step 3
+            for (int i = 1; i <= n; i++)
+            {
+                //Step 4
+                for (int j = 1; j <= m; j++)
+                {
+                    // Step 5
+                    int cost = (t[j - 1] == s[i - 1]) ? 0 : 1;
+
+                    // Step 6
+                    d[i, j] = Math.Min(
+                        Math.Min(d[i - 1, j] + 1, d[i, j - 1] + 1),
+                        d[i - 1, j - 1] + cost);
+                }
+            }
+            // Step 7
+            return d[n, m];
         }
     }
 }

@@ -23,26 +23,40 @@
         <a id="@(counter++)"></a>
         <div class="card-deck col">
             <div class="card text-center mb-3" style="width: 20rem;">
-                <img src="@item.Recipe.ImageUrl" alt="@item.Recipe.Label" class="card-img-top" />
-                <div class="card-body text-center" style="align-self:center; width: 20rem;">
-                    <h4 class="card-header" style="font-weight:bold; background-color:white;">
-                        @item.Recipe.Label
-                    </h4>
+                @if (item.Recipe.SourceUrl != null)
+                {
+                    <a href="@item.Recipe.SourceUrl"><img src="@item.Recipe.ImageUrl" alt="@item.Recipe.Label" class="card-img-top" /></a>
+                }
+
+                @if (item.Recipe.SourceUrl == null)
+                {
+                    <a asp-action="Details" asp-route-id="@item.ID"><img src="@item.Recipe.ImageUrl" alt="@item.Recipe.Label" class="card-img-top" /></a>
+                }
+                <div class="card-body" style="align-self:center; width: 20rem;">
+
                     @if (item.Recipe.SourceUrl != null)
                     {
-                        <h5 class="card-subtitle mt-2">
-                            <span style="font-weight:bold;">See Full Details:</span> <a href="@item.Recipe.SourceUrl" target="_blank">Click Here<i class="fas ml-1 fa-info-circle"></i></a>
-                        </h5>
+
+                        <a class="mt-2" href="@item.Recipe.SourceUrl" target="_blank">
+                            <h5 class="card-header text-center" style="background-color:white; font-weight:bold;">
+                                @item.Recipe.Label
+                            </h5>
+                        </a>
+
                     }
                     @if (item.Recipe.SourceUrl == null)
                     {
-                        <h5 class="card-subtitle mt-2">
-                            <span style="font-weight:bold;">See Full Details:</span> <a asp-action="Details" asp-route-id="@item.Recipe.ID">Click Here<i class="fas ml-1 fa-info-circle"></i></a>
-                        </h5>
+
+                        <a class="mt-2" asp-action="Details" asp-route-id="@item.Recipe.ID">
+                            <h5 class="card-header text-center" style="background-color:white; font-weight:bold;">
+                                @item.Recipe.Label
+                            </h5>
+                        </a>
+
                     }
                     <hr />
-                    <h5><span style="font-weight:bold;">Nutrient Facts Per Serving:</span></h5>
-                    <h5>Calories: @item.Recipe.TotalCaloriesServ, Carbs: @item.Recipe.TotalCarbsServ, Fat: @item.Recipe.TotalFatServ</h5>
+                    <h6><span style="font-weight:bold;">Nutrient Facts Per Serving:</span></h6>
+                    <p>Calories: @item.Recipe.TotalCaloriesServ, Carbs: @item.Recipe.TotalCarbsServ, Fat: @item.Recipe.TotalFatServ</p>
                     <hr />
                     <form asp-action="Remove" method="post">
                         <input type="hidden" name="eleId" value="@counter" />
@@ -51,9 +65,11 @@
                         <button type="submit" class="btn border"><i class="fas mr-2 fa-trash-alt"></i>Remove From Favorites</button>
                     </form>
                     <h5 class="card-title mt-2">
-                        By: @item.Recipe.Source
+                        By: <a asp-action="Favorite" asp-route-SearchString="@item.Recipe.Source">@item.Recipe.Source</a>
                     </h5>
-                    <h5><i style="color:deepskyblue;" class="fa mr-1 fa-thumbs-up"></i>Likes: @item.Recipe.LikeCount | <i style="color:deepskyblue;" class="fa mr-1 fa-thumbs-down"></i>Dislikes: @item.Recipe.DisLikeCount</h5>
+                    <div class="card-footer text-muted" style="bottom:1px;">
+                        <h5><i style="color:deepskyblue;" class="fa mr-1 fa-thumbs-up"></i>@item.Recipe.LikeCount | <i style="color:deepskyblue;" class="fa mr-1 fa-thumbs-down"></i>@item.Recipe.DisLikeCount</h5>
+                    </div>
                 </div>
             </div>
         </div>

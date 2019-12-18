@@ -115,11 +115,11 @@ namespace KetoRecipies.Controllers
             recipe.Ingridients = Ingridients;
             recipe.Instructions = Instructions;
             recipe.Source = Source;
-            recipe.Yield = Yield;
-            recipe.TotalTime = TotalTime;
-            recipe.TotalCarbsServ = TotalCarbsServ;
-            recipe.TotalFatServ = TotalFatServ;
-            recipe.TotalCaloriesServ = TotalCaloriesServ;
+            recipe.Yield = Convert.ToInt32(Yield);
+            recipe.TotalTime = Convert.ToInt32(TotalTime);
+            recipe.TotalCarbsServ = Convert.ToInt32(TotalCarbsServ);
+            recipe.TotalFatServ = Convert.ToInt32(TotalFatServ);
+            recipe.TotalCaloriesServ = Convert.ToInt32(TotalCaloriesServ);
             recipe.VideoUrl = VideoUrl;
 
             _context.recipes.Update(recipe);

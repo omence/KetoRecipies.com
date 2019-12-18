@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace KetoRecipies.Migrations.KetoDb
 {
-    public partial class ini : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,20 +21,6 @@ namespace KetoRecipies.Migrations.KetoDb
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Likes", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "mainComments",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Message = table.Column<string>(nullable: true),
-                    DateTime = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_mainComments", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -65,27 +51,6 @@ namespace KetoRecipies.Migrations.KetoDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "subComments",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Message = table.Column<string>(nullable: true),
-                    DateTime = table.Column<DateTime>(nullable: false),
-                    MainCommentID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_subComments", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_subComments_mainComments_MainCommentID",
-                        column: x => x.MainCommentID,
-                        principalTable: "mainComments",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "favorites",
                 columns: table => new
                 {
@@ -105,9 +70,58 @@ namespace KetoRecipies.Migrations.KetoDb
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "mainComments",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Message = table.Column<string>(nullable: true),
+                    DateTime = table.Column<DateTime>(nullable: false),
+                    User = table.Column<string>(nullable: true),
+                    RecipeID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_mainComments", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_mainComments_recipes_RecipeID",
+                        column: x => x.RecipeID,
+                        principalTable: "recipes",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "subComments",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Message = table.Column<string>(nullable: true),
+                    DateTime = table.Column<DateTime>(nullable: false),
+                    User = table.Column<string>(nullable: true),
+                    MainCommentID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_subComments", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_subComments_mainComments_MainCommentID",
+                        column: x => x.MainCommentID,
+                        principalTable: "mainComments",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_favorites_RecipeID",
                 table: "favorites",
+                column: "RecipeID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_mainComments_RecipeID",
+                table: "mainComments",
                 column: "RecipeID");
 
             migrationBuilder.CreateIndex(
@@ -128,10 +142,10 @@ namespace KetoRecipies.Migrations.KetoDb
                 name: "subComments");
 
             migrationBuilder.DropTable(
-                name: "recipes");
+                name: "mainComments");
 
             migrationBuilder.DropTable(
-                name: "mainComments");
+                name: "recipes");
         }
     }
 }

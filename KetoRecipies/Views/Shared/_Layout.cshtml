@@ -12,15 +12,13 @@
     <link rel="stylesheet" href="~/css/reset.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/css/mdb.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="~/lib/Trumbowyg-master/dist/ui/trumbowyg.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/StyleSheet.css" />
 </head>
 <body class="justify-content-center bg-light">
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark shadow-none" style="background-color:deepskyblue;">
-            <a class="navbar-brand shadow-none ml-3" )" asp-area="" asp-controller="Home" asp-action="Index"><h3><i class="fas mr-2 fa-home"></i>KetoRecipies.com</h3></a>
+            <a class="navbar-brand shadow-none ml-3" )" asp-area="" asp-controller="Home" asp-action="Index"><h3><i class="fas mr-2 fa-home"></i>KetoRecipes.com</h3></a>
             <button class="navbar-toggler" data-toggle="collapse" data-target="#nav1" aria-controls="nav1" aria-expanded="false" aria-label="Toggle Navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -57,7 +55,7 @@
                             <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "MyRecipes" ? "nav-link text-light mr-auto active" : "nav-link text-light mr-auto")" href="~/Home/MyRecipes"><h4>| <i class="fas mr-1 fa-utensils"></i>My Recipes</h4></a>
                         </li>
                         <form class="form-inline my-2 my-lg-0" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                            <button type="submit" class="nav-btn btn border">Logout<i class="fas ml-1 fa-sign-out-alt"></i></button>
+                            <button type="submit" title="Logout" class="nav-btn btn border"><i class="fas ml-1 fa-sign-out-alt"></i></button>
                         </form>
                     }
                 </ul>
@@ -65,9 +63,9 @@
         </nav>
         @if (SignInManager.IsSignedIn(User))
         {
-             <h4 class="mb-3">Welcome, <a style="color:deepskyblue;" href="~/UserDashboard/Index">@User.Claims.First(c => c.Type == "Name").Value <i class="fas ml-1 fa-address-card"></i></a></h4>
+             <h4 class="mb-3">Welcome, <a style="color:deepskyblue;" href="~/UserDashboard/Index">@User.Claims.First(c => c.Type == "Name").Value </a></h4>
         }
-        <h4>Support the Site by Buying from the Links Below!</h4>
+        <h6>I built, maintain and host this site alone in order to empower the community, I need your support.  You can contribute by buying from the links below or by supporting me through <a href="#">PayPal</a>.</h6>
     </header>
     @{
         var randomRecipes = dbList.GetRandomRecipes();
@@ -122,7 +120,7 @@
             @RenderBody()
         </main>
     </div>
-    <footer class="page-footer font-small special-color-dark mt-5">
+    <footer class="page-footer font-small dark mt-5">
         <a class="nav-link text-light mr-auto" href="~/Home/Privacy"><h5><i class="fas mr-1 fa-user-secret"></i>Privacy Policy</h5></a>
 
         <h5 class="mb-3">© 2019 Copyright: KetoRecipies.com</h5>

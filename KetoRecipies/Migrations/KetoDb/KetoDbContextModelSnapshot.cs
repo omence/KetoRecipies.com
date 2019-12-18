@@ -15,7 +15,7 @@ namespace KetoRecipies.Migrations.KetoDb
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.1-servicing-10028")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -117,19 +117,19 @@ namespace KetoRecipies.Migrations.KetoDb
 
                     b.Property<string>("SourceUrl");
 
-                    b.Property<decimal>("TotalCaloriesServ");
+                    b.Property<int>("TotalCaloriesServ");
 
-                    b.Property<decimal>("TotalCarbsServ");
+                    b.Property<int>("TotalCarbsServ");
 
-                    b.Property<decimal>("TotalFatServ");
+                    b.Property<int>("TotalFatServ");
 
-                    b.Property<decimal>("TotalTime");
+                    b.Property<int>("TotalTime");
 
                     b.Property<string>("UserId");
 
                     b.Property<string>("VideoUrl");
 
-                    b.Property<decimal>("Yield");
+                    b.Property<int>("Yield");
 
                     b.HasKey("ID");
 
