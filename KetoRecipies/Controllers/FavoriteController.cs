@@ -30,12 +30,12 @@ namespace KetoRecipies.Controllers
         /// <returns>Favorite views with recipes</returns>
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Favorite(string SearchString)
+        public async Task<IActionResult> Favorite(string SearchString, string filter, string sort, int? page)
         {
             var userId = _userManager.GetUserId(User);
-            var favs = await _context.favorites.Where(f => f.UserID == userId).ToListAsync();
+            var recipes = await _context.favorites.Where(f => f.UserID == userId).ToListAsync();
 
-            foreach (var f in favs)
+            foreach (var f in recipes)
             {
                 f.Recipe = _context.recipes.FirstOrDefault(r => r.ID == f.RecipeID);
                 f.Recipe.LikeCount = _context.Likes.Where(l => l.RecipeId == f.Recipe.ID && l.Liked == true).Count();
@@ -43,12 +43,43 @@ namespace KetoRecipies.Controllers
                 
             }
 
-            //search keyword from users favorite page
+            if (!string.IsNullOrEmpty(filter))
+            {
+                TempData["filter"] = filter;
+                if (filter == "Breakfast")
+                {
+                    recipes = recipes.Where(r => r.Recipe.Type == "Breakfast").ToList();
+                }
+                if (filter == "Lunch")
+                {
+                    recipes = recipes.Where(r => r.Recipe.Type == "Lunch").ToList();
+                }
+                if (filter == "Dinner")
+                {
+                    recipes = recipes.Where(r => r.Recipe.Type == "Dinner").ToList();
+                }
+                if (filter == "Side")
+                {
+                    recipes = recipes.Where(r => r.Recipe.Type == "Side").ToList();
+                }
+                if (filter == "Dessert")
+                {
+                    recipes = recipes.Where(r => r.Recipe.Type == "Dessert").ToList();
+                }
+                if (filter == "Snack")
+                {
+                    recipes = recipes.Where(r => r.Recipe.Type == "Snack").ToList();
+                }
+                if (filter == "Drink")
+                {
+                    recipes = recipes.Where(r => r.Recipe.Type == "Drink").ToList();
+                }
+            }
             if (!String.IsNullOrEmpty(SearchString))
             {
-                var recipes1 = favs.Where(r => r.Recipe.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Recipe.Label, SearchString) < 3 ||
-                r.Recipe.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Recipe.Ingridients, SearchString) < 3 ||
-                r.Recipe.Source.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Recipe.Source, SearchString) < 3);
+                var filteredList = recipes.Where(r => r.Recipe.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Recipe.Label, SearchString) < 3 ||
+                r.Recipe.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                r.Recipe.Source.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Recipe.Source, SearchString) < 3).ToList();
 
                 var splitSearch = SearchString.Split(" ");
 
@@ -56,18 +87,38 @@ namespace KetoRecipies.Controllers
                 {
                     if (i.ToLower() != "keto")
                     {
-                        var temp = favs.Where(r => r.Recipe.Label.IndexOf(i, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Recipe.Label, i) < 3 ||
+                        var temp = recipes.Where(r => r.Recipe.Label.IndexOf(i, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Recipe.Label, i) < 3 ||
                         r.Recipe.Ingridients.IndexOf(i, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Recipe.Ingridients, i) < 3 ||
-                         r.Recipe.Source.IndexOf(i, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Recipe.Source, i) < 3);
+                        r.Recipe.Source.IndexOf(i, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Recipe.Source, i) < 3).ToList();
 
-                        recipes1 = recipes1.Union(temp);
+                        recipes = filteredList.Union(temp).ToList();
                     }
                 }
 
-                return View(recipes1);
             }
-            return View(favs);
+            if (!string.IsNullOrEmpty(sort))
+            {
+                if (sort == "mostLikes")
+                {
+                    recipes = recipes.OrderByDescending(r => r.Recipe.LikeCount).ToList();
+                }
+                if (sort == "newest")
+                {
+                    recipes = recipes.OrderByDescending(r => r.Recipe.DateAdded).ToList();
+                }
+                if (sort == "oldest")
+                {
+                    recipes = recipes.OrderBy(r => r.Recipe.DateAdded).ToList();
+                }
+            }
+            TempData["SearchString"] = SearchString;
+            TempData["sort"] = sort;
+            int pageSize = 27;
+            int pageNumber = (page ?? 1);
+            return View(recipes.ToPagedList(pageNumber, pageSize));
         }
+           
+        
 
         /// <summary>
         /// Add a recipe to users favorites

@@ -18,7 +18,9 @@
     <PackageReference Include="FroalaEditor" Version="3.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.18" />
     <PackageReference Include="SendGrid" Version="9.11.0" />
     <PackageReference Include="X.PagedList.Mvc.Bootstrap4" Version="7.9.0" />
     <PackageReference Include="X.PagedList.Mvc.Core" Version="7.9.1" />

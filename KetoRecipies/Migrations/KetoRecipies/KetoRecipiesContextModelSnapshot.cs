@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace KetoRecipies.Migrations
+namespace KetoRecipies.Migrations.KetoRecipies
 {
     [DbContext(typeof(KetoRecipiesContext))]
     partial class KetoRecipiesContextModelSnapshot : ModelSnapshot
@@ -34,6 +34,10 @@ namespace KetoRecipies.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
+                    b.Property<string>("Facebook");
+
+                    b.Property<string>("Instagram");
+
                     b.Property<DateTime?>("LastLoginTime");
 
                     b.Property<bool>("LockoutEnabled");
@@ -58,10 +62,14 @@ namespace KetoRecipies.Migrations
 
                     b.Property<string>("SecurityStamp");
 
+                    b.Property<string>("Twitter");
+
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
+
+                    b.Property<string>("YouTube");
 
                     b.HasKey("Id");
 

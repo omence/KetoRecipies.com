@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace KetoRecipies.Migrations
+namespace KetoRecipies.Migrations.KetoRecipies
 {
     [DbContext(typeof(KetoRecipiesContext))]
-    [Migration("20190827154158_ini")]
+    [Migration("20200202171352_ini")]
     partial class ini
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,6 +36,10 @@ namespace KetoRecipies.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
+                    b.Property<string>("Facebook");
+
+                    b.Property<string>("Instagram");
+
                     b.Property<DateTime?>("LastLoginTime");
 
                     b.Property<bool>("LockoutEnabled");
@@ -60,10 +64,14 @@ namespace KetoRecipies.Migrations
 
                     b.Property<string>("SecurityStamp");
 
+                    b.Property<string>("Twitter");
+
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
+
+                    b.Property<string>("YouTube");
 
                     b.HasKey("Id");
 

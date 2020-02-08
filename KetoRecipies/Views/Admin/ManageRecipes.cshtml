@@ -55,18 +55,7 @@
                     @Html.DisplayFor(modelItem => item.VideoUrl)
                 </td>
                 <td>
-                    <a id="@item.Label"></a>
-                    <form asp-action="AdminEditRecipe" asp-route-id="@item.ID">
-                        <button type="submit" class="btn border">Edit</button>
-                    </form>
-                    <hr />
-                    <form asp-action="AdminDeleteRecipe" asp-route-id="@item.ID">
-                        @if (TempData["searchString"] != null)
-                        {
-                            <input name="searchString" type="hidden" value="@TempData["searchString"].ToString()" />
-                        }
-                        <button type="submit" class="btn border">Delete</button>
-                    </form>
+                    <a asp-action="AdminEditRecipe" asp-route-id="@item.ID">Edit</a>
                 </td>
             </tr>
         }

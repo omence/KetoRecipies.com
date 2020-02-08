@@ -20,6 +20,20 @@
                 <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Type" style="margin-bottom:2px !important;"><h4 style="margin-bottom:2px !important;"><span style="color:red;">*</span>Recipe Catagory</h4></label>
+                <select asp-for="Type" class="form-control" required>
+                    <option value="@Model.Type" selected disabled>@Model.Type</option>
+                    <option>Breakfast</option>
+                    <option>Lunch</option>
+                    <option>Dinner</option>
+                    <option>Side</option>
+                    <option>Dessert</option>
+                    <option>Snack</option>
+                    <option>Drink</option>
+                </select>
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Label" class="control-label"></label>
                 <input asp-for="Label" class="form-control" />
                 <span asp-validation-for="Label" class="text-danger"></span>

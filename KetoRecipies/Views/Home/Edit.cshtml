@@ -4,25 +4,34 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<div class="container mt-5"><h1>Edit</h1></div>
 
 <div class="container">
     <div class="card-deck">
-        <div class="card card text-center mb-1 row">
-            <div class="card-body text-center parent col-sm">
+        <div class="card card mb-1 row">
+            <div class="card-body parent col-sm">
                 <form asp-action="Edit" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input asp-for="ID" type="hidden" value="@Model.ID" class="form-control" required />
+                    <input asp-for="Source" type="hidden" class="form-control" value="@Model.Source" required />
+                    <input asp-for="UserId" type="hidden" value="@Model.UserId" class="form-control" required />
                     <div class="form-group">
-                        <input asp-for="ID" type="hidden" value="@Model.ID" class="form-control" required/>
-                        <span asp-validation-for="ID" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <input asp-for="UserId" type="hidden" value="@Model.UserId" class="form-control" required/>
-                        <span asp-validation-for="UserId" class="text-danger"></span>
+                        <label style="font-size:20px;" asp-for="Type"><span style="color:red;">*</span>Recipe Catagory</label>
+                        <select asp-for="Type" class="form-control" required>
+                            <option value="" selected disabled>@Model.Type</option>
+                            <option>Breakfast</option>
+                            <option>Lunch</option>
+                            <option>Dinner</option>
+                            <option>Side</option>
+                            <option>Desert</option>
+                            <option>Snack</option>
+                            <option>Drink</option>
+                        </select>
+                        <span asp-validation-for="Type" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Label" class="control-label"><h4>Name of Dish</h4></label>
-                        <input asp-for="Label" class="form-control" value="@Model.Label" required/>
+                        <input asp-for="Label" class="form-control" value="@Model.Label" required />
                         <span asp-validation-for="Label" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -36,33 +45,28 @@
                         <span asp-validation-for="Instructions" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Source" class="control-label"><h4>Your Name</h4></label>
-                        <input asp-for="Source" class="form-control" value="@Model.Source" required/>
-                        <span asp-validation-for="Source" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
                         <label asp-for="Yield" class="control-label"><h4>How many servings will this recipe make?</h4></label>
-                        <input type="number" asp-for="Yield" class="form-control" value="@Model.Yield" required/>
+                        <input type="number" asp-for="Yield" class="form-control" value="@Model.Yield" required />
                         <span asp-validation-for="Yield" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="TotalTime" class="control-label"><h4>How many minutes to prepare dish?</h4></label>
-                        <input type="number" asp-for="TotalTime" class="form-control" value="@Model.TotalTime" required/>
+                        <input type="number" asp-for="TotalTime" class="form-control" value="@Model.TotalTime" required />
                         <span asp-validation-for="TotalTime" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="TotalCarbsServ" class="control-label"><h4>Total carbs per serving</h4></label>
-                        <input type="number" asp-for="TotalCarbsServ" class="form-control" value="@Model.TotalCarbsServ" required/>
+                        <input type="number" asp-for="TotalCarbsServ" class="form-control" value="@Model.TotalCarbsServ" required />
                         <span asp-validation-for="TotalCarbsServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="TotalFatServ" class="control-label"><h4>Total fat per serving</h4></label>
-                        <input type="number" asp-for="TotalFatServ" class="form-control" value="@Model.TotalFatServ" required/>
+                        <input type="number" asp-for="TotalFatServ" class="form-control" value="@Model.TotalFatServ" required />
                         <span asp-validation-for="TotalFatServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="TotalCaloriesServ" class="control-label"><h4>Total calories per serving</h4></label>
-                        <input type="number" asp-for="TotalCaloriesServ" class="form-control" value="@Model.TotalCaloriesServ" required/>
+                        <input type="number" asp-for="TotalCaloriesServ" class="form-control" value="@Model.TotalCaloriesServ" required />
                         <span asp-validation-for="TotalCaloriesServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">

@@ -14,6 +14,7 @@ namespace KetoRecipies.Data
         {
 
         }
+
         public DbSet<Recipe> recipes { get; set; }
         public DbSet<Favorite> favorites { get; set; }
         public DbSet<Like> Likes { get; set; }

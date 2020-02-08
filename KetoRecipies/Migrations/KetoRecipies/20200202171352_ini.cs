@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace KetoRecipies.Migrations
+namespace KetoRecipies.Migrations.KetoRecipies
 {
     public partial class ini : Migration
     {
@@ -43,7 +43,11 @@ namespace KetoRecipies.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     LastLoginTime = table.Column<DateTime>(nullable: true),
-                    RegistrationDate = table.Column<DateTime>(nullable: false)
+                    RegistrationDate = table.Column<DateTime>(nullable: false),
+                    Facebook = table.Column<string>(nullable: true),
+                    YouTube = table.Column<string>(nullable: true),
+                    Instagram = table.Column<string>(nullable: true),
+                    Twitter = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

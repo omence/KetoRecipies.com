@@ -89,6 +89,7 @@ namespace KetoRecipies.Controllers
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
+        [HttpGet]
         public IActionResult AdminEditRecipe(int ID)
         {
             return View(_context.recipes.FirstOrDefault(r => r.ID == ID));
@@ -99,7 +100,7 @@ namespace KetoRecipies.Controllers
         /// </summary>
         /// <returns>Manage recipe view</returns>
         [HttpPost]
-        public IActionResult AdminEditRecipe(int ID, string UserId, string Label, string Ingridients, string Instructions, string Source, string SourceUrl, decimal Yield, decimal TotalTime, decimal TotalCarbsServ, decimal TotalFatServ, decimal TotalCaloriesServ, IFormFile ImageUrl, string VideoUrl)
+        public IActionResult AdminEditRecipe(int ID, string Type, string UserId, string Label, string Ingridients, string Instructions, string Source, string SourceUrl, decimal Yield, decimal TotalTime, decimal TotalCarbsServ, decimal TotalFatServ, decimal TotalCaloriesServ, IFormFile ImageUrl, string VideoUrl)
         {
             var recipe = _context.recipes.FirstOrDefault(r => r.ID == ID);
 
@@ -111,6 +112,7 @@ namespace KetoRecipies.Controllers
                 recipe.ImageUrl = "/Images/" + Path.GetFileName(ImageUrl.FileName);
             }
             recipe.UserId = UserId;
+            recipe.Type = Type;
             recipe.Label = Label;
             recipe.Ingridients = Ingridients;
             recipe.Instructions = Instructions;

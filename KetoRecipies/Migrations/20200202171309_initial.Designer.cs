@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace KetoRecipies.Migrations.KetoDb
+namespace KetoRecipies.Migrations
 {
     [DbContext(typeof(KetoDbContext))]
-    [Migration("20190827160445_in")]
-    partial class @in
+    [Migration("20200202171309_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -103,11 +103,19 @@ namespace KetoRecipies.Migrations.KetoDb
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("DateAdded");
+
                     b.Property<int>("DisLikeCount");
+
+                    b.Property<string>("Facebook");
 
                     b.Property<string>("ImageUrl");
 
+                    b.Property<bool>("IncludeSocialMediaLinks");
+
                     b.Property<string>("Ingridients");
+
+                    b.Property<string>("Instagram");
 
                     b.Property<string>("Instructions");
 
@@ -127,11 +135,17 @@ namespace KetoRecipies.Migrations.KetoDb
 
                     b.Property<int>("TotalTime");
 
+                    b.Property<string>("Twitter");
+
+                    b.Property<string>("Type");
+
                     b.Property<string>("UserId");
 
                     b.Property<string>("VideoUrl");
 
                     b.Property<int>("Yield");
+
+                    b.Property<string>("YouTube");
 
                     b.HasKey("ID");
 

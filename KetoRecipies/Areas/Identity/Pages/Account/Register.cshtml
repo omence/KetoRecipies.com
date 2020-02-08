@@ -3,40 +3,61 @@
 @{
     ViewData["Title"] = "Register";
 }
-    <h4>Create a new account.</h4>
-<div class="container">
-    <div class="card-deck">
-        <div class="card card text-center mb-1 row">
-            <div class="card-body text-center parent col-sm">
+    <div class="container mt-3 mb-3"><h1>Create a new account.</h1></div>
+<div class="container mb-3">
+        <div class="card">
+            <div class="card-body text-left bg-light">
                 <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="Input.Name"></label>
+                        <label asp-for="Input.Name"><span style="color:red;">*</span>User Name</label>
                         <input asp-for="Input.Name" class="form-control" />
                         <span asp-validation-for="Input.Name" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Input.Email"></label>
+                        <label asp-for="Input.Email"><span style="color:red;">*</span>Email</label>
                         <input asp-for="Input.Email" class="form-control" />
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Input.Password"></label>
+                        <label asp-for="Input.Facebook"></label>
+                        <input asp-for="Input.Facebook" class="form-control" />
+                        <span asp-validation-for="Input.Facebook" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.YouTube"></label>
+                        <input asp-for="Input.YouTube" class="form-control" />
+                        <span asp-validation-for="Input.YouTube" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.Instagram"></label>
+                        <input asp-for="Input.Instagram" class="form-control" />
+                        <span asp-validation-for="Input.Instagram" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.Twitter"></label>
+                        <input asp-for="Input.Twitter" class="form-control" />
+                        <span asp-validation-for="Input.Twitter" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.Password"><span style="color:red;">*</span>Password</label>
                         <input asp-for="Input.Password" class="form-control" />
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Input.ConfirmPassword"></label>
+                        <label asp-for="Input.ConfirmPassword"><span style="color:red;">*</span>Confirm Password</label>
                         <input asp-for="Input.ConfirmPassword" class="form-control" />
                         <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                     </div>
-                    <a class="nav-link mr-auto" href="~/Home/Privacy" target="_blank" style="color:deepskyblue;">Privacy Policy</a>
-                    <button type="submit" class="btn border">Register</button>
+                    <div class="form-group">
+                        <a class="nav-link mb-3" href="~/Home/Privacy" target="_blank" style="color:deepskyblue; padding:0px;">Privacy Policy</a>
+                        <button type="submit" class="btn border">Register</button>
+                        </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

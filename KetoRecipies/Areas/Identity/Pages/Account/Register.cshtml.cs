@@ -50,6 +50,18 @@ namespace KetoRecipies.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
 
+            [Display(Name = "Facebook URL")]
+            public string Facebook { get; set; }
+
+            [Display(Name = "YouTube URL")]
+            public string YouTube { get; set; }
+
+            [Display(Name = "Instagram URL")]
+            public string Instagram { get; set; }
+
+            [Display(Name = "Twitter URL")]
+            public string Twitter { get; set; }
+
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
@@ -72,7 +84,7 @@ namespace KetoRecipies.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { Name = Input.Name, UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser { Name = Input.Name, UserName = Input.Email, Email = Input.Email, Facebook = Input.Facebook, YouTube = Input.YouTube, Instagram = Input.Instagram, Twitter = Input.Twitter };
                 user.RegistrationDate = DateTime.Now;
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
@@ -82,16 +94,6 @@ namespace KetoRecipies.Areas.Identity.Pages.Account
                     Claim NameClaim = new Claim("Name", $"{user.Name}");
                     List<Claim> claims = new List<Claim> {NameClaim};
                     await _userManager.AddClaimsAsync(user, claims);
-
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { userId = user.Id, code = code },
-                        protocol: Request.Scheme);
-
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (user.Email == "omence11@gmail.com")
                     {
@@ -103,7 +105,7 @@ namespace KetoRecipies.Areas.Identity.Pages.Account
                         await _userManager.AddToRoleAsync(user, ApplicationRoles.Member);
                     }
 
-                    //await _signInManager.SignInAsync(user, isPersistent: false);
+                    await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
                 foreach (var error in result.Errors)

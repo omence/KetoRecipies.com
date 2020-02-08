@@ -5,6 +5,12 @@
     box-shadow: none !important;
     padding:0px;
 }
+li{
+    margin:0px !important;
+}
+.card{
+    padding:0px !important;
+}
 html {
     position: relative;
     min-height: 100%;
@@ -13,16 +19,17 @@ body {
     padding: 0%;
     margin: 0%;
     margin-top: 100px;
-    margin-bottom: 125px;
-    text-align: center;
-    align-content: center;
+    margin-bottom: 250px !important;
+
     font-family: Rufina;
 }
 
 hr {
     border: 1px solid black;
 }
-  
+.nav-link:hover{
+    font-weight:bold;
+}
 .nav-btn {
     background-color: white;
 }
@@ -41,6 +48,8 @@ footer {
     width: 100%;
     color: white;
     background-color: #343a40;
+    text-align: center;
+    align-content: center;
 }
 
 .btn:hover {
@@ -57,12 +66,11 @@ button:focus {
     background-color: white;
     color: black !important;
 }
-.navbar {
+.nav1 {
     position: fixed;
     top: 0px;
     width: 100%;
     z-index: +100;
-    border-bottom: 1px solid black;
     color: white;
 }
 

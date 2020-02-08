@@ -3,62 +3,77 @@
 @{
     ViewData["Title"] = "Create";
 }
-
-<h1>Create</h1>
-
-<div class="container">
+<style>
+    h4{
+        margin-bottom:2px !important;
+    }
+    label{
+        margin-bottom:2px !important;
+    }
+</style>
+<div class="container mt-5 text-left">
+    <h1>Add Your Recipe</h1>
     <div class="card-deck">
-        <div class="card card text-center mb-1 row">
-            <div class="card-body text-center parent col-sm">
+        <div class="card card mb-1 row">
+            <div class="card-body parent col-sm">
                 <form asp-action="Create" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="Label" class="control-label"><h4>Name of Dish</h4></label>
-                        <input asp-for="Label" class="form-control" required/>
+                        <label style="font-size:20px;" asp-for="Type"><span style="color:red;">*</span>Recipe Catagory</label>
+                        <select asp-for="Type" class="form-control" required>
+                            <option value="" selected disabled>Select a Catagory</option>
+                            <option>Breakfast</option>
+                            <option>Lunch</option>
+                            <option>Dinner</option>
+                            <option>Side</option>
+                            <option>Desert</option>
+                            <option>Snack</option>
+                            <option>Drink</option>
+                        </select>
+                        <span asp-validation-for="Type" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size:20px;" asp-for="Type" style="margin-bottom:2px !important;"><span style="color:red;">*</span>Name of Dish</label>
+                        <input asp-for="Label" class="form-control" required />
                         <span asp-validation-for="Label" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Ingridients" class="control-label"><h4>Ingridients</h4></label>
+                        <label style="font-size:20px;" asp-for="Type" style="margin-bottom:2px !important;"><span style="color:red;">*</span>Ingridients</label>
                         <textarea asp-for="Ingridients" class="form-control textEdit simple-editor" required></textarea>
                         <span asp-validation-for="Ingridients" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Instructions" class="control-label"><h4>Instructions</h4></label>
+                        <label style="font-size:20px;" asp-for="Type" style="margin-bottom:2px !important;"><span style="color:red;">*</span>Instructions</label>
                         <textarea asp-for="Instructions" class="form-control textEdit simple-editor" required></textarea>
                         <span asp-validation-for="Instructions" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Source" class="control-label"><h4>Your Name</h4></label>
-                        <input asp-for="Source" class="form-control" required/>
-                        <span asp-validation-for="Source" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Yield" class="control-label"><h4>How many servings will this recipe make?</h4></label>
-                        <input type="number" asp-for="Yield" class="form-control" required/>
+                        <label style="font-size:20px;" asp-for="Type" style="margin-bottom:2px !important;"><span style="color:red;">*</span>How many servings will this recipe make?</label>
+                        <input type="number" asp-for="Yield" class="form-control" required />
                         <span asp-validation-for="Yield" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="TotalTime" class="control-label"><h4>How many minutes to prepare dish?</h4></label>
-                        <input type="number" asp-for="TotalTime" class="form-control" required/>
+                        <label style="font-size:20px;" asp-for="Type" style="margin-bottom:2px !important;"><span style="color:red;">*</span>How many minutes to prepare dish?</label>
+                        <input type="number" asp-for="TotalTime" class="form-control" required />
                         <span asp-validation-for="TotalTime" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="TotalCarbsServ" class="control-label"><h4>Total carbs per serving</h4></label>
-                        <input type="number" asp-for="TotalCarbsServ" class="form-control" required/>
+                        <label style="font-size:20px;" asp-for="Type" style="margin-bottom:2px !important;"><span style="color:red;">*</span>Total carbs per serving</label>
+                        <input type="number" asp-for="TotalCarbsServ" class="form-control" required />
                         <span asp-validation-for="TotalCarbsServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="TotalFatServ" class="control-label"><h4>Total fat per serving</h4></label>
-                        <input type="number" asp-for="TotalFatServ" class="form-control" required/>
+                        <label style="font-size:20px;" asp-for="Type" style="margin-bottom:2px !important;"><span style="color:red;">*</span>Total fat per serving</label>
+                        <input type="number" asp-for="TotalFatServ" class="form-control" required />
                         <span asp-validation-for="TotalFatServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="TotalCaloriesServ" class="control-label"><h4>Total calories per serving</h4></label>
-                        <input type="number" asp-for="TotalCaloriesServ" class="form-control" required/>
+                        <label style="font-size:20px;" asp-for="Type" style="margin-bottom:2px !important;"><span style="color:red;">*</span>Total calories per serving</label>
+                        <input type="number" asp-for="TotalCaloriesServ" class="form-control" required />
                         <span asp-validation-for="TotalCaloriesServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="ImageUrl" class="control-label"><h4>Upload Image</h4></label>
+                        <label style="font-size:20px;" asp-for="Type" style="margin-bottom:2px !important;"><span style="color:red;">*</span>Upload Image</label>
                         <input type="file" name="ImageUrl" class="btn btn-outline-secondary" required />
                         <span asp-validation-for="ImageUrl" class="text-danger"></span>
                     </div>
@@ -66,6 +81,11 @@
                         <label asp-for="VideoUrl" class="control-label">If you have a YouTube video associated with the recipe.  Right click on your playing video and select the "<span style="color:deepskyblue">Copy video URL</span>" option and paste it here. <br /><span style="color:red;">WARNING do NOT select the "Copy video URL at current time" option or the video will not play.</span></label>
                         <input asp-for="VideoUrl" class="form-control" />
                         <span asp-validation-for="VideoUrl" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size:20px;" asp-for="IncludeSocialMediaLinks" class="control-label">Include Your Social Media Links</label>
+                        <input type="checkbox" asp-for="IncludeSocialMediaLinks" class="form-control" style="width:calc(1.5em + .75rem + 2px);"/>
+                        <span asp-validation-for="IncludeSocialMediaLinks" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Create" class="btn btn-primary" />
@@ -76,7 +96,7 @@
 </div>
     </div>
         <div>
-            <a asp-action="Index">Back to List</a>
+            <a asp-action="Index" class="ml-auto">Back to List</a>
         </div>
 
         @section Scripts {

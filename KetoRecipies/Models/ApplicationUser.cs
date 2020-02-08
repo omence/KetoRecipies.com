@@ -11,6 +11,11 @@ namespace KetoRecipies.Models
         public string Name { get; set; }
         public DateTime? LastLoginTime { get; set; }
         public DateTime RegistrationDate { get; set; }
+
+        public string Facebook { get; set; }
+        public string YouTube { get; set; }
+        public string Instagram { get; set; }
+        public string Twitter { get; set; }
     }
 
     public static class ApplicationRoles

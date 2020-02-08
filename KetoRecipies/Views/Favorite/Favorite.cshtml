@@ -1,19 +1,81 @@
-﻿@model IEnumerable<KetoRecipies.Models.Favorite>
+﻿@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<KetoRecipies.Models.Favorite>
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-
-<form asp-action="Favorite" method="get" class="card card-sm mb-3 mt-3">
-    <div class="card-body row no-gutters align-items-center">
-        <div class="col">
-            <input name="SearchString" class="form-control" type="search" placeholder="Name or Ingridients" aria-label="Search">
-        </div>
-        <div class="col-auto">
-            <button class="btn menu-right-btn border" type="submit" value="Search"><i style="color:black;" class="fa mr-1 fa-search"></i>Search</button>
-        </div>
+@if (TempData["Error"] != null)
+{
+    <div>
+        <h2 style="color:lightgreen;"><strong>Error:</strong> @TempData["Error"].ToString()</h2>
     </div>
-</form>
-<h4 class="mb-3">@Model.Count() Recipes</h4>
+}
+@if (TempData["filter"] != null)
+{
+    <div class="container mb-0">
+        <p class="mb-0">Filtered by: @TempData["filter"]</p>
+    </div>
+}
+<div class="container"><h1>My Favorite Keto Recipes</h1></div>
+<div class="container  mb-5">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span style="color:white;" class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    @if (TempData["sort"] != null && TempData["sort"].ToString() == "newest")
+                    {
+                        <a style="color:white; font-weight:bold;" class="nav-link" asp-action="Favorite" asp-route-sort="newest" asp-route-SearchString="@TempData["SearchString"]" asp-route-filter="@TempData["filter"]">Newest First</a>
+                    }
+                    else
+                    {
+                        <a style="color:white;" class="nav-link" asp-action="Favorite" asp-route-sort="newest" asp-route-SearchString="@TempData["SearchString"]" asp-route-filter="@TempData["filter"]">Newest First</a>
+                    }
+                </li>
+                <li class="nav-item">
+                    @if (TempData["sort"] != null && TempData["sort"].ToString() == "oldest")
+                    {
+                        <a style="color:white; font-weight:bold;" class="nav-link" asp-action="Favorite" asp-route-sort="oldest" asp-route-SearchString="@TempData["SearchString"]" asp-route-filter="@TempData["filter"]">Oldest First</a>
+                    }
+                    else
+                    {
+                        <a style="color:white;" class="nav-link" asp-action="Favorite" asp-route-sort="oldest" asp-route-SearchString="@TempData["SearchString"]" asp-route-filter="@TempData["filter"]">Oldest First</a>
+                    }
+                </li>
+                <li class="nav-item">
+                    @if (TempData["sort"] != null && TempData["sort"].ToString() == "mostLikes")
+                    {
+                        <a style="color:white; font-weight:bold;" class="nav-link" asp-action="Favorite" asp-route-sort="mostLikes" asp-route-SearchString="@TempData["SearchString"]" asp-route-filter="@TempData["filter"]">Most Likes</a>
+                    }
+                    else
+                    {
+                        <a style="color:white;" class="nav-link" asp-action="Favorite" asp-route-sort="mostLikes" asp-route-SearchString="@TempData["SearchString"]" asp-route-filter="@TempData["filter"]">Most Likes</a>
+                    }
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;">
+                        Filter By:
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a style="color:black;" class="nav-link" asp-action="Favorite" asp-route-filter="Breakfast" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Breakfast</a>
+                        <a style="color:black;" class="nav-link" asp-action="Favorite" asp-route-filter="Lunch" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Lunch</a>
+                        <a style="color:black;" class="nav-link" asp-action="Favorite" asp-route-filter="Dinner" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Dinner</a>
+                        <a style="color:black;" class="nav-link" asp-action="Favorite" asp-route-filter="Side" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Side</a>
+                        <a style="color:black;" class="nav-link" asp-action="Favorite" asp-route-filter="Dessert" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Dessert</a>
+                        <a style="color:black;" class="nav-link" asp-action="Favorite" asp-route-filter="Snack" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Snack</a>
+                        <a style="color:black;" class="nav-link" asp-action="Favorite" asp-route-filter="Drink" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Drink</a>
+                        <a style="color:black;" class="nav-link" asp-action="Favorite">All</a>
+                    </div>
+                </li>
+            </ul>
+            <form asp-action="Favorite" asp-route-filter="@TempData["filter"]" asp-route-sort="@TempData["sort"]" class="form-inline my-2 my-lg-0" method="get">
+                <input name="SearchString" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" value="@TempData["SearchString"]" />
+                <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+</div>
 <div class="container row ml-0">
     @{
         int counter = 0;
@@ -23,39 +85,35 @@
         <a id="@(counter++)"></a>
         <div class="card-deck col">
             <div class="card text-center mb-3" style="width: 20rem;">
-                @if (item.Recipe.SourceUrl != null)
+                @if (!string.IsNullOrEmpty(item.Recipe.SourceUrl))
                 {
                     <a href="@item.Recipe.SourceUrl"><img src="@item.Recipe.ImageUrl" alt="@item.Recipe.Label" class="card-img-top" /></a>
                 }
-
-                @if (item.Recipe.SourceUrl == null)
+                else
                 {
-                    <a asp-action="Details" asp-route-id="@item.ID"><img src="@item.Recipe.ImageUrl" alt="@item.Recipe.Label" class="card-img-top" /></a>
+                    <a asp-action="Details" asp-route-id="@item.Recipe.ID"><img src="@item.Recipe.ImageUrl" alt="@item.Recipe.Label" class="card-img-top" /></a>
                 }
+
                 <div class="card-body" style="align-self:center; width: 20rem;">
 
                     @if (item.Recipe.SourceUrl != null)
                     {
 
-                        <a class="mt-2" href="@item.Recipe.SourceUrl" target="_blank">
-                            <h5 class="card-header text-center" style="background-color:white; font-weight:bold;">
+                        <a style="font-size:20px;" class="mt-2" href="@item.Recipe.SourceUrl" target="_blank">
                                 @item.Recipe.Label
-                            </h5>
                         </a>
 
                     }
                     @if (item.Recipe.SourceUrl == null)
                     {
 
-                        <a class="mt-2" asp-action="Details" asp-route-id="@item.Recipe.ID">
-                            <h5 class="card-header text-center" style="background-color:white; font-weight:bold;">
+                        <a style="font-size:20px;" class="mt-2" asp-action="Details" asp-route-id="@item.Recipe.ID">
                                 @item.Recipe.Label
-                            </h5>
                         </a>
 
                     }
                     <hr />
-                    <h6><span style="font-weight:bold;">Nutrient Facts Per Serving:</span></h6>
+                    <p><span style="font-weight:bold;">Nutrient Facts Per Serving:</span></p>
                     <p>Calories: @item.Recipe.TotalCaloriesServ, Carbs: @item.Recipe.TotalCarbsServ, Fat: @item.Recipe.TotalFatServ</p>
                     <hr />
                     <form asp-action="Remove" method="post">
@@ -64,14 +122,26 @@
                         <input name="count" type="hidden" value="@Model.Count()" />
                         <button type="submit" class="btn border"><i class="fas mr-2 fa-trash-alt"></i>Remove From Favorites</button>
                     </form>
-                    <h5 class="card-title mt-2">
+                    <p class="card-title mt-2">
                         By: <a asp-action="Favorite" asp-route-SearchString="@item.Recipe.Source">@item.Recipe.Source</a>
-                    </h5>
+                    </p>
                     <div class="card-footer text-muted" style="bottom:1px;">
-                        <h5><i style="color:deepskyblue;" class="fa mr-1 fa-thumbs-up"></i>@item.Recipe.LikeCount | <i style="color:deepskyblue;" class="fa mr-1 fa-thumbs-down"></i>@item.Recipe.DisLikeCount</h5>
+                        <p style="font-size:20px;"><i style="color:deepskyblue;" class="fa mr-1 fa-thumbs-up"></i>@item.Recipe.LikeCount | <i style="color:deepskyblue;" class="fa mr-1 fa-thumbs-down"></i>@item.Recipe.DisLikeCount</p>
                     </div>
                 </div>
             </div>
         </div>
     }
 </div>
+@if (Model.PageCount > 1)
+{
+    <div class="row justify-content-center">
+        @Html.PagedListPager(Model, page => Url.Action("Favorite", new { page, filter = TempData["filter"], SearchString = TempData["SearchString"] }), new X.PagedList.Mvc.Common.PagedListRenderOptionsBase
+   {
+       DisplayItemSliceAndTotal = false,
+       ContainerDivClasses = new[] { "navigation" },
+       LiElementClasses = new[] { "page-item" },
+       PageClasses = new[] { "page-link" },
+   })
+    </div>
+}

@@ -3,6 +3,9 @@
 @{
     ViewData["Title"] = "MyRecipes";
 }
+    <h1>
+        My Recipes
+    </h1>
 <form asp-action="MyRecipes" method="get" class="card card-sm mb-3 mt-3">
     <div class="card-body row no-gutters align-items-center">
         <div class="col">
@@ -16,11 +19,11 @@
     <a asp-action="Create"><h3 class="mt-3" style="color:deepskyblue;"><i class="fas mr-2 fa-plus"></i>Add a Recipe</h3></a>
 
 <h4 class="mb-3">@Model.Count() Recipes</h4>
-<div class="container row ml-0">
+<div class="container row text-center ml-0" style="text-align:center!important;">
     @foreach (var item in Model)
     {
         <div class="card-deck col">
-            <div class="card text-center mb-3" style="width: 20rem;">
+            <div class="card mb-3" style="width: 20rem;">
                 <img src="@item.ImageUrl" alt="@item.Label" class="card-img-top" />
                 <div class="card-body text-center" style="align-self:center; width: 20rem;">
                     <h4 class="card-header" style="font-weight:bold; background-color:white;">

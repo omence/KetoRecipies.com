@@ -34,7 +34,7 @@ namespace KetoRecipies.Models.Service
         {
             Random rnd = new Random();
 
-            return (_context.recipes.OrderBy(r => rnd.Next()).Take(100).ToList());
+            return (_context.recipes.OrderBy(r => rnd.Next()).Take(20).ToList());
         }
     }
 }

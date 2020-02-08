@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace KetoRecipies.Migrations.KetoDb
+namespace KetoRecipies.Migrations
 {
     [DbContext(typeof(KetoDbContext))]
     partial class KetoDbContextModelSnapshot : ModelSnapshot
@@ -101,11 +101,19 @@ namespace KetoRecipies.Migrations.KetoDb
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("DateAdded");
+
                     b.Property<int>("DisLikeCount");
+
+                    b.Property<string>("Facebook");
 
                     b.Property<string>("ImageUrl");
 
+                    b.Property<bool>("IncludeSocialMediaLinks");
+
                     b.Property<string>("Ingridients");
+
+                    b.Property<string>("Instagram");
 
                     b.Property<string>("Instructions");
 
@@ -125,11 +133,17 @@ namespace KetoRecipies.Migrations.KetoDb
 
                     b.Property<int>("TotalTime");
 
+                    b.Property<string>("Twitter");
+
+                    b.Property<string>("Type");
+
                     b.Property<string>("UserId");
 
                     b.Property<string>("VideoUrl");
 
                     b.Property<int>("Yield");
+
+                    b.Property<string>("YouTube");
 
                     b.HasKey("ID");
 
