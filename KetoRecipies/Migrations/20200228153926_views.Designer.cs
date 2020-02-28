@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KetoRecipies.Migrations
 {
     [DbContext(typeof(KetoDbContext))]
-    [Migration("20200202171309_initial")]
-    partial class initial
+    [Migration("20200228153926_views")]
+    partial class views
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -97,6 +97,23 @@ namespace KetoRecipies.Migrations
                     b.ToTable("Likes");
                 });
 
+            modelBuilder.Entity("KetoRecipies.Models.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImageUrl");
+
+                    b.Property<string>("ProductType");
+
+                    b.Property<string>("ProductUrl");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Products");
+                });
+
             modelBuilder.Entity("KetoRecipies.Models.Recipe", b =>
                 {
                     b.Property<int>("ID")
@@ -142,6 +159,8 @@ namespace KetoRecipies.Migrations
                     b.Property<string>("UserId");
 
                     b.Property<string>("VideoUrl");
+
+                    b.Property<int>("ViewCount");
 
                     b.Property<int>("Yield");
 

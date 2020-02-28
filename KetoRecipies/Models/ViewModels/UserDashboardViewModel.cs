@@ -15,6 +15,8 @@ namespace KetoRecipies.Models.ViewModels
 
         public int TotalFavorites { get; set; }
 
+        public int TotalViews { get; set; }
+
 
     }
 }

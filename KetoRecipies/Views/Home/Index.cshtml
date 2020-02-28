@@ -6,6 +6,12 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> userManager
 
+@if (!SignInManager.IsSignedIn(User))
+{
+    <div class="container text-center">
+        <p style="font-size:20px;" class="mt-3"><a asp-area="Identity" asp-page="/Account/Register">Register</a> or <a asp-area="Identity" asp-page="/Account/Login">Login</a> to save your favorite recipes and add your own recipes to the site</p>
+    </div>
+}
 @if (SignInManager.IsSignedIn(User))
 {
     <div class="container text-center">
@@ -67,14 +73,14 @@
                         Filter By:
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a style="color:black;" class="nav-link" asp-action="Index" asp-route-filter="Breakfast" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Breakfast</a>
-                        <a style="color:black;" class="nav-link" asp-action="Index" asp-route-filter="Lunch" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Lunch</a>
-                        <a style="color:black;" class="nav-link" asp-action="Index" asp-route-filter="Dinner" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Dinner</a>
-                        <a style="color:black;" class="nav-link" asp-action="Index" asp-route-filter="Side" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Side</a>
-                        <a style="color:black;" class="nav-link" asp-action="Index" asp-route-filter="Dessert" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Dessert</a>
-                        <a style="color:black;" class="nav-link" asp-action="Index" asp-route-filter="Snack" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Snack</a>
-                        <a style="color:black;" class="nav-link" asp-action="Index" asp-route-filter="Drink" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Drink</a>
-                        <a style="color:black;" class="nav-link" asp-action="Index">All</a>
+                        <a style="color:deepskyblue;" class="nav-link" asp-action="Index" asp-route-filter="Breakfast" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Breakfast</a>
+                        <a style="color:deepskyblue;" class="nav-link" asp-action="Index" asp-route-filter="Lunch" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Lunch</a>
+                        <a style="color:deepskyblue;" class="nav-link" asp-action="Index" asp-route-filter="Dinner" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Dinner</a>
+                        <a style="color:deepskyblue;" class="nav-link" asp-action="Index" asp-route-filter="Side" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Side</a>
+                        <a style="color:deepskyblue;" class="nav-link" asp-action="Index" asp-route-filter="Dessert" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Dessert</a>
+                        <a style="color:deepskyblue;" class="nav-link" asp-action="Index" asp-route-filter="Snack" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Snack</a>
+                        <a style="color:deepskyblue;" class="nav-link" asp-action="Index" asp-route-filter="Drink" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Drink</a>
+                        <a style="color:deepskyblue;" class="nav-link" asp-action="Index">All</a>
                     </div>
                 </li>
             </ul>
@@ -95,32 +101,33 @@
 <div class="container row ml-0" style="justify-content:center;">
     @foreach (var item in Model)
     {
+        <a id="@(item.ID)"></a>
         <div class="card-deck col">
             <div class="card mb-3 text-center" style="width: 20rem">
                 @if (item.SourceUrl != null)
                 {
-                    <a id="@(item.ID)" href="@item.SourceUrl" target="_blank"><img src="@item.ImageUrl" alt="@item.Label" class="card-img-top" /></a>
+                    <a href="@item.SourceUrl" target="_blank"><img src="@item.ImageUrl" alt="@item.Label" class="card-img-top" /></a>
                 }
 
                 @if (item.SourceUrl == null)
                 {
-                    <a id="@(item.ID)" asp-action="Details" asp-route-id="@item.ID"><img src="@item.ImageUrl" alt="@item.Label" class="card-img-top" /></a>
+                    <a asp-action="Details" asp-route-id="@item.ID"><img src="@item.ImageUrl" alt="@item.Label" class="card-img-top" /></a>
                 }
                 <div class="card-body" style="align-self:center; width: 20rem;">
 
                     @if (item.SourceUrl != null)
                     {
 
-                        <a style="font-size:20px;" class="mt-2" href="@item.SourceUrl" target="_blank">
-                                @item.Label                           
+                        <a style="font-size:20px;color:deepskyblue;" class="mt-2" href="@item.SourceUrl" target="_blank">
+                            @item.Label
                         </a>
 
                     }
                     @if (item.SourceUrl == null)
                     {
 
-                        <a style="font-size:20px;" class="mt-2" asp-action="Details" asp-route-id="@item.ID">
-                                @item.Label                            
+                        <a style="font-size:20px;color:deepskyblue;" class="mt-2" asp-action="Details" asp-route-id="@item.ID">
+                            @item.Label
                         </a>
 
                     }
@@ -172,28 +179,28 @@
                     }
                     <div class="container text-center">
                         <p class="card-title mt-2">
-                            By: <a asp-action="Index" asp-route-sort="@TempData["sort"]" asp-route-filter="@TempData["filter"]" asp-route-SearchString="@item.Source">@item.Source</a><br />
+                            By: <a style="color:deepskyblue;" asp-action="Index" asp-route-sort="@TempData["sort"]" asp-route-filter="@TempData["filter"]" asp-route-SearchString="@item.Source">@item.Source</a><br />
                         </p>
                     </div>
                     <div class="container text-center">
-                       
-                            @if (!string.IsNullOrEmpty(item.Facebook))
-                            {
-                                <a style="font-size:30px;" href="@item.Facebook"><i class="fab fa-facebook-square"></i> </a>
-                            }
-                            @if (!string.IsNullOrEmpty(item.YouTube))
-                            {
-                                <a style="font-size:30px;" href="@item.YouTube"><i class="fab fa-youtube-square"></i> </a>
-                            }
-                            @if (!string.IsNullOrEmpty(item.Instagram))
-                            {
-                                <a style="font-size:30px;" href="@item.Instagram"><i class="fab fa-instagram"></i> </a>
-                            }
-                            @if (!string.IsNullOrEmpty(item.Twitter))
-                            {
-                                <a style="font-size:30px;" href="@item.Twitter"><i class="fab fa-twitter-square"></i></a>
-                            }
-                     
+
+                        @if (!string.IsNullOrEmpty(item.Facebook))
+                        {
+                            <a style="font-size:30px;" href="@item.Facebook"><i class="fab fa-facebook-square" style="color:#3b5998;"></i> </a>
+                        }
+                        @if (!string.IsNullOrEmpty(item.YouTube))
+                        {
+                            <a style="font-size:30px;" href="@item.YouTube"><i class="fab fa-youtube-square" style="color:#c4302b;"></i> </a>
+                        }
+                        @if (!string.IsNullOrEmpty(item.Instagram))
+                        {
+                            <a style="font-size:30px;" href="@item.Instagram"><i class="fab fa-instagram" style="color:#3f729b;"></i> </a>
+                        }
+                        @if (!string.IsNullOrEmpty(item.Twitter))
+                        {
+                            <a style="font-size:30px;" href="@item.Twitter"><i class="fab fa-twitter-square" style="color:#00acee;"></i></a>
+                        }
+
                     </div>
                     <div class="card-footer text-muted">
                         <p style="font-size:20px;"><i style="color:deepskyblue;" class="fa mr-1 fa-thumbs-up"></i> @item.LikeCount | <i style="color:deepskyblue;" class="fa mr-1 fa-thumbs-down"></i> @item.DisLikeCount</p>

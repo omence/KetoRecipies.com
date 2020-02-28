@@ -47,12 +47,14 @@
                     }
                     <hr />
                 }
+            <div class="text-left">
                 <p style="font-weight:bold;" class="text-left"><i class="fas mr-2 fa-list-ol"></i>Ingredients</p>
                 <p class="text-left">@Html.Raw(Model.Ingridients)</p>
                 <hr />
                 <a id="Here"></a>
                 <p style="font-weight:bold;" class="text-left"><i class="fas mr-2 fa-info-circle"></i>Instructions</p>
                 <p class="text-left">@Html.Raw(Model.Instructions)</p>
+            </div>
                 <hr />
                 <p class="card-title mt-2">
                     By: <a asp-action="Index" asp-route-SearchString="@Model.Source">@Model.Source</a>

@@ -11,6 +11,6 @@ namespace KetoRecipies.Models.Interfaces
         List<Favorite> GetFavorites();
 
         //Gets a list of rendom recipes
-        List<Recipe> GetRandomRecipes();
+        List<Product> GetRandomProducts();
     } 
 }

@@ -72,10 +72,6 @@ namespace KetoRecipies.Controllers
                 i.LikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == true).Count();
                 i.DisLikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == false).Count();
             }
-            if (recipes.Count() == 0)
-            {
-                await GetRecipes();
-            }
 
             if (!string.IsNullOrEmpty(filter))
             {
@@ -168,72 +164,6 @@ namespace KetoRecipies.Controllers
         }
 
         /// <summary>
-        /// API Call to get recipes
-        /// </summary>
-        /// <returns></returns>
-        public async Task<Recipe> GetRecipes()
-        {
-            using (var client = new HttpClient())
-            {
-                var ID = _configuration["RecID"];
-                var API = _configuration["RecAPI"];
-                try
-                {
-                    //call made to the api
-                    client.BaseAddress = new Uri($"https://api.edamam.com/search");
-                    string search = "keto";
-
-                    var response = await client.GetAsync($"?q={search}&app_id={ID}&app_key={API}&from=0&to=100");
-
-                    response.EnsureSuccessStatusCode();
-
-                    //Reades JSON file received from API
-                    string result = await response.Content.ReadAsStringAsync();
-
-                    dynamic recipes = JsonConvert.DeserializeObject(result);
-                    //Build object
-                    List<Recipe> list = new List<Recipe>();
-
-                    foreach (var r in recipes.hits)
-                    {
-
-                        Recipe rec = new Recipe();
-                        rec.ImageUrl = r.recipe.image;
-                        rec.Label = r.recipe.label;
-                        rec.Source = r.recipe.source;
-                        rec.SourceUrl = r.recipe.url;
-                        rec.Yield = r.recipe.yield;
-                        StringBuilder sb = new StringBuilder();
-                        foreach (var i in r.recipe.ingredientLines.ToObject<List<string>>())
-                        {
-                            sb.Append($"{i}; ");
-                        }
-                        rec.Ingridients = sb.ToString();
-                        rec.TotalTime = r.recipe.totalTime;
-                        rec.TotalCarbsServ = r.recipe.totalNutrients.CHOCDF.quantity / rec.Yield;
-                        rec.TotalFatServ = r.recipe.totalNutrients.FAT.quantity / rec.Yield;
-                        rec.TotalCaloriesServ = r.recipe.totalNutrients.ENERC_KCAL.quantity / rec.Yield;
-
-                        var check = _context.recipes.FirstOrDefault(reci => reci.SourceUrl == rec.SourceUrl);
-
-                        if (check == null)
-                        {
-                            _context.recipes.Add(rec);
-                            _context.SaveChanges();
-                        }
-                    }
-                }
-                catch
-                {
-                    Recipe rec = new Recipe();
-                    return rec;
-                }
-                Recipe rec2 = new Recipe();
-                return rec2;
-            }
-        }
-
-        /// <summary>
         /// Directs to MyFavorites Page
         /// </summary>
         /// <returns>View</returns>
@@ -323,7 +253,7 @@ namespace KetoRecipies.Controllers
             //save photo of dish and set ImageUrl property to location
             if (ImageUrl != null)
             {
-                var fileName = Path.Combine($"{_he.WebRootPath}/Images", Path.GetFileName(ImageUrl.FileName));
+                var fileName = Path.Combine($"{_he.WebRootPath}{userId}/Images", Path.GetFileName(ImageUrl.FileName));
                 ImageUrl.CopyTo(new FileStream(fileName, FileMode.Create));
                 recipe.ImageUrl = "/Images/" + Path.GetFileName(ImageUrl.FileName);
             }
@@ -341,7 +271,8 @@ namespace KetoRecipies.Controllers
             recipe.TotalCaloriesServ = Convert.ToInt32(TotalCaloriesServ);
             recipe.VideoUrl = VideoUrl;
             recipe.DateAdded = DateTime.Now;
-            if(IncludeSocialMediaLinks == true)
+            recipe.IncludeSocialMediaLinks = IncludeSocialMediaLinks;
+            if (IncludeSocialMediaLinks == true)
             {
                 recipe.Facebook = user.Facebook;
                 recipe.YouTube = user.YouTube;
@@ -363,6 +294,8 @@ namespace KetoRecipies.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int ID)
         {
+            var userId = _userManager.GetUserId(User);
+
             var recipe = _context.recipes.FirstOrDefault(r => r.ID == ID);
             recipe.LikeCount = _context.Likes.Where(l => l.RecipeId == recipe.ID && l.Liked == true).Count();
             recipe.DisLikeCount = _context.Likes.Where(l => l.RecipeId == recipe.ID && l.Liked == false).Count();
@@ -371,7 +304,11 @@ namespace KetoRecipies.Controllers
             {
                 c.SubComments = await _context.subComments.Where(s => s.MainCommentID == c.ID).ToListAsync();
             }
-
+            if(recipe.UserId != userId)
+            {
+                recipe.ViewCount++;
+            }
+            
             return View(recipe);
         }
 
@@ -395,14 +332,17 @@ namespace KetoRecipies.Controllers
         /// <returns>View</returns>
         [Authorize]
         [HttpPost]
-        public IActionResult Edit(int ID, string UserId, string Type, string Label, string Ingridients, string Instructions, string Source, string SourceUrl, decimal Yield, decimal TotalTime, decimal TotalCarbsServ, decimal TotalFatServ, decimal TotalCaloriesServ, IFormFile ImageUrl, string VideoUrl)
+        public IActionResult Edit(int ID, string UserId, string Type, string Label, string Ingridients, string Instructions, string Source, string SourceUrl, decimal Yield, decimal TotalTime, decimal TotalCarbsServ, decimal TotalFatServ, decimal TotalCaloriesServ, IFormFile ImageUrl, string VideoUrl, bool IncludeSocialMediaLinks)
         {
+            var userId = _userManager.GetUserId(User);
+            var user = _userManager.GetUserAsync(User).Result;
+
             var recipe = _context.recipes.FirstOrDefault(r => r.ID == ID);
 
             //save photo of dish and set ImageUrl property to location
             if (ImageUrl != null)
             {
-                var fileName = Path.Combine($"{_he.WebRootPath}/Images", Path.GetFileName(ImageUrl.FileName));
+                var fileName = Path.Combine($"{_he.WebRootPath}{userId}/Images", Path.GetFileName(ImageUrl.FileName));
                 ImageUrl.CopyTo(new FileStream(fileName, FileMode.Create));
                 recipe.ImageUrl = "/Images/" + Path.GetFileName(ImageUrl.FileName);
             }
@@ -418,7 +358,14 @@ namespace KetoRecipies.Controllers
             recipe.TotalFatServ = Convert.ToInt32(TotalFatServ);
             recipe.TotalCaloriesServ = Convert.ToInt32(TotalCaloriesServ);
             recipe.VideoUrl = VideoUrl;
-
+            recipe.IncludeSocialMediaLinks = IncludeSocialMediaLinks;
+            if (IncludeSocialMediaLinks == true)
+            {
+                recipe.Facebook = user.Facebook;
+                recipe.YouTube = user.YouTube;
+                recipe.Instagram = user.Instagram;
+                recipe.Twitter = user.Twitter;
+            }
             _context.recipes.Update(recipe);
             _context.SaveChanges();
 
@@ -431,7 +378,7 @@ namespace KetoRecipies.Controllers
         /// <returns>View</returns>
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> MyRecipes(string SearchString)
+        public async Task<IActionResult> MyRecipes(string SearchString, string filter, string sort, int? page)
         {
             var userId = _userManager.GetUserId(User);
 
@@ -441,28 +388,79 @@ namespace KetoRecipies.Controllers
                 i.LikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == true).Count();
                 i.DisLikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == false).Count();
             }
+            if (!string.IsNullOrEmpty(filter))
+            {
+                TempData["filter"] = filter;
+                if (filter == "Breakfast")
+                {
+                    recipes = recipes.Where(r => r.Type == "Breakfast").ToList();
+                }
+                if (filter == "Lunch")
+                {
+                    recipes = recipes.Where(r => r.Type == "Lunch").ToList();
+                }
+                if (filter == "Dinner")
+                {
+                    recipes = recipes.Where(r => r.Type == "Dinner").ToList();
+                }
+                if (filter == "Side")
+                {
+                    recipes = recipes.Where(r => r.Type == "Side").ToList();
+                }
+                if (filter == "Dessert")
+                {
+                    recipes = recipes.Where(r => r.Type == "Dessert").ToList();
+                }
+                if (filter == "Snack")
+                {
+                    recipes = recipes.Where(r => r.Type == "Snack").ToList();
+                }
+                if (filter == "Drink")
+                {
+                    recipes = recipes.Where(r => r.Type == "Drink").ToList();
+                }
+            }
             if (!String.IsNullOrEmpty(SearchString))
             {
-                var recipeList = _context.recipes.ToList();
-
-                var filteredList = recipeList.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Label, SearchString) < 3 ||
+                var filteredList = recipes.Where(r => r.Label.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Label, SearchString) < 3 ||
                 r.Ingridients.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                r.Source.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Source, SearchString) < 3);
+                r.Source.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Source, SearchString) < 3).ToList();
 
                 var splitSearch = SearchString.Split(" ");
 
                 foreach (var i in splitSearch)
                 {
-                    var temp = recipes.Where(r => r.Label.IndexOf(i, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Label, i) < 3 ||
-                    r.Ingridients.IndexOf(i, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Ingridients, i) < 3 ||
-                    r.Source.IndexOf(i, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Source, i) < 3).ToList();
+                    if (i.ToLower() != "keto")
+                    {
+                        var temp = recipes.Where(r => r.Label.IndexOf(i, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Label, i) < 3 ||
+                        r.Ingridients.IndexOf(i, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Ingridients, i) < 3 ||
+                        r.Source.IndexOf(i, StringComparison.OrdinalIgnoreCase) >= 0 || SpellCompare(r.Source, i) < 3).ToList();
 
-                    filteredList = filteredList.Union(temp);
+                        recipes = filteredList.Union(temp).ToList();
+                    }
                 }
 
-                return View(filteredList);
             }
-            return View(recipes);
+            if (!string.IsNullOrEmpty(sort))
+            {
+                if (sort == "mostLikes")
+                {
+                    recipes = recipes.OrderByDescending(r => r.LikeCount).ToList();
+                }
+                if (sort == "newest")
+                {
+                    recipes = recipes.OrderByDescending(r => r.DateAdded).ToList();
+                }
+                if (sort == "oldest")
+                {
+                    recipes = recipes.OrderBy(r => r.DateAdded).ToList();
+                }
+            }
+            TempData["SearchString"] = SearchString;
+            TempData["sort"] = sort;
+            int pageSize = 27;
+            int pageNumber = (page ?? 1);
+            return View(recipes.ToPagedList(pageNumber, pageSize));
         }
 
         /// <summary>

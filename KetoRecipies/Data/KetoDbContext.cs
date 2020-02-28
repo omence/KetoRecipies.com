@@ -20,5 +20,6 @@ namespace KetoRecipies.Data
         public DbSet<Like> Likes { get; set; }
         public DbSet<MainComment> mainComments { get; set; }
         public DbSet<SubComment> subComments { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }

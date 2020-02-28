@@ -4,14 +4,16 @@ using KetoRecipies.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KetoRecipies.Migrations
 {
     [DbContext(typeof(KetoDbContext))]
-    partial class KetoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200223190348_noblog")]
+    partial class noblog
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,8 +159,6 @@ namespace KetoRecipies.Migrations
                     b.Property<string>("UserId");
 
                     b.Property<string>("VideoUrl");
-
-                    b.Property<int>("ViewCount");
 
                     b.Property<int>("Yield");
 

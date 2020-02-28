@@ -3,22 +3,72 @@
 @{
     ViewData["Title"] = "MyRecipes";
 }
-    <h1>
-        My Recipes
-    </h1>
-<form asp-action="MyRecipes" method="get" class="card card-sm mb-3 mt-3">
-    <div class="card-body row no-gutters align-items-center">
-        <div class="col">
-            <input name="SearchString" class="form-control" type="search" placeholder="Name or Ingridients" aria-label="Search">
-        </div>
-        <div class="col-auto">
-            <button class="btn menu-right-btn border" type="submit" value="Search"><i style="color:black;" class="fa mr-1 fa-search"></i>Search</button>
-        </div>
+<h1>
+    My Recipes
+</h1>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span style="color:white;" class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                @if (TempData["sort"] != null && TempData["sort"].ToString() == "newest")
+                {
+                    <a style="color:white; font-weight:bold;" class="nav-link" asp-action="MyRecipes" asp-route-sort="newest" asp-route-SearchString="@TempData["SearchString"]" asp-route-filter="@TempData["filter"]">Newest First</a>
+                }
+                else
+                {
+                    <a style="color:white;" class="nav-link" asp-action="MyRecipes" asp-route-sort="newest" asp-route-SearchString="@TempData["SearchString"]" asp-route-filter="@TempData["filter"]">Newest First</a>
+                }
+            </li>
+            <li class="nav-item">
+                @if (TempData["sort"] != null && TempData["sort"].ToString() == "oldest")
+                {
+                    <a style="color:white; font-weight:bold;" class="nav-link" asp-action="MyRecipes" asp-route-sort="oldest" asp-route-SearchString="@TempData["SearchString"]" asp-route-filter="@TempData["filter"]">Oldest First</a>
+                }
+                else
+                {
+                    <a style="color:white;" class="nav-link" asp-action="MyRecipes" asp-route-sort="oldest" asp-route-SearchString="@TempData["SearchString"]" asp-route-filter="@TempData["filter"]">Oldest First</a>
+                }
+            </li>
+            <li class="nav-item">
+                @if (TempData["sort"] != null && TempData["sort"].ToString() == "mostLikes")
+                {
+                    <a style="color:white; font-weight:bold;" class="nav-link" asp-action="MyRecipes" asp-route-sort="mostLikes" asp-route-SearchString="@TempData["SearchString"]" asp-route-filter="@TempData["filter"]">Most Likes</a>
+                }
+                else
+                {
+                    <a style="color:white;" class="nav-link" asp-action="MyRecipes" asp-route-sort="mostLikes" asp-route-SearchString="@TempData["SearchString"]" asp-route-filter="@TempData["filter"]">Most Likes</a>
+                }
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;">
+                    Filter By:
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a style="color:deepskyblue;" class="nav-link" asp-action="MyRecipes" asp-route-filter="Breakfast" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Breakfast</a>
+                    <a style="color:deepskyblue;" class="nav-link" asp-action="MyRecipes" asp-route-filter="Lunch" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Lunch</a>
+                    <a style="color:deepskyblue;" class="nav-link" asp-action="MyRecipes" asp-route-filter="Dinner" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Dinner</a>
+                    <a style="color:deepskyblue;" class="nav-link" asp-action="MyRecipes" asp-route-filter="Side" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Side</a>
+                    <a style="color:deepskyblue;" class="nav-link" asp-action="MyRecipes" asp-route-filter="Dessert" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Dessert</a>
+                    <a style="color:deepskyblue;" class="nav-link" asp-action="MyRecipes" asp-route-filter="Snack" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Snack</a>
+                    <a style="color:deepskyblue;" class="nav-link" asp-action="MyRecipes" asp-route-filter="Drink" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Drink</a>
+                    <a style="color:deepskyblue;" class="nav-link" asp-action="MyRecipes">All</a>
+                </div>
+            </li>
+        </ul>
+        <form method="get" asp-action="MyRecipes" asp-route-filter="@TempData["filter"]" asp-route-sort="@TempData["sort"]" class="form-inline my-2 my-lg-0">
+            <input name="SearchString" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" value="@TempData["SearchString"]" />
+            <span class="input-group-btn">
+                <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+            </span>
+        </form>
     </div>
-</form>
-    <a asp-action="Create"><h3 class="mt-3" style="color:deepskyblue;"><i class="fas mr-2 fa-plus"></i>Add a Recipe</h3></a>
+</nav>
+<div class="container text-center"><a asp-action="Create"><h3 class="mt-3" style="color:deepskyblue;"><i class="fas mr-2 fa-plus"></i>Add a Recipe</h3></a></div>
 
-<h4 class="mb-3">@Model.Count() Recipes</h4>
+<div class="container"><h4 class="mb-3">@Model.Count() Recipes</h4></div>
 <div class="container row text-center ml-0" style="text-align:center!important;">
     @foreach (var item in Model)
     {
@@ -27,7 +77,7 @@
                 <img src="@item.ImageUrl" alt="@item.Label" class="card-img-top" />
                 <div class="card-body text-center" style="align-self:center; width: 20rem;">
                     <h4 class="card-header" style="font-weight:bold; background-color:white;">
-                        @item.Label
+                        @item.Label, total views: @item.ViewCount
                     </h4>
                     <h5><span style="font-weight:bold;">Nutrient Facts Per Serving:</span></h5>
                     <h5>Calories: @item.TotalCaloriesServ, Carbs: @item.TotalCarbsServ, Fat: @item.TotalFatServ</h5>

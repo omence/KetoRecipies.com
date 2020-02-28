@@ -4,26 +4,51 @@ using KetoRecipies.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KetoRecipies.Migrations
 {
     [DbContext(typeof(KetoDbContext))]
-    partial class KetoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200219221712_in")]
+    partial class @in
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("KetoRecipies.Models.BlogPost", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImageUrl");
+
+                    b.Property<string>("Post");
+
+                    b.Property<string>("VideoUrl");
+
+                    b.Property<string>("userId");
+
+                    b.Property<string>("userName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BlogPosts");
+                });
 
             modelBuilder.Entity("KetoRecipies.Models.Comments.MainComment", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BlogPostID");
 
                     b.Property<DateTime>("DateTime");
 
@@ -34,6 +59,8 @@ namespace KetoRecipies.Migrations
                     b.Property<string>("User");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("BlogPostID");
 
                     b.HasIndex("RecipeID");
 
@@ -158,8 +185,6 @@ namespace KetoRecipies.Migrations
 
                     b.Property<string>("VideoUrl");
 
-                    b.Property<int>("ViewCount");
-
                     b.Property<int>("Yield");
 
                     b.Property<string>("YouTube");
@@ -171,6 +196,11 @@ namespace KetoRecipies.Migrations
 
             modelBuilder.Entity("KetoRecipies.Models.Comments.MainComment", b =>
                 {
+                    b.HasOne("KetoRecipies.Models.BlogPost")
+                        .WithMany("Comments")
+                        .HasForeignKey("BlogPostID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("KetoRecipies.Models.Recipe")
                         .WithMany("Comments")
                         .HasForeignKey("RecipeID")

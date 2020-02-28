@@ -52,5 +52,7 @@ namespace KetoRecipies.Models
         public int DisLikeCount { get; set; }
 
         public List<MainComment> Comments { get; set; }
+
+        public int ViewCount { get; set; }
     }
 }

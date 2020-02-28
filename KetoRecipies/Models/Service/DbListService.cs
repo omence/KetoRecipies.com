@@ -30,11 +30,11 @@ namespace KetoRecipies.Models.Service
         /// Gets reandom recipes from DB
         /// </summary>
         /// <returns>A List of random recipes</returns>
-        public List<Recipe> GetRandomRecipes()
+        public List<Product> GetRandomProducts()
         {
             Random rnd = new Random();
 
-            return (_context.recipes.OrderBy(r => rnd.Next()).Take(20).ToList());
+            return (_context.Products.OrderBy(r => rnd.Next()).Take(16).ToList());
         }
     }
 }

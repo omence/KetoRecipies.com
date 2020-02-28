@@ -43,9 +43,11 @@ namespace KetoRecipies.Controllers
         /// creates, defines and sends View Model to View
         /// </summary>
         /// <returns>View with View Model</returns>
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var userId = _userManager.GetUserId(User);
+            var user = await _userManager.GetUserAsync(User);
+
             var recipes = _context.recipes.Where(r => r.UserId == userId).ToList();
             foreach (var rec in recipes)
             {
@@ -64,17 +66,10 @@ namespace KetoRecipies.Controllers
             UDVM.TotalComments = recipes.Sum(c => c.Comments.Count()) + recipes.Sum(s => s.Comments.Sum(sc => sc.SubComments.Count()));
             UDVM.TotalFavorites = _context.favorites.Where(f => f.UserID == userId).Count();
             UDVM.TotalLikes = recipes.Sum(l => l.LikeCount);
+            UDVM.TotalViews = recipes.Sum(r => r.ViewCount);
 
+            ViewBag.user = user;
             return View(UDVM);
-        }
-
-        /// <summary>
-        /// Sends Change password view
-        /// </summary>
-        /// <returns></returns>
-        public IActionResult ChangePassword()
-        {
-            return View();
         }
 
         /// <summary>
@@ -93,19 +88,41 @@ namespace KetoRecipies.Controllers
             {
                 await _userManager.ChangePasswordAsync(user, Password, NewPassword);
 
-                return RedirectToAction("Success");
+                TempData["password"] = "Password Changed";
+                return RedirectToAction("Index");
             }
 
             return RedirectToAction("Index");
         }
 
-        /// <summary>
-        /// Sends password was changes View.
-        /// </summary>
-        /// <returns>view</returns>
-        public IActionResult Success()
+        [HttpPost]
+        public async Task<IActionResult> UpdateSocialMedia(string facebook, string youTube, string instagram, string twitter)
         {
-            return View();
+            var userId = _userManager.GetUserId(User);
+            var user = await _userManager.GetUserAsync(User);
+
+            user.Facebook = facebook;
+            user.YouTube = youTube;
+            user.Instagram = instagram;
+            user.Twitter = twitter;
+
+            await _userManager.UpdateAsync(user);
+
+            var rec = _context.recipes.Where(r => r.UserId == userId).ToList();
+
+            foreach(var i in rec)
+            {
+                i.Facebook = facebook;
+                i.YouTube = youTube;
+                i.Instagram = instagram;
+                i.Twitter = twitter;
+
+                _context.recipes.Update(i);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
         }
+        
     }
 }

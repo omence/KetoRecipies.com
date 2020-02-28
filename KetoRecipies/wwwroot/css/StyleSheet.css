@@ -1,5 +1,8 @@
 ﻿@import url('https://fonts.googleapis.com/css?family=Pacifico|Righteous|Roboto+Condensed|Ubuntu|Rufina&display=swap');
 
+@media (prefers-color-scheme: dark) {
+
+}
 * {
     border-radius: 0 !important;
     box-shadow: none !important;
@@ -20,8 +23,6 @@ body {
     margin: 0%;
     margin-top: 100px;
     margin-bottom: 250px !important;
-
-    font-family: Rufina;
 }
 
 hr {
