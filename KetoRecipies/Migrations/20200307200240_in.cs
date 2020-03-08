@@ -9,23 +9,6 @@ namespace KetoRecipies.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "BlogPosts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    userId = table.Column<string>(nullable: true),
-                    userName = table.Column<string>(nullable: true),
-                    Post = table.Column<string>(nullable: true),
-                    ImageUrl = table.Column<string>(nullable: true),
-                    VideoUrl = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BlogPosts", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Likes",
                 columns: table => new
                 {
@@ -82,7 +65,8 @@ namespace KetoRecipies.Migrations
                     ImageUrl = table.Column<string>(nullable: true),
                     VideoUrl = table.Column<string>(nullable: true),
                     LikeCount = table.Column<int>(nullable: false),
-                    DisLikeCount = table.Column<int>(nullable: false)
+                    DisLikeCount = table.Column<int>(nullable: false),
+                    ViewCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -118,18 +102,11 @@ namespace KetoRecipies.Migrations
                     Message = table.Column<string>(nullable: true),
                     DateTime = table.Column<DateTime>(nullable: false),
                     User = table.Column<string>(nullable: true),
-                    RecipeID = table.Column<int>(nullable: false),
-                    BlogPostID = table.Column<int>(nullable: false)
+                    RecipeID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_mainComments", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_mainComments_BlogPosts_BlogPostID",
-                        column: x => x.BlogPostID,
-                        principalTable: "BlogPosts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_mainComments_recipes_RecipeID",
                         column: x => x.RecipeID,
@@ -166,11 +143,6 @@ namespace KetoRecipies.Migrations
                 column: "RecipeID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_mainComments_BlogPostID",
-                table: "mainComments",
-                column: "BlogPostID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_mainComments_RecipeID",
                 table: "mainComments",
                 column: "RecipeID");
@@ -197,9 +169,6 @@ namespace KetoRecipies.Migrations
 
             migrationBuilder.DropTable(
                 name: "mainComments");
-
-            migrationBuilder.DropTable(
-                name: "BlogPosts");
 
             migrationBuilder.DropTable(
                 name: "recipes");

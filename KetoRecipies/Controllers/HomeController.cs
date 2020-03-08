@@ -253,9 +253,9 @@ namespace KetoRecipies.Controllers
             //save photo of dish and set ImageUrl property to location
             if (ImageUrl != null)
             {
-                var fileName = Path.Combine($"{_he.WebRootPath}{userId}/Images", Path.GetFileName(ImageUrl.FileName));
+                var fileName = Path.Combine($"{_he.WebRootPath}/Images", $"{userId}{Path.GetFileName(ImageUrl.FileName)}");
                 ImageUrl.CopyTo(new FileStream(fileName, FileMode.Create));
-                recipe.ImageUrl = "/Images/" + Path.GetFileName(ImageUrl.FileName);
+                recipe.ImageUrl = "/Images/" + $"{userId}{Path.GetFileName(ImageUrl.FileName)}";
             }
 
             recipe.Type = Type;
@@ -307,6 +307,8 @@ namespace KetoRecipies.Controllers
             if(recipe.UserId != userId)
             {
                 recipe.ViewCount++;
+                _context.recipes.Update(recipe);
+                _context.SaveChanges();
             }
             
             return View(recipe);

@@ -15,7 +15,7 @@
     <h1>Add Your Recipe</h1>
     <div class="card-deck">
         <div class="card card mb-1 row">
-            <div class="card-body parent col-sm">
+            <div class="card-body parent col-sm bg-light">
                 <form asp-action="Create" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
@@ -26,7 +26,7 @@
                             <option>Lunch</option>
                             <option>Dinner</option>
                             <option>Side</option>
-                            <option>Desert</option>
+                            <option>Dessert</option>
                             <option>Snack</option>
                             <option>Drink</option>
                         </select>
@@ -38,13 +38,13 @@
                         <span asp-validation-for="Label" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label style="font-size:20px;" asp-for="Type" style="margin-bottom:2px !important;"><span style="color:red;">*</span>Ingridients</label>
-                        <textarea asp-for="Ingridients" class="form-control textEdit simple-editor" required></textarea>
+                        <label style="font-size:20px;" asp-for="Type" style="margin-bottom:2px !important;"><span style="color:red;">*</span>Ingredients</label>
+                        <textarea asp-for="Ingridients" class="form-control editor" name="Ingridients" required></textarea>
                         <span asp-validation-for="Ingridients" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label style="font-size:20px;" asp-for="Type" style="margin-bottom:2px !important;"><span style="color:red;">*</span>Instructions</label>
-                        <textarea asp-for="Instructions" class="form-control textEdit simple-editor" required></textarea>
+                        <textarea asp-for="Instructions" class="form-control editor" name="Instructions" required></textarea>
                         <span asp-validation-for="Instructions" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -74,7 +74,7 @@
                     </div>
                     <div class="form-group">
                         <label style="font-size:20px;" asp-for="Type" style="margin-bottom:2px !important;"><span style="color:red;">*</span>Upload Image</label>
-                        <input type="file" name="ImageUrl" class="btn btn-outline-secondary" required />
+                        <input type="file" name="ImageUrl" required />
                         <span asp-validation-for="ImageUrl" class="text-danger"></span>
                     </div>
                     <div class="form-group">

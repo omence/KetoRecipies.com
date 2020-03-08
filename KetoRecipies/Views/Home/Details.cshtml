@@ -15,37 +15,37 @@
     </div>
 }
 
-<div class="container">
-    <h1>Recipe Details</h1>
-    <h2 class="mt-3">
-        @Model.Label
-    </h2>
-</div>
-<div class="container text-center row ml-0">
-        <div class="card mb-3">
-            <img src="@Model.ImageUrl" alt="@Model.Label" class="card-img-top" />
-            <div class="card-body" style="align-self:center;width:100%;">
-                <p style="font-size:30px;"><span style="font-weight:bold;">Serves:</span> @Model.Yield | <span style="font-weight:bold;"><i class="fas mr-1 fa-clock"></i>Time to Cook:</span> @Model.TotalTime min</p>
-                <hr />
-                <p class="mb-1">Per Serving</p>
-                <p style="font-size:30px;"><span style="font-weight:bold;">Calories:</span> @Model.TotalCaloriesServ | <span style="font-weight:bold;">Carbs:</span> @Model.TotalCarbsServ | <span style="font-weight:bold;">Fat:</span> @Model.TotalFatServ</p>
-                <hr />
 
-                @if (Model.VideoUrl != null)
+<div style="justify-content:center" class="container text-center row">
+    <div class="container">
+        <h1 class="mt-3">
+            @Model.Label
+        </h1>
+    </div>
+    <div class="card text-center mb-3">
+        <img src="@Model.ImageUrl" alt="@Model.Label" class="card-img-top" />
+        <div class="card-body" style="align-self:center;width:100%;">
+            <p style="font-size:30px;"><span style="font-weight:bold;">Serves:</span> @Model.Yield | <span style="font-weight:bold;"><i class="fas mr-1 fa-clock"></i>Time to Cook:</span> @Model.TotalTime min</p>
+            <hr />
+            <p class="mb-1">Per Serving</p>
+            <p style="font-size:30px;"><span style="font-weight:bold;">Calories:</span> @Model.TotalCaloriesServ | <span style="font-weight:bold;">Carbs:</span> @Model.TotalCarbsServ | <span style="font-weight:bold;">Fat:</span> @Model.TotalFatServ</p>
+            <hr />
+
+            @if (Model.VideoUrl != null)
                 {
                     if (Model.VideoUrl.Contains("https://www.youtube.com/watch?v="))
                     {
                         Model.VideoUrl = Model.VideoUrl.Replace("https://www.youtube.com/watch?v=", "https://www.youtube.com/embed/");
-                        <iframe width="90%" height="auto" src="@Model.VideoUrl" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe width="90%" height="auto" src="@Model.VideoUrl" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     }
                     if (Model.VideoUrl.Contains("https://youtu.be/"))
                     {
                         Model.VideoUrl = Model.VideoUrl.Replace("https://youtu.be/", "https://www.youtube.com/embed/");
-                        <div class="embed-responsive embed-responsive-16by9">
-                            <iframe width="90%" height="auto" src="@Model.VideoUrl" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe width="90%" height="auto" src="@Model.VideoUrl" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
                     }
-                    <hr />
+            <hr />
                 }
             <div class="text-left">
                 <p style="font-weight:bold;" class="text-left"><i class="fas mr-2 fa-list-ol"></i>Ingredients</p>
@@ -55,38 +55,38 @@
                 <p style="font-weight:bold;" class="text-left"><i class="fas mr-2 fa-info-circle"></i>Instructions</p>
                 <p class="text-left">@Html.Raw(Model.Instructions)</p>
             </div>
-                <hr />
-                <p class="card-title mt-2">
-                    By: <a asp-action="Index" asp-route-SearchString="@Model.Source">@Model.Source</a>
-                </p>
-                <div class="container text-center">
+            <hr />
+            <p class="card-title mt-2">
+                By: <a asp-action="Index" asp-route-SearchString="@Model.Source">@Model.Source</a>
+            </p>
+            <div class="container text-center">
 
-                    @if (!string.IsNullOrEmpty(Model.Facebook))
+                @if (!string.IsNullOrEmpty(Model.Facebook))
                     {
-                        <a style="font-size:30px;" href="@Model.Facebook"><i class="fab fa-facebook-square"></i> </a>
+                <a style="font-size:30px;" href="@Model.Facebook"><i class="fab fa-facebook-square"></i> </a>
                     }
-                    @if (!string.IsNullOrEmpty(Model.YouTube))
+                @if (!string.IsNullOrEmpty(Model.YouTube))
                     {
-                        <a style="font-size:30px;" href="@Model.YouTube"><i class="fab fa-youtube-square"></i> </a>
+                <a style="font-size:30px;" href="@Model.YouTube"><i class="fab fa-youtube-square"></i> </a>
                     }
-                    @if (!string.IsNullOrEmpty(Model.Instagram))
+                @if (!string.IsNullOrEmpty(Model.Instagram))
                     {
-                        <a style="font-size:30px;" href="@Model.Instagram"><i class="fab fa-instagram"></i> </a>
+                <a style="font-size:30px;" href="@Model.Instagram"><i class="fab fa-instagram"></i> </a>
                     }
-                    @if (!string.IsNullOrEmpty(Model.Twitter))
+                @if (!string.IsNullOrEmpty(Model.Twitter))
                     {
-                        <a style="font-size:30px;" href="@Model.Twitter"><i class="fab fa-twitter-square"></i></a>
+                <a style="font-size:30px;" href="@Model.Twitter"><i class="fab fa-twitter-square"></i></a>
                     }
 
-                </div>
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    <a asp-action="Like" asp-route-id="@Model.ID"><i style="color:deepskyblue;" class="fa mr-3 mt-5 fa-3x fa-thumbs-up"></i></a> @Model.LikeCount
-                    <a asp-action="DisLike" asp-route-id="@Model.ID"><i style="color:deepskyblue;" class="fa ml-3 mt-5 fa-3x fa-thumbs-down" aria-hidden="true"></i></a> @Model.DisLikeCount
-                }
             </div>
+            @if (SignInManager.IsSignedIn(User))
+                {
+            <a asp-action="Like" asp-route-id="@Model.ID"><i style="color:deepskyblue;" class="fa mr-3 mt-5 fa-3x fa-thumbs-up"></i></a>  @Model.LikeCount
+            <a asp-action="DisLike" asp-route-id="@Model.ID"><i style="color:deepskyblue;" class="fa ml-3 mt-5 fa-3x fa-thumbs-down" aria-hidden="true"></i></a>  @Model.DisLikeCount
+                }
         </div>
     </div>
+</div>
 <div class="container">
     <h2>Comments</h2>
     <div class="panel-body">

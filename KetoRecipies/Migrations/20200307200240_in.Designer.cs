@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KetoRecipies.Migrations
 {
     [DbContext(typeof(KetoDbContext))]
-    [Migration("20200228153926_views")]
-    partial class views
+    [Migration("20200307200240_in")]
+    partial class @in
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

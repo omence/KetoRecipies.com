@@ -21,17 +21,5 @@ $('.multi-item-carousel .item').each(function () {
     }
 });
 
-$('.textEdit').trumbowyg({
-    btns: [
-        ['viewHTML'],
-        ['formatting'],
-        ['strong', 'em', 'del'],
-        ['superscript', 'subscript'],
-        ['link'],
-        ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
-        ['unorderedList', 'orderedList'],
-        ['horizontalRule'],
-        ['removeformat'],
-        ['fullscreen']
-    ]
-});
+CKEDITOR.replace('Ingridients');
+CKEDITOR.replace('Instructions');
