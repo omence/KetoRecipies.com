@@ -20,36 +20,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    @if (TempData["sort"] != null && TempData["sort"].ToString() == "newest")
-                    {
-                        <a style="color:white; font-weight:bold;" class="nav-link" asp-action="Index" asp-route-sort="newest" asp-route-SearchString="@TempData["SearchString"]" asp-route-filter="@TempData["filter"]">Newest First</a>
-                    }
-                    else
-                    {
-                        <a style="color:white;" class="nav-link" asp-action="Index" asp-route-sort="newest" asp-route-SearchString="@TempData["SearchString"]" asp-route-filter="@TempData["filter"]">Newest First</a>
-                    }
-                </li>
-                <li class="nav-item">
-                    @if (TempData["sort"] != null && TempData["sort"].ToString() == "oldest")
-                    {
-                        <a style="color:white; font-weight:bold;" class="nav-link" asp-action="Index" asp-route-sort="oldest" asp-route-SearchString="@TempData["SearchString"]" asp-route-filter="@TempData["filter"]">Oldest First</a>
-                    }
-                    else
-                    {
-                        <a style="color:white;" class="nav-link" asp-action="Index" asp-route-sort="oldest" asp-route-SearchString="@TempData["SearchString"]" asp-route-filter="@TempData["filter"]">Oldest First</a>
-                    }
-                </li>
-                <li class="nav-item">
-                    @if (TempData["sort"] != null && TempData["sort"].ToString() == "mostLikes")
-                    {
-                        <a style="color:white; font-weight:bold;" class="nav-link" asp-action="Index" asp-route-sort="mostLikes" asp-route-SearchString="@TempData["SearchString"]" asp-route-filter="@TempData["filter"]">Highest Rating</a>
-                    }
-                    else
-                    {
-                        <a style="color:white;" class="nav-link" asp-action="Index" asp-route-sort="mostLikes" asp-route-SearchString="@TempData["SearchString"]" asp-route-filter="@TempData["filter"]">Most Likes</a>
-                    }
-                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;">
                         Filter By:
