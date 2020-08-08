@@ -3,11 +3,13 @@
 @{
     ViewData["Title"] = "Register";
 }
-    <div class="container mt-3 mb-3"><h1>Create a new account.</h1></div>
+    <div class="container mt-3 mb-3"><h1>Become Part of the Community</h1></div>
 <div class="container mb-3">
         <div class="card">
             <div class="card-body text-left bg-light">
+                
                 <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    <input type="hidden" value="" asp-for="Input.honey" />
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Input.Name"><span style="color:red;">*</span>User Name</label>
@@ -51,8 +53,8 @@
                     </div>
                     <div class="form-group">
                         <a class="nav-link mb-3" href="~/Home/Privacy" target="_blank" style="color:deepskyblue; padding:0px;">Privacy Policy</a>
-                        <button type="submit" class="btn border">Register</button>
-                        </div>
+                        <button type="submit" class="btn border btn-lg">Register</button>
+                    </div>
                 </form>
             </div>
         </div>

@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using KetoRecipies.Data;
-using KetoRecipies.Models;
+﻿using KetoRecipies.Data;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+using System;
+using System.Linq;
 using X.PagedList;
 
 namespace KetoRecipies.Controllers
@@ -30,18 +24,18 @@ namespace KetoRecipies.Controllers
             var products = _context.Products.ToList();
 
             if (!string.IsNullOrEmpty(filter))
-            { 
-            
+            {
+
             }
 
             if (!String.IsNullOrEmpty(SearchString))
-            { 
-            
+            {
+
             }
 
             if (!string.IsNullOrEmpty(sort))
-            { 
-            
+            {
+
             }
 
             TempData["filter"] = filter;

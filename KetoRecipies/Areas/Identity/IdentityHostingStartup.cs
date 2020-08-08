@@ -1,8 +1,6 @@
-﻿using System;
-using KetoRecipies.Models;
+﻿using KetoRecipies.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,7 +13,8 @@ namespace KetoRecipies.Areas.Identity
     {
         public void Configure(IWebHostBuilder builder)
         {
-            builder.ConfigureServices((context, services) => {
+            builder.ConfigureServices((context, services) =>
+            {
                 services.AddDbContext<KetoRecipiesContext>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("KetoRecipiesContextConnection")));

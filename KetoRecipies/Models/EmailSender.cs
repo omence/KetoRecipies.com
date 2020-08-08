@@ -1,8 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -37,6 +33,7 @@ namespace KetoRecipies.Models
                 Credentials = new NetworkCredential(userName, password),
                 EnableSsl = enableSSL
             };
+
             return client.SendMailAsync(
                 new MailMessage(userName, email, subject, htmlMessage) { IsBodyHtml = true }
             );
