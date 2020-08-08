@@ -3,7 +3,14 @@
 @media (prefers-color-scheme: dark) {
 
 }
+label{
+    font-weight:bold;
+}
+a {
+    color: deepskyblue;
+}
 * {
+    
     border-radius: 0 !important;
     box-shadow: none !important;
     padding:0px;

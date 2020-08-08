@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using KetoRecipies.Data;
+﻿using KetoRecipies.Data;
 using KetoRecipies.Models;
 using KetoRecipies.Models.Interfaces;
 using KetoRecipies.Models.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace KetoRecipies
 {
@@ -41,7 +35,8 @@ namespace KetoRecipies
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.ConfigureApplicationCookie(o => {
+            services.ConfigureApplicationCookie(o =>
+            {
                 o.ExpireTimeSpan = TimeSpan.FromDays(5);
                 o.SlidingExpiration = true;
             });

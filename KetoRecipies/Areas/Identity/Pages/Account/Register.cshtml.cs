@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using KetoRecipies.Models;
+﻿using KetoRecipies.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace KetoRecipies.Areas.Identity.Pages.Account
 {
@@ -41,6 +40,7 @@ namespace KetoRecipies.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            public string honey { get; set; }
             [Required]
             [Display(Name = "Name")]
             public string Name { get; set; }
@@ -86,34 +86,36 @@ namespace KetoRecipies.Areas.Identity.Pages.Account
             {
                 var user = new ApplicationUser { Name = Input.Name, UserName = Input.Email, Email = Input.Email, Facebook = Input.Facebook, YouTube = Input.YouTube, Instagram = Input.Instagram, Twitter = Input.Twitter };
                 user.RegistrationDate = DateTime.Now;
-                var result = await _userManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded)
+                if (string.IsNullOrEmpty(Input.honey))
                 {
-                    _logger.LogInformation("User created a new account with password.");
-
-                    Claim NameClaim = new Claim("Name", $"{user.Name}");
-                    List<Claim> claims = new List<Claim> {NameClaim};
-                    await _userManager.AddClaimsAsync(user, claims);
-
-                    if (user.Email == "omence11@gmail.com")
+                    var result = await _userManager.CreateAsync(user, Input.Password);
+                    if (result.Succeeded)
                     {
-    
-                        await _userManager.AddToRoleAsync(user, ApplicationRoles.Admin);
-                    }
-                    else
-                    {
-                        await _userManager.AddToRoleAsync(user, ApplicationRoles.Member);
-                    }
+                        _logger.LogInformation("User created a new account with password.");
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                        Claim NameClaim = new Claim("Name", $"{user.Name}");
+                        List<Claim> claims = new List<Claim> { NameClaim };
+                        await _userManager.AddClaimsAsync(user, claims);
+
+                        if (user.Email == "omence11@gmail.com")
+                        {
+
+                            await _userManager.AddToRoleAsync(user, ApplicationRoles.Admin);
+                        }
+                        else
+                        {
+                            await _userManager.AddToRoleAsync(user, ApplicationRoles.Member);
+                        }
+
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        return LocalRedirect(returnUrl);
+                    }
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
             }
-
             // If we got this far, something failed, redisplay form
             return Page();
         }

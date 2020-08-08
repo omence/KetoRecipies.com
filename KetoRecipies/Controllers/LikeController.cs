@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using KetoRecipies.Data;
+﻿using KetoRecipies.Data;
 using KetoRecipies.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace KetoRecipies.Controllers
 {
     [Authorize]
     public class LikeController : Controller
-    { 
+    {
         private readonly KetoDbContext _context;
 
         public LikeController(KetoDbContext context)
@@ -31,7 +27,7 @@ namespace KetoRecipies.Controllers
             var checkForLike = _context.Likes.FirstOrDefault(l => l.UserId == userId && l.RecipeId == ID);
 
             //if a Like does not exist, create one
-            if(checkForLike == null)
+            if (checkForLike == null)
             {
                 Like like = new Like();
 

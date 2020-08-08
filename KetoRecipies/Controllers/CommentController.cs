@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using KetoRecipies.Data;
+﻿using KetoRecipies.Data;
 using KetoRecipies.Models.Comments;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

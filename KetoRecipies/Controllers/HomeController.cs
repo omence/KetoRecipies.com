@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using KetoRecipies.Data;
 using KetoRecipies.Models;
-using System.Net.Http;
-using Newtonsoft.Json;
-using Microsoft.Extensions.Configuration;
-using System.Text;
-using KetoRecipies.Data;
-using Microsoft.AspNetCore.Identity;
+using KetoRecipies.Models.Comments;
 using Microsoft.AspNetCore.Authorization;
-using X.PagedList;
-using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using KetoRecipies.Models.Comments;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using X.PagedList;
 
 namespace KetoRecipies.Controllers
 {
@@ -30,10 +28,10 @@ namespace KetoRecipies.Controllers
         private readonly IHostingEnvironment _he;
         private readonly IEmailSender _es;
 
-        public HomeController(IConfiguration configuration, 
-            KetoDbContext context, 
-            UserManager<ApplicationUser> userManager, 
-            IHostingEnvironment he, 
+        public HomeController(IConfiguration configuration,
+            KetoDbContext context,
+            UserManager<ApplicationUser> userManager,
+            IHostingEnvironment he,
             IEmailSender es,
             KetoRecipiesContext users)
         {
@@ -76,7 +74,7 @@ namespace KetoRecipies.Controllers
             if (!string.IsNullOrEmpty(filter))
             {
                 TempData["filter"] = filter;
-                if(filter == "Breakfast")
+                if (filter == "Breakfast")
                 {
                     recipes = recipes.Where(r => r.Type == "Breakfast").ToList();
                 }
@@ -123,8 +121,8 @@ namespace KetoRecipies.Controllers
 
                         recipes = filteredList.Union(temp).ToList();
                     }
-                }          
-                        
+                }
+
             }
             if (!string.IsNullOrEmpty(sort))
             {
@@ -196,7 +194,7 @@ namespace KetoRecipies.Controllers
                 {
                     return Redirect(Url.Action("Index", new { searchString, sort }) + $"?page={Page}#{recipe.ID}");
                 }
-                return Redirect(Url.Action("Index", new { searchString, sort }) +$"#{recipe.ID}");
+                return Redirect(Url.Action("Index", new { searchString, sort }) + $"#{recipe.ID}");
             }
 
             TempData["Error"] = "Recipe already in your favorites list";
@@ -253,9 +251,26 @@ namespace KetoRecipies.Controllers
             //save photo of dish and set ImageUrl property to location
             if (ImageUrl != null)
             {
+
+                
                 var fileName = Path.Combine($"{_he.WebRootPath}/Images", $"{userId}{Path.GetFileName(ImageUrl.FileName)}");
-                ImageUrl.CopyTo(new FileStream(fileName, FileMode.Create));
+                var stream = new FileStream(fileName, FileMode.Create);
+                ImageUrl.CopyTo(stream);
                 recipe.ImageUrl = "/Images/" + $"{userId}{Path.GetFileName(ImageUrl.FileName)}";
+                stream.Close();
+
+                var image = Image.Load(Path.Combine($"{_he.WebRootPath}/Images", fileName));
+
+                if(image.Width > image.Height)
+                {
+                    image.Mutate(x => x.Resize(1024, 768));
+                }
+                if (image.Width < image.Height)
+                {
+                    image.Mutate(x => x.Resize(768, 1024));
+                }
+
+                image.Save(fileName);
             }
 
             recipe.Type = Type;
@@ -300,17 +315,17 @@ namespace KetoRecipies.Controllers
             recipe.LikeCount = _context.Likes.Where(l => l.RecipeId == recipe.ID && l.Liked == true).Count();
             recipe.DisLikeCount = _context.Likes.Where(l => l.RecipeId == recipe.ID && l.Liked == false).Count();
             recipe.Comments = await _context.mainComments.Where(r => r.RecipeID == recipe.ID).ToListAsync();
-            foreach(var c in recipe.Comments)
+            foreach (var c in recipe.Comments)
             {
                 c.SubComments = await _context.subComments.Where(s => s.MainCommentID == c.ID).ToListAsync();
             }
-            if(recipe.UserId != userId)
+            if (recipe.UserId != userId)
             {
                 recipe.ViewCount++;
                 _context.recipes.Update(recipe);
                 _context.SaveChanges();
             }
-            
+
             return View(recipe);
         }
 
@@ -385,7 +400,7 @@ namespace KetoRecipies.Controllers
             var userId = _userManager.GetUserId(User);
 
             var recipes = await _context.recipes.Where(r => r.UserId == userId).OrderBy(r => r.Label).ToListAsync();
-            foreach(var i in recipes)
+            foreach (var i in recipes)
             {
                 i.LikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == true).Count();
                 i.DisLikeCount = _context.Likes.Where(l => l.RecipeId == i.ID && l.Liked == false).Count();
@@ -496,6 +511,7 @@ namespace KetoRecipies.Controllers
             {
                 var toDelete = _context.recipes.FirstOrDefault(r => r.ID == ID);
                 _context.recipes.Remove(toDelete);
+
                 _context.SaveChanges();
 
                 return RedirectToAction("MyRecipes");
@@ -533,7 +549,7 @@ namespace KetoRecipies.Controllers
             lc.DisLike(ID, userId);
 
             return Redirect(Url.Action("Details", "Home", new { ID }) + "#Here");
-           
+
         }
 
         /// <summary>
@@ -554,9 +570,9 @@ namespace KetoRecipies.Controllers
         /// <param name="message"></param>
         /// <returns>View</returns>
         [HttpPost]
-        public async Task<IActionResult> ContactUs(string email, string subject, string message)
+        public async Task<IActionResult> ContactUs(string email, string subject, string message, string honey)
         {
-            if (email != null && subject != null && message != null)
+            if (email != null && subject != null && message != null && string.IsNullOrEmpty(honey))
             {
                 string msg = $"{email} {message}";
 
@@ -595,7 +611,7 @@ namespace KetoRecipies.Controllers
                 return Redirect(Url.Action("Details", new { ID }) + "#commentsReturn");
             }
             return Redirect(Url.Action("Details", new { ID }) + "#commentsReturn");
-            }
+        }
 
         /// <summary>
         /// Adds a sub comment to DB using ComentController

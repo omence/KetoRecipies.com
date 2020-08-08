@@ -1,5 +1,3 @@
-using System;
-
 namespace KetoRecipies.Models
 {
     public class ErrorViewModel

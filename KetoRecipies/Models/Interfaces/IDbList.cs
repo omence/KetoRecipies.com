@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace KetoRecipies.Models.Interfaces
 {
@@ -12,5 +9,5 @@ namespace KetoRecipies.Models.Interfaces
 
         //Gets a list of rendom recipes
         List<Product> GetRandomProducts();
-    } 
+    }
 }

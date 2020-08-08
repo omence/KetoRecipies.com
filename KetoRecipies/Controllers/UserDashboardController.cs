@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using KetoRecipies.Data;
+﻿using KetoRecipies.Data;
 using KetoRecipies.Models;
 using KetoRecipies.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -11,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace KetoRecipies.Controllers
 {
@@ -110,7 +108,7 @@ namespace KetoRecipies.Controllers
 
             var rec = _context.recipes.Where(r => r.UserId == userId).ToList();
 
-            foreach(var i in rec)
+            foreach (var i in rec)
             {
                 i.Facebook = facebook;
                 i.YouTube = youTube;
@@ -123,6 +121,6 @@ namespace KetoRecipies.Controllers
 
             return RedirectToAction("Index");
         }
-        
+
     }
 }

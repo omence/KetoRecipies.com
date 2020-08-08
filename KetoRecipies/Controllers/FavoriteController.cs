@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using KetoRecipies.Data;
+﻿using KetoRecipies.Data;
 using KetoRecipies.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using X.PagedList;
 
 namespace KetoRecipies.Controllers
@@ -40,7 +39,7 @@ namespace KetoRecipies.Controllers
                 f.Recipe = _context.recipes.FirstOrDefault(r => r.ID == f.RecipeID);
                 f.Recipe.LikeCount = _context.Likes.Where(l => l.RecipeId == f.Recipe.ID && l.Liked == true).Count();
                 f.Recipe.DisLikeCount = _context.Likes.Where(l => l.RecipeId == f.Recipe.ID && l.Liked == false).Count();
-                
+
             }
 
             if (!string.IsNullOrEmpty(filter))
@@ -117,8 +116,8 @@ namespace KetoRecipies.Controllers
             int pageNumber = (page ?? 1);
             return View(recipes.ToPagedList(pageNumber, pageSize));
         }
-           
-        
+
+
 
         /// <summary>
         /// Add a recipe to users favorites
@@ -217,4 +216,3 @@ namespace KetoRecipies.Controllers
         }
     }
 }
-    
