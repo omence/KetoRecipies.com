@@ -257,6 +257,7 @@ namespace KetoRecipies.Controllers
                 var stream = new FileStream(fileName, FileMode.Create);
                 ImageUrl.CopyTo(stream);
                 recipe.ImageUrl = "/Images/" + $"{userId}{Path.GetFileName(ImageUrl.FileName)}";
+                recipe.ImgPath = fileName;
                 stream.Close();
 
                 var image = Image.Load(Path.Combine($"{_he.WebRootPath}/Images", fileName));
@@ -359,9 +360,30 @@ namespace KetoRecipies.Controllers
             //save photo of dish and set ImageUrl property to location
             if (ImageUrl != null)
             {
-                var fileName = Path.Combine($"{_he.WebRootPath}{userId}/Images", Path.GetFileName(ImageUrl.FileName));
-                ImageUrl.CopyTo(new FileStream(fileName, FileMode.Create));
-                recipe.ImageUrl = "/Images/" + Path.GetFileName(ImageUrl.FileName);
+                if (System.IO.File.Exists(recipe.ImgPath)) 
+                {
+                    System.IO.File.Delete(recipe.ImgPath);
+                }
+                
+                var fileName = Path.Combine($"{_he.WebRootPath}/Images", $"{userId}{Path.GetFileName(ImageUrl.FileName)}");
+                var stream = new FileStream(fileName, FileMode.Create);
+                ImageUrl.CopyTo(stream);
+                recipe.ImageUrl = "/Images/" + $"{userId}{Path.GetFileName(ImageUrl.FileName)}";
+                recipe.ImgPath = fileName;
+                stream.Close();
+
+                var image = Image.Load(Path.Combine($"{_he.WebRootPath}/Images", fileName));
+
+                if (image.Width > image.Height)
+                {
+                    image.Mutate(x => x.Resize(1024, 768));
+                }
+                if (image.Width < image.Height)
+                {
+                    image.Mutate(x => x.Resize(768, 1024));
+                }
+
+                image.Save(fileName);
             }
             recipe.UserId = UserId;
             recipe.Type = Type;
@@ -510,6 +532,10 @@ namespace KetoRecipies.Controllers
             if (ID > 0)
             {
                 var toDelete = _context.recipes.FirstOrDefault(r => r.ID == ID);
+                if (System.IO.File.Exists(toDelete.ImgPath))
+                {
+                    System.IO.File.Delete(toDelete.ImgPath);
+                }
                 _context.recipes.Remove(toDelete);
 
                 _context.SaveChanges();

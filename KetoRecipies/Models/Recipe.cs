@@ -43,6 +43,8 @@ namespace KetoRecipies.Models
 
         public string ImageUrl { get; set; }
 
+        public string ImgPath { get; set; }
+
         public string VideoUrl { get; set; }
 
         public int LikeCount { get; set; }
