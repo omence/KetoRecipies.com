@@ -1,17 +1,18 @@
 ﻿@model KetoRecipies.Models.Product
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
-<h1>Create</h1>
+<h1>Edit</h1>
 
 <h4>Product</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="ProductUrl" class="control-label"></label>
                 <input asp-for="ProductUrl" class="form-control" />
@@ -23,25 +24,19 @@
                 <span asp-validation-for="ImageUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ProductType">Select a product type</label>
-                <select asp-for="ProductType" class="form-control" id="sel1">
-                    <option value="" selected disabled hidden>Choose here</option>
-                    <option>Cooking Gear</option>
-                    <option>Supplements</option>
-                    <option>Food</option>
-                    <option>Swag</option>
-                </select>
+                <label asp-for="ProductType" class="control-label"></label>
+                <input asp-for="ProductType" class="form-control" />
                 <span asp-validation-for="ProductType" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="ManageProducts">Back to List</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

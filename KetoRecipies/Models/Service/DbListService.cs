@@ -32,7 +32,7 @@ namespace KetoRecipies.Models.Service
         {
             Random rnd = new Random();
 
-            return (_context.Products.OrderBy(r => rnd.Next()).Take(16).ToList());
+            return (_context.Products.OrderBy(r => rnd.Next()).Take(12).ToList());
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
-namespace KetoRecipies.Migrations
+namespace KetoRecipies.Migrations.KetoDb
 {
-    public partial class @in : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -63,6 +63,7 @@ namespace KetoRecipies.Migrations
                     TotalFatServ = table.Column<int>(nullable: false),
                     TotalCaloriesServ = table.Column<int>(nullable: false),
                     ImageUrl = table.Column<string>(nullable: true),
+                    ImgPath = table.Column<string>(nullable: true),
                     VideoUrl = table.Column<string>(nullable: true),
                     LikeCount = table.Column<int>(nullable: false),
                     DisLikeCount = table.Column<int>(nullable: false),

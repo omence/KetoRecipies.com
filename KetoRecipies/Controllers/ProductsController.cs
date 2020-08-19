@@ -1,4 +1,5 @@
 ﻿using KetoRecipies.Data;
+using KetoRecipies.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,34 +20,40 @@ namespace KetoRecipies.Controllers
         }
         // GET: Products
         [AllowAnonymous]
-        public ActionResult Index(string SearchString, string sort, string filter, int? page)
+        public ActionResult Index(string filter, int? page)
         {
             var products = _context.Products.ToList();
 
             if (!string.IsNullOrEmpty(filter))
             {
-
-            }
-
-            if (!String.IsNullOrEmpty(SearchString))
-            {
-
-            }
-
-            if (!string.IsNullOrEmpty(sort))
-            {
-
+                switch (filter)
+                {
+                    case "Cooking Gear":
+                        products = products.Where(p => p.ProductType == "Cooking Gear").ToList();
+                        break;
+                    case "Supplements":
+                        products = products.Where(p => p.ProductType == "Supplements").ToList();
+                        break;
+                    case "Food":
+                        products = products.Where(p => p.ProductType == "Food").ToList();
+                        break;
+                    case "Swag":
+                        products = products.Where(p => p.ProductType == "Swag").ToList();
+                        break;
+                }
             }
 
             TempData["filter"] = filter;
-            TempData["SearchString"] = SearchString;
-            TempData["sort"] = sort;
             int pageSize = 27;
             int pageNumber = (page ?? 1);
 
             return View(products.ToPagedList(pageNumber, pageSize));
         }
-
+        public IActionResult ManageProducts()
+        {
+            
+            return View(_context.Products.ToList());
+        }
         // GET: Products/Details/5
         public ActionResult Details(int id)
         {
@@ -62,13 +69,14 @@ namespace KetoRecipies.Controllers
         // POST: Products/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create([Bind("ProductUrl,ImageUrl,ProductType")] Product product)
         {
             try
             {
-                // TODO: Add insert logic here
+                _context.Products.Add(product);
+                _context.SaveChanges();
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("ManageProducts");
             }
             catch
             {
@@ -79,19 +87,21 @@ namespace KetoRecipies.Controllers
         // GET: Products/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+
+            return View(_context.Products.FirstOrDefault(p => p.Id == id));
         }
 
         // POST: Products/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit([Bind("Id,ProductUrl,ImageUrl,ProductType")] Product product)
         {
             try
             {
-                // TODO: Add update logic here
+                _context.Products.Update(product);
+                _context.SaveChanges();
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("ManageProducts");
             }
             catch
             {
@@ -102,7 +112,7 @@ namespace KetoRecipies.Controllers
         // GET: Products/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            return View(_context.Products.FirstOrDefault(p => p.Id == id));
         }
 
         // POST: Products/Delete/5
@@ -112,9 +122,11 @@ namespace KetoRecipies.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
+                Product toRemove = _context.Products.FirstOrDefault(p => p.Id == id);
+                _context.Products.Remove(toRemove);
+                _context.SaveChanges();
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("ManageProducts");
             }
             catch
             {

@@ -21,6 +21,7 @@
                         <input asp-for="Input.Email" class="form-control" />
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
+                    <p>If you want your social media links on your recipes, please provide the URLs</p>
                     <div class="form-group">
                         <label asp-for="Input.Facebook"></label>
                         <input asp-for="Input.Facebook" class="form-control" />
@@ -52,7 +53,8 @@
                         <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <a class="nav-link mb-3" href="~/Home/Privacy" target="_blank" style="color:deepskyblue; padding:0px;">Privacy Policy</a>
+                        <a class="nav-link mb-3" href="~/Home/Privacy" target="_blank" style="color:deepskyblue; padding:0px;">Privacy Policy and Terms</a>
+                        <p>By clicking "Register" you acknowledge that you have read and agree with the privacy policy and terms of use.</p>
                         <button type="submit" class="btn border btn-lg">Register</button>
                     </div>
                 </form>

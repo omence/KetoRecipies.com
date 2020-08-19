@@ -25,29 +25,31 @@
                         Filter By:
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a style="color:deepskyblue;" class="nav-link" asp-action="Index" asp-route-filter="Breakfast" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Cooking Gear</a>
-                        <a style="color:deepskyblue;" class="nav-link" asp-action="Index" asp-route-filter="Lunch" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Supplements</a>
-                        <a style="color:deepskyblue;" class="nav-link" asp-action="Index" asp-route-filter="Dinner" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Organic Foods</a>
-                        <a style="color:deepskyblue;" class="nav-link" asp-action="Index" asp-route-filter="Side" asp-route-sort="@TempData["sort"]" asp-route-SearchString="@TempData["SearchString"]">Swag</a>
+                        <a style="color:deepskyblue;" class="nav-link" asp-action="Index" asp-route-filter="Cooking Gear">Cooking Gear</a>
+                        <a style="color:deepskyblue;" class="nav-link" asp-action="Index" asp-route-filter="Supplements">Supplements</a>
+                        <a style="color:deepskyblue;" class="nav-link" asp-action="Index" asp-route-filter="Food">Food</a>
+                        <a style="color:deepskyblue;" class="nav-link" asp-action="Index" asp-route-filter="Swag">Swag</a>
                         <a style="color:deepskyblue;" class="nav-link" asp-action="Index">All</a>
                     </div>
                 </li>
             </ul>
-            <form asp-action="Index" asp-route-filter="@TempData["filter"]" asp-route-sort="@TempData["sort"]" class="form-inline my-2 my-lg-0">
-                <input name="SearchString" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" value="@TempData["SearchString"]" />
-                <span class="input-group-btn">
-                    <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
-                </span>
-            </form>
         </div>
     </nav>
 </div>
-
-
+<div class="container">
+    @foreach (var p in Model)
+    {
+        <div class="card-deck col">
+            <div class="card mb-3 text-center" style="width: 20rem">
+                @Html.Raw(p.ProductUrl)
+            </div>
+        </div>
+    }
+</div>
 @if (Model.PageCount > 1)
 {
     <div class="row justify-content-center">
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, filter = TempData["filter"], SearchString = TempData["SearchString"] }), new X.PagedList.Mvc.Common.PagedListRenderOptionsBase
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, filter = TempData["filter"]}), new X.PagedList.Mvc.Common.PagedListRenderOptionsBase
    {
        DisplayItemSliceAndTotal = false,
        ContainerDivClasses = new[] { "navigation" },

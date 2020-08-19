@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace KetoRecipies.Migrations
+namespace KetoRecipies.Migrations.KetoDb
 {
     [DbContext(typeof(KetoDbContext))]
-    [Migration("20200809200804_ini")]
-    partial class ini
+    [Migration("20200815222602_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

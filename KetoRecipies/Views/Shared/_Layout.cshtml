@@ -25,9 +25,7 @@
             <div class="collapse navbar-collapse"></div>
             <div class="collapse navbar-collapse" id="nav1">
                 <ul class="navbar-nav ml-auto">
-                    @*<li class="nav-item">
-                        <a style="font-weight:bolder; font-size:20px" class="nav-link text-light mr-auto" href="~/Products/Index">Keto Store</a>
-                    </li>*@
+
                     @if (!SignInManager.IsSignedIn(User))
                     {
 
@@ -43,6 +41,9 @@
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
+                                <a class="nav-link text-light text-center" href="~/Products/ManageProducts">Manage Products</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link text-light text-center" href="~/Admin/Index">Application Info</a>
                             </li>
                             <li class="nav-item">
@@ -52,6 +53,9 @@
                                 <a class="nav-link text-light text-center" href="~/Admin/ManageUsers">Manage Users</a>
                             </li>
                         }
+                        <li class="nav-item">
+                            <a style="font-weight:bolder; font-size:20px" class="nav-link text-light mr-auto" href="~/Products/Index">Keto Store</a>
+                        </li>
                         <li class="nav-item">
                             <a style="font-weight:bolder; font-size:20px" class="@(ViewContext.RouteData.Values["Action"].ToString() == "Favorite" ? "nav-link text-light mr-auto active" : "nav-link text-light mr-auto ")" href="~/Favorite/Favorite">Favorites</a>
                         </li>
@@ -67,13 +71,45 @@
                 </ul>
             </div>
         </nav>
-        <div class="container text-center">
-            <h1 style="color:red;">UNDER CONSTRUCTION</h1>
+        
+        <div class="container">
+            <p class="text-center">Support the site by buying from links.</p>
+            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item text-center active">
+                        <img style="height:200px;" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190313-creamy-lemon-parmesan-chicken-horizontal-1553026901.png?crop=0.668xw:1.00xh;0.184xw,0&resize=768:*" />
+                        <img style="height:200px;" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190313-creamy-lemon-parmesan-chicken-horizontal-1553026901.png?crop=0.668xw:1.00xh;0.184xw,0&resize=768:*" />
+                        <img style="height:200px;" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190313-creamy-lemon-parmesan-chicken-horizontal-1553026901.png?crop=0.668xw:1.00xh;0.184xw,0&resize=768:*" />
+                        <img style="height:200px;" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190313-creamy-lemon-parmesan-chicken-horizontal-1553026901.png?crop=0.668xw:1.00xh;0.184xw,0&resize=768:*" />
+                    </div>
+                    <div class="carousel-item text-center">
+                        <img style="height:200px;" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190313-creamy-lemon-parmesan-chicken-horizontal-1553026901.png?crop=0.668xw:1.00xh;0.184xw,0&resize=768:*" />
+                        <img style="height:200px;" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190313-creamy-lemon-parmesan-chicken-horizontal-1553026901.png?crop=0.668xw:1.00xh;0.184xw,0&resize=768:*" />
+                        <img style="height:200px;" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190313-creamy-lemon-parmesan-chicken-horizontal-1553026901.png?crop=0.668xw:1.00xh;0.184xw,0&resize=768:*" />
+                        <img style="height:200px;" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190313-creamy-lemon-parmesan-chicken-horizontal-1553026901.png?crop=0.668xw:1.00xh;0.184xw,0&resize=768:*" />
+
+                    </div>
+                    <div class="carousel-item text-center">
+                        <img style="height:200px;" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190313-creamy-lemon-parmesan-chicken-horizontal-1553026901.png?crop=0.668xw:1.00xh;0.184xw,0&resize=768:*" />
+                        <img style="height:200px;" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190313-creamy-lemon-parmesan-chicken-horizontal-1553026901.png?crop=0.668xw:1.00xh;0.184xw,0&resize=768:*" />
+                        <img style="height:200px;" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190313-creamy-lemon-parmesan-chicken-horizontal-1553026901.png?crop=0.668xw:1.00xh;0.184xw,0&resize=768:*" />
+                        <img style="height:200px;" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190313-creamy-lemon-parmesan-chicken-horizontal-1553026901.png?crop=0.668xw:1.00xh;0.184xw,0&resize=768:*" />
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <span aria-hidden="true"><i class="fas fa-arrow-left fa-3x" style="color:black;"></i></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <span aria-hidden="true"><i class="fas fa-arrow-right fa-3x" style="color:black;"></i></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
         </div>
         @if (SignInManager.IsSignedIn(User))
         {
             <div class="container text-center">
-                <h2 class="mb-3">Welcome, <a style="color:deepskyblue;" href="~/UserDashboard/Index">@User.Claims.First(c => c.Type == "Name").Value </a></h2>
+                <h2 class="mb-3">Welcome, <a asp-controller="UserDashboard" asp-action="Index" style="color:deepskyblue;">@User.Claims.First(c => c.Type == "Name").Value </a></h2>
             </div>
         }
     </header>
