@@ -6,6 +6,10 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> userManager
 
+@{
+    ViewData["Title"] = "Keto Recipes";
+}
+
 @if (!SignInManager.IsSignedIn(User))
 {
     <div class="container text-center">
