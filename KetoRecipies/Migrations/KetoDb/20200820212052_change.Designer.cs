@@ -4,14 +4,16 @@ using KetoRecipies.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KetoRecipies.Migrations.KetoDb
 {
     [DbContext(typeof(KetoDbContext))]
-    partial class KetoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200820212052_change")]
+    partial class change
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -20,7 +20,7 @@ namespace KetoRecipies.Controllers
         }
         // GET: Products
         [AllowAnonymous]
-        public ActionResult Index(string filter, int? page)
+        public ActionResult Index(string searchString, string filter, int? page)
         {
             var products = _context.Products.ToList();
 
@@ -42,7 +42,10 @@ namespace KetoRecipies.Controllers
                         break;
                 }
             }
-
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                products = products.Where(p => p.ProductName.ToLower().Contains(searchString.ToLower())).ToList();
+            }
             TempData["filter"] = filter;
             int pageSize = 27;
             int pageNumber = (page ?? 1);
@@ -69,7 +72,7 @@ namespace KetoRecipies.Controllers
         // POST: Products/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind("ProductUrl,ImageUrl,ProductType")] Product product)
+        public ActionResult Create([Bind("ProductUrl,ImageUrl,ProductType,ProductName")] Product product)
         {
             try
             {
@@ -94,7 +97,7 @@ namespace KetoRecipies.Controllers
         // POST: Products/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind("Id,ProductUrl,ImageUrl,ProductType")] Product product)
+        public ActionResult Edit([Bind("Id,ProductUrl,ImageUrl,ProductType,ProductName")] Product product)
         {
             try
             {

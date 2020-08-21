@@ -15,13 +15,18 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="ProductUrl" class="control-label"></label>
-                <input asp-for="ProductUrl" class="form-control" />
+                <textarea asp-for="ProductUrl" class="form-control"></textarea>
                 <span asp-validation-for="ProductUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ImageUrl" class="control-label"></label>
                 <input asp-for="ImageUrl" class="form-control" />
                 <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductName" class="control-label"></label>
+                <input asp-for="ProductName" class="form-control" />
+                <span asp-validation-for="ProductName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ProductType" class="control-label"></label>

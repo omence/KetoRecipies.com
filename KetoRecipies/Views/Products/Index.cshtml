@@ -6,6 +6,11 @@
 @{
     ViewData["Title"] = "Keto Store";
 }
+<style>
+    .card {
+        border: none;
+    }
+</style>
 @if (!SignInManager.IsSignedIn(User))
 {
     <div class="container text-center">
@@ -14,6 +19,7 @@
 }
 
 <div class="container mb-3">
+    <p>@TempData["filter"]</p>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span style="color:white;" class="navbar-toggler-icon"></span>
@@ -33,23 +39,33 @@
                     </div>
                 </li>
             </ul>
+            <form asp-action="Index" asp-route-filter="@TempData["filter"]" class="form-inline my-2 my-lg-0">
+                <input name="SearchString" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" value="@TempData["SearchString"]" />
+                <span class="input-group-btn">
+                    <button style="background-color:deepskyblue;" class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+                </span>
+            </form>
         </div>
     </nav>
 </div>
-<div class="container">
+<div class="container row text-center ">
+
     @foreach (var p in Model)
     {
         <div class="card-deck col">
-            <div class="card mb-3 text-center" style="width: 20rem">
-                @Html.Raw(p.ProductUrl)
+            <div class="card text-center" style="width: 10rem">
+                <p>
+                    @Html.Raw(p.ProductUrl)
+                </p>
             </div>
         </div>
     }
+
 </div>
 @if (Model.PageCount > 1)
 {
     <div class="row justify-content-center">
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, filter = TempData["filter"]}), new X.PagedList.Mvc.Common.PagedListRenderOptionsBase
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, filter = TempData["filter"] }), new X.PagedList.Mvc.Common.PagedListRenderOptionsBase
    {
        DisplayItemSliceAndTotal = false,
        ContainerDivClasses = new[] { "navigation" },

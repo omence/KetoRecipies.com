@@ -28,10 +28,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ProductUrl)
+                @Html.Raw(item.ProductUrl)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ImageUrl)
+                @Html.Raw(item.ImageUrl)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ProductType)
