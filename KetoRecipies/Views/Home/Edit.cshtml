@@ -46,27 +46,27 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Yield" class="control-label"><h4>How many servings will this recipe make?</h4></label>
-                        <input type="number" asp-for="Yield" class="form-control" value="@Model.Yield" required />
+                        <input type="number" asp-for="Yield" class="form-control" value="@Model.Yield" min=".01" required />
                         <span asp-validation-for="Yield" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="TotalTime" class="control-label"><h4>How many minutes to prepare dish?</h4></label>
-                        <input type="number" asp-for="TotalTime" class="form-control" value="@Model.TotalTime" required />
+                        <input type="number" asp-for="TotalTime" class="form-control" value="@Model.TotalTime" min=".01" required />
                         <span asp-validation-for="TotalTime" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="TotalCarbsServ" class="control-label"><h4>Total carbs per serving</h4></label>
-                        <input type="number" asp-for="TotalCarbsServ" class="form-control" value="@Model.TotalCarbsServ" required />
+                        <input type="number" asp-for="TotalCarbsServ" class="form-control" value="@Model.TotalCarbsServ" min=".01" required />
                         <span asp-validation-for="TotalCarbsServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="TotalFatServ" class="control-label"><h4>Total fat per serving</h4></label>
-                        <input type="number" asp-for="TotalFatServ" class="form-control" value="@Model.TotalFatServ" required />
+                        <input type="number" asp-for="TotalFatServ" class="form-control" value="@Model.TotalFatServ" min=".01" required />
                         <span asp-validation-for="TotalFatServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="TotalCaloriesServ" class="control-label"><h4>Total calories per serving</h4></label>
-                        <input type="number" asp-for="TotalCaloriesServ" class="form-control" value="@Model.TotalCaloriesServ" required />
+                        <input type="number" asp-for="TotalCaloriesServ" class="form-control" value="@Model.TotalCaloriesServ" min=".01" required />
                         <span asp-validation-for="TotalCaloriesServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">

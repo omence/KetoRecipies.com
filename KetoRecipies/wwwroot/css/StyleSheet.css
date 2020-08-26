@@ -3,6 +3,11 @@
 @media (prefers-color-scheme: dark) {
 
 }
+.active {
+    font-style: italic !important;
+    font-weight: bold !important;
+    color: black !important;
+}
 label{
     font-weight:bold;
 }
@@ -91,11 +96,7 @@ button:focus {
     color: black !important;
 }
 
-.active h4 {
-    font-style: italic;
-    font-weight: bold;
-    color:black;
-}
+
 
 .border-top {
     border-top: 1px solid #e5e5e5;

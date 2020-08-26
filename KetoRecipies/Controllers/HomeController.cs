@@ -1,6 +1,8 @@
-﻿using KetoRecipies.Data;
+﻿using KetoRecipies.Areas.Identity.Pages.Account;
+using KetoRecipies.Data;
 using KetoRecipies.Models;
 using KetoRecipies.Models.Comments;
+using KetoRecipies.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -8,12 +10,16 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using X.PagedList;
 
@@ -27,13 +33,17 @@ namespace KetoRecipies.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHostingEnvironment _he;
         private readonly IEmailSender _es;
+        private readonly ILogger<RegisterModel> _logger;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public HomeController(IConfiguration configuration,
             KetoDbContext context,
             UserManager<ApplicationUser> userManager,
             IHostingEnvironment he,
             IEmailSender es,
-            KetoRecipiesContext users)
+            KetoRecipiesContext users,
+            ILogger<RegisterModel> logger,
+            SignInManager<ApplicationUser> signInManager)
         {
             _configuration = configuration;
             _context = context;
@@ -41,8 +51,55 @@ namespace KetoRecipies.Controllers
             _he = he;
             _es = es;
             _users = users;
+            _logger = logger;
+            _signInManager = signInManager;
         }
 
+        [HttpGet]
+        public IActionResult ConfirmEmail(VerifyEmailViewModel ve)
+        {
+            return View(ve);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmEmail(int newCode, int oldCode, string password, string email, string JSONUser)
+        {
+            ApplicationUser user = JsonConvert.DeserializeObject<ApplicationUser>(JSONUser);
+            if (newCode == oldCode)
+            {
+                
+                var result = await _userManager.CreateAsync(user, password);
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("User created a new account with password.");
+
+                    Claim NameClaim = new Claim("Name", $"{user.Name}");
+                    List<Claim> claims = new List<Claim> { NameClaim };
+                    await _userManager.AddClaimsAsync(user, claims);
+
+                    if (user.Email == "omence11@gmail.com")
+                    {
+
+                        await _userManager.AddToRoleAsync(user, ApplicationRoles.Admin);
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, ApplicationRoles.Member);
+                    }
+
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index");
+                }
+                
+            }
+            VerifyEmailViewModel ve = new VerifyEmailViewModel();
+            ve.JSONUser = JSONUser;
+            ve.Email = email;
+            ve.Password = password;
+            ve.VerificationCode = oldCode;
+            TempData["CodeError"] = "Sorry that code did not match, please try again";
+            return View(ve);
+        }
         /// <summary>
         /// Updates the users last login date
         /// </summary>
@@ -290,10 +347,23 @@ namespace KetoRecipies.Controllers
             recipe.IncludeSocialMediaLinks = IncludeSocialMediaLinks;
             if (IncludeSocialMediaLinks == true)
             {
-                recipe.Facebook = user.Facebook;
-                recipe.YouTube = user.YouTube;
-                recipe.Instagram = user.Instagram;
-                recipe.Twitter = user.Twitter;
+                if (!string.IsNullOrEmpty(user.Facebook))
+                {
+                    recipe.Facebook = user.Facebook;
+                }
+                if (!string.IsNullOrEmpty(user.YouTube))
+                {
+                    recipe.YouTube = user.YouTube;
+                }
+                if (!string.IsNullOrEmpty(user.Instagram))
+                {
+                    recipe.Instagram = user.Instagram;
+                }
+                if (!string.IsNullOrEmpty(user.Twitter))
+                {
+                    recipe.Twitter = user.Twitter;
+                }
+                              
             }
 
             _context.recipes.Add(recipe);
@@ -400,10 +470,22 @@ namespace KetoRecipies.Controllers
             recipe.IncludeSocialMediaLinks = IncludeSocialMediaLinks;
             if (IncludeSocialMediaLinks == true)
             {
-                recipe.Facebook = user.Facebook;
-                recipe.YouTube = user.YouTube;
-                recipe.Instagram = user.Instagram;
-                recipe.Twitter = user.Twitter;
+                if (!string.IsNullOrEmpty(user.Facebook))
+                {
+                    recipe.Facebook = user.Facebook;
+                }
+                if (!string.IsNullOrEmpty(user.YouTube))
+                {
+                    recipe.YouTube = user.YouTube;
+                }
+                if (!string.IsNullOrEmpty(user.Instagram))
+                {
+                    recipe.Instagram = user.Instagram;
+                }
+                if (!string.IsNullOrEmpty(user.Twitter))
+                {
+                    recipe.Twitter = user.Twitter;
+                }
             }
             _context.recipes.Update(recipe);
             _context.SaveChanges();

@@ -38,38 +38,38 @@
                         <span asp-validation-for="Label" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label style="font-size:20px;" asp-for="Type" style="margin-bottom:2px !important;"><span style="color:red;">*</span>Ingredients</label>
+                        <label style="font-size:20px;" asp-for="Type" style="margin-bottom:2px !important;"><span style="color:red;">*</span>Ingredients (to paste use ctrl + v or press the source button on the menue to activate right click and paste)</label>
                         <textarea asp-for="Ingridients" class="form-control editor" name="Ingridients" required></textarea>
                         <span asp-validation-for="Ingridients" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label style="font-size:20px;" asp-for="Type" style="margin-bottom:2px !important;"><span style="color:red;">*</span>Instructions</label>
+                        <label style="font-size:20px;" asp-for="Type" style="margin-bottom:2px !important;"><span style="color:red;">*</span>Instructions (to paste use ctrl + v or press the source button on the menue to activate right click and paste)</label>
                         <textarea asp-for="Instructions" class="form-control editor" name="Instructions" required></textarea>
                         <span asp-validation-for="Instructions" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label style="font-size:20px;" asp-for="Type" style="margin-bottom:2px !important;"><span style="color:red;">*</span>How many servings will this recipe make?</label>
-                        <input type="number" asp-for="Yield" class="form-control" required />
+                        <input type="number" asp-for="Yield" class="form-control" min="1" required />
                         <span asp-validation-for="Yield" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label style="font-size:20px;" asp-for="Type" style="margin-bottom:2px !important;"><span style="color:red;">*</span>How many minutes to prepare dish?</label>
-                        <input type="number" asp-for="TotalTime" class="form-control" required />
+                        <input type="number" asp-for="TotalTime" class="form-control" min="1" required />
                         <span asp-validation-for="TotalTime" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label style="font-size:20px;" asp-for="Type" style="margin-bottom:2px !important;"><span style="color:red;">*</span>Total carbs per serving</label>
-                        <input type="number" asp-for="TotalCarbsServ" class="form-control" required />
+                        <input type="number" asp-for="TotalCarbsServ" class="form-control" min="1" required />
                         <span asp-validation-for="TotalCarbsServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label style="font-size:20px;" asp-for="Type" style="margin-bottom:2px !important;"><span style="color:red;">*</span>Total fat per serving</label>
-                        <input type="number" asp-for="TotalFatServ" class="form-control" required />
+                        <input type="number" asp-for="TotalFatServ" class="form-control" min="1" required />
                         <span asp-validation-for="TotalFatServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label style="font-size:20px;" asp-for="Type" style="margin-bottom:2px !important;"><span style="color:red;">*</span>Total calories per serving</label>
-                        <input type="number" asp-for="TotalCaloriesServ" class="form-control" required />
+                        <input type="number" asp-for="TotalCaloriesServ" class="form-control" min="1" required />
                         <span asp-validation-for="TotalCaloriesServ" class="text-danger"></span>
                     </div>
                     <div class="form-group">

@@ -40,6 +40,9 @@ namespace KetoRecipies.Controllers
                     case "Swag":
                         products = products.Where(p => p.ProductType == "Swag").ToList();
                         break;
+                    case "Books":
+                        products = products.Where(p => p.ProductType == "Books").ToList();
+                        break;
                 }
             }
             if (!string.IsNullOrEmpty(searchString))

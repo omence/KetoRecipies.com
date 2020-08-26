@@ -1,13 +1,17 @@
 ﻿using KetoRecipies.Models;
+using KetoRecipies.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -81,43 +85,41 @@ namespace KetoRecipies.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { Name = Input.Name, UserName = Input.Email, Email = Input.Email, Facebook = Input.Facebook, YouTube = Input.YouTube, Instagram = Input.Instagram, Twitter = Input.Twitter };
                 user.RegistrationDate = DateTime.Now;
+                ApplicationUser checkForDupe = _userManager.Users.FirstOrDefault(u => u.Email == Input.Email);
+                if(checkForDupe != null)
+                {
+                    TempData["UserExists"] = "Sorry this email address is already in use, please use another email address or login to your current account.";
+                    return Page();
+                }
                 if (string.IsNullOrEmpty(Input.honey))
                 {
-                    var result = await _userManager.CreateAsync(user, Input.Password);
-                    if (result.Succeeded)
-                    {
-                        _logger.LogInformation("User created a new account with password.");
+                    int code = GenerateVerificationCodeHelper();
+                    await _emailSender.SendEmailAsync(user.Email, "Confirm Your Email Address", $"Your 4 digit verification code is {code}");
 
-                        Claim NameClaim = new Claim("Name", $"{user.Name}");
-                        List<Claim> claims = new List<Claim> { NameClaim };
-                        await _userManager.AddClaimsAsync(user, claims);
+                    VerifyEmailViewModel ve = new VerifyEmailViewModel();
+                    ve.VerificationCode = code;                  
+                    ve.Password = Input.Password;
+                    ve.Email = Input.Email;
+                    ve.JSONUser = JsonConvert.SerializeObject(user);
 
-                        if (user.Email == "omence11@gmail.com")
-                        {
-
-                            await _userManager.AddToRoleAsync(user, ApplicationRoles.Admin);
-                        }
-                        else
-                        {
-                            await _userManager.AddToRoleAsync(user, ApplicationRoles.Member);
-                        }
-
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
+                    return RedirectToAction("ConfirmEmail", "Home", new RouteValueDictionary(ve));
                 }
             }
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+
+        public int GenerateVerificationCodeHelper()
+        {
+            int min = 1000;
+            int max = 9999;
+            Random verificationCode = new Random();
+
+            return verificationCode.Next(min, max);
         }
     }
 }

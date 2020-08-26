@@ -14,6 +14,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Keto Commune</title>
+    <link rel="shortcut icon" href="favicon.ico" />
     <link rel="stylesheet" href="~/css/reset.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -32,52 +33,55 @@
 
                     @if (!SignInManager.IsSignedIn(User))
                     {
-                        <li class="nav-item">
-                            <a style="font-weight:bolder; font-size:20px" class="nav-link text-light mr-auto" href="~/Products/Index">Keto Store</a>
-                        </li>
-                        <li class="nav-item">
-                            <a style="font-weight:bolder; font-size:20px" class="nav-link text-light mr-auto" asp-area="Identity" asp-page="/Account/Register">Register</a>
-                        </li>
-                        <li class="nav-item">
-                            <a style="font-weight:bolder; font-size:20px" class="nav-link text-light mr-auto" asp-area="Identity" asp-page="/Account/Login">Login</a>
-                        </li>
+                    <li class="nav-item">
+                        <a style="font-weight:bolder; font-size:20px" class="nav-link text-light mr-auto" href="~/Products">Keto Store</a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="font-weight:bolder; font-size:20px" class="nav-link text-light mr-auto" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="font-weight:bolder; font-size:20px" class="nav-link text-light mr-auto" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                    </li>
                     }
                     @if (SignInManager.IsSignedIn(User))
                     {
-                        @if (User.IsInRole("Admin"))
+                    @if (User.IsInRole("Admin"))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-light text-center" href="~/Products/ManageProducts">Manage Products</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light text-center" href="~/Admin/Index">Application Info</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light text-center" href="~/Admin/ManageRecipes">Manage Recipes</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light text-center" href="~/Admin/ManageUsers">Manage Users</a>
-                            </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light text-center" href="~/Products/ManageProducts">Manage Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light text-center" href="~/Admin/Index">Application Info</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light text-center" href="~/Admin/ManageRecipes">Manage Recipes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light text-center" href="~/Admin/ManageUsers">Manage Users</a>
+                    </li>
                         }
-                        <li class="nav-item">
-                            <a style="font-weight:bolder; font-size:20px" class="nav-link text-light mr-auto" href="~/Products/Index">Keto Store</a>
-                        </li>
-                        <li class="nav-item">
-                            <a style="font-weight:bolder; font-size:20px" class="@(ViewContext.RouteData.Values["Action"].ToString() == "Favorite" ? "nav-link text-light mr-auto active" : "nav-link text-light mr-auto ")" href="~/Favorite/Favorite">Favorites</a>
-                        </li>
-                        <li class="nav-item">
-                            <a style="font-weight:bolder; font-size:20px" class="@(ViewContext.RouteData.Values["Action"].ToString() == "MyRecipes" ? "nav-link text-light mr-auto active" : "nav-link text-light mr-auto")" href="~/Home/MyRecipes">My Recipes</a>
-                        </li>
-                        <li>
-                            <form class="form-inline my-2 my-lg-0" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                                <button type="submit" title="Logout" class="nav-btn btn border mt-1">Logout</button>
-                            </form>
-                        </li>
+                    <li class="nav-item">
+                        <a style="font-weight:bolder; font-size:20px" class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "nav-link text-light mr-auto active" : "nav-link text-light mr-auto ")" href="~/Home/Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="font-weight:bolder; font-size:20px" class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Controller"].ToString() == "Products" ? "nav-link text-light mr-auto active" : "nav-link text-light mr-auto ")" href="~/Products/Index">Keto Store</a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="font-weight:bolder; font-size:20px" class="@(ViewContext.RouteData.Values["Action"].ToString() == "Favorite" ? "nav-link text-light mr-auto active" : "nav-link text-light mr-auto ")" href="~/Favorite/Favorite">Favorites</a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="font-weight:bolder; font-size:20px" class="@(ViewContext.RouteData.Values["Action"].ToString() == "MyRecipes" ? "nav-link text-light mr-auto active" : "nav-link text-light mr-auto")" href="~/Home/MyRecipes">My Recipes</a>
+                    </li>
+                    <li>
+                        <form class="form-inline my-2 my-lg-0" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button type="submit" title="Logout" class="nav-btn btn border mt-1">Logout</button>
+                        </form>
+                    </li>
                     }
                 </ul>
             </div>
         </nav>
-        <div class="container" id="mobile">
+        <div class="container" id="mobile" style="display:none;">
             <p class="text-center">Support the site by buying from links below or shop using the <a href="~/Products/Index">Keto Store</a>.</p>
             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
@@ -107,7 +111,7 @@
                 </a>
             </div>
         </div>
-        <div class="container" id="tablet">
+        <div class="container" id="tablet" style="display:none;">
             <p class="text-center">Support the site by buying from links below or shop using the <a href="~/Products/Index">Keto Store</a>.</p>
             <div id="carouselExampleControls2" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
@@ -146,7 +150,7 @@
                 </a>
             </div>
         </div>
-        <div class="container" id="desk">
+        <div class="container" id="desk" style="display:none;">
             <p class="text-center">Support the site by buying from links below or shop using the <a href="~/Products/Index">Keto Store</a>.</p>
             <div id="carouselExampleControls3" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
@@ -219,7 +223,7 @@
     <footer class="page-footer font-small mt-5 mb-3" style="background-color:white;">
         <a style="color:deepskyblue;" class="mt-3" href="~/Home/Privacy">Privacy Policy |</a>
         <a style="color:deepskyblue;" href="~/Home/ContactUs">Contact Us |</a>
-        <a style="color:deepskyblue;" class="mb-3">© 2019 Copyright: KetoCommune.com</a>
+        <a style="color:deepskyblue;" class="mb-3">© 2020 Copyright: KetoCommune.com</a>
 
     </footer>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -233,10 +237,6 @@
     <script src="~/js/site.js"></script>
     <script>
         $(document).ready(function () {
-            console.log($(window).width());
-            $('#mobile').hide();
-            $('#tablet').hide();
-            $('#desk').hide();
             if ($(window).width() < 480 || $(window).width() === 480) {
                 $('#mobile').show();              
             }
@@ -246,6 +246,25 @@
             if ($(window).width() > 1024) {
                 $('#desk').show();               
             }
+
+            $(window).resize(function () {
+                if ($(window).width() < 480 || $(window).width() === 480) {
+                    $('#tablet').hide();
+                    $('#desk').hide();
+                    $('#mobile').show();
+                }
+                if ($(window).width() > 480 && $(window).width() < 1024 || $(window).width() === 1024) {
+                    $('#desk').hide();
+                    $('#mobile').hide();
+                    $('#tablet').show();
+                }
+                if ($(window).width() > 1024) {
+                    $('#mobile').hide();
+                    $('#tablet').hide();
+                    $('#desk').show();
+                }
+
+            }); 
         });
     </script>
     @RenderSection("Scripts", required: false)

@@ -1,0 +1,29 @@
+﻿@model KetoRecipies.Models.ViewModels.VerifyEmailViewModel
+@using KetoRecipies.Models
+@{
+    
+}
+<div class="container" style="margin-top:50px !important; margin-bottom:25px">
+    @if(TempData["CodeError"] != null)
+    {
+        <p style="color:red;">@TempData["CodeError"]</p>
+    }
+<p>We sent a verification code to the email you provided, please check your email and enter the verification code below.</p>
+    <div class="card-deck">
+        <div class="card card-sm mb-1 row bg-light">
+            <div class="card-body no-gutters">
+                <form asp-action="ConfirmEmail" method="post">
+                    <input type="hidden" value="@Model.VerificationCode" name="oldCode" class="form-control" readonly />
+                    <input type="hidden" value="@Model.Password" name="password" class="form-control" readonly />
+                    <input type="hidden" value="@Model.Email" name="email" class="form-control" readonly />
+                    <input type="hidden" value="@Model.JSONUser" name="JSONUser" class="form-control" readonly />
+                    <div class="form-group">
+                        <label style="font-weight:bold;">Enter Verification Code</label>
+                        <input type="number" min="1" class="form-control" name="newCode" placeholder="Type Verification Code Here" aria-label="verificationCode" required />
+                    </div>
+                    <button class="btn border btn-lg" type="submit" id="signUp2" style="float:left !important;">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
