@@ -684,7 +684,7 @@ namespace KetoRecipies.Controllers
             {
                 string msg = $"{email} {message}";
 
-                await _es.SendEmailAsync("omence11@gmail.com", subject, msg);
+                await _es.SendEmailAsync("noreply.ketocommune.com", subject, msg);
 
                 TempData["Message"] = "Sent, we will get back to you ASAP";
 

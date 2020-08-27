@@ -40,7 +40,8 @@ namespace KetoRecipies.Areas.Identity.Pages.Account
                 if (user == null)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
-                    return RedirectToPage("./ForgotPasswordConfirmation");
+                    TempData["PasswordEmailSent"] = "We sent a password reset link to your email.";
+                    return Page();
                 }
 
                 // For more information on how to enable account confirmation and password reset please 
@@ -57,7 +58,8 @@ namespace KetoRecipies.Areas.Identity.Pages.Account
                     "Reset Password",
                     $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                return RedirectToPage("./ForgotPasswordConfirmation");
+                TempData["PasswordEmailSent"] = "We sent a password reset link to your email.";
+                return Page();
             }
 
             return Page();
